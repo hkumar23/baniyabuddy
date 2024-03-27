@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1066097681961",
+    "project_id": "baniyabuddy-1bfef",
+    "storage_bucket": "baniyabuddy-1bfef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066097681961:android:fa8a7f3207f546ecda9e38",
+        "android_client_info": {
+          "package_name": "com.example.baniyabuddy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDngsRQdlt6pDe4K-Bf9RF4VcuEt38nwCk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
