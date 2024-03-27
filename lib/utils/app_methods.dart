@@ -8,6 +8,25 @@ class AppMethods {
   }
 
   static String calculateResult(int value1, int value2, String operator) {
-    return '0';
+    switch (operator) {
+      case '+':
+        return (value1 + value2).toString();
+      case '-':
+        return (value1 - value2).toString();
+      case '*':
+        return (value1 * value2).toString();
+      case '/':
+        return (value1 / value2).toString();
+      case '%':
+        return (value1 % value2).toString();
+      case 'a':
+        return "";
+      // case '=':
+      //   return (value1 == value2).toString();
+      // case 'd':
+      //   return (value1 ~/ value2).toString();
+      default:
+        return 'Invalid operator';
+    }
   }
 }

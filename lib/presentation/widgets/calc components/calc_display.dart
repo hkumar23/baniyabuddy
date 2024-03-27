@@ -17,11 +17,29 @@ class CalcDisplay extends StatelessWidget {
       },
       builder: (context, state) {
         return Container(
-          // color: Colors.grey.shade300,
+          // color: Colors.red.shade300,
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(state.output),
-              Text(state.inputExpression),
+              Container(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  // softWrap: true,
+                  // textAlign: TextAlign.left,
+                  state.output,
+                  style: const TextStyle(fontSize: 50),
+                ),
+              ),
+              Container(
+                alignment: Alignment.bottomRight,
+                child: Text(
+                  // softWrap: true,
+                  // textAlign: TextAlign.right,
+                  state.inputExpression,
+                  style: const TextStyle(fontSize: 30),
+                ),
+              ),
             ],
           ),
         );

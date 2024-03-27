@@ -92,7 +92,7 @@ class CalcKeyBoard extends StatelessWidget {
                   subject: AppLanguage.nine,
                   textColor: Theme.of(context).colorScheme.onSurface,
                   onPressed: () {
-                    print('9');
+                    // print('9');
                     BlocProvider.of<CalculatorBloc>(context)
                         .add(NumberPressedEvent(number: 9));
                   },
