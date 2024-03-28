@@ -1,3 +1,5 @@
+import 'package:math_expressions/math_expressions.dart';
+
 class AppMethods {
   static bool isOperator(String value) {
     return ['+', '-', '+', '/', '%', 'a', '=', 'd'].contains(value);
@@ -7,26 +9,19 @@ class AppMethods {
     return value.substring(0, value.length - 1);
   }
 
-  static String calculateResult(int value1, int value2, String operator) {
-    switch (operator) {
-      case '+':
-        return (value1 + value2).toString();
-      case '-':
-        return (value1 - value2).toString();
-      case '*':
-        return (value1 * value2).toString();
-      case '/':
-        return (value1 / value2).toString();
-      case '%':
-        return (value1 % value2).toString();
-      case 'a':
-        return "";
-      // case '=':
-      //   return (value1 == value2).toString();
-      // case 'd':
-      //   return (value1 ~/ value2).toString();
-      default:
-        return 'Invalid operator';
-    }
+  static String calculateResult(String infixExpression) {
+    // Create a parser
+    Parser p = Parser();
+    
+    // Parse the expression
+    Expression exp = p.parse(infixExpression);
+    
+    // Create a context
+    ContextModel cm = ContextModel();
+    
+    // Evaluate the expression
+    double result = exp.evaluate(EvaluationType.REAL, cm);
+    
+    return result.toString();
   }
 }
