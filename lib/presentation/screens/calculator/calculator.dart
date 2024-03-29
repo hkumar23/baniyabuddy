@@ -1,6 +1,6 @@
 import 'package:baniyabuddy/constants/app_language.dart';
-import 'package:baniyabuddy/presentation/widgets/calc%20components/calc_display.dart';
-import 'package:baniyabuddy/presentation/widgets/calc%20components/calc_keyboard.dart';
+import 'package:baniyabuddy/presentation/widgets/calc%20components/display/calc_display.dart';
+import 'package:baniyabuddy/presentation/widgets/calc%20components/keyboard/calc_keyboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

@@ -1,9 +1,8 @@
 import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_bloc.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_event.dart';
-import 'package:baniyabuddy/presentation/widgets/calc%20components/calc_button.dart';
+import 'package:baniyabuddy/presentation/widgets/calc%20components/keyboard/calc_button.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +39,10 @@ class CalcKeyBoard extends StatelessWidget {
                   subject: AppLanguage.ac,
                   textColor: Theme.of(context).colorScheme.surface,
                   onPressed: () {
-                    BlocProvider.of<CalculatorBloc>(context)
+                    // BlocProvider.of<CalculatorBloc>(context)
+                    //     .add(OperatorPressedEvent(operator: 'a'));
+                    context
+                        .read<CalculatorBloc>()
                         .add(OperatorPressedEvent(operator: 'a'));
                   },
                 ),
@@ -49,7 +51,8 @@ class CalcKeyBoard extends StatelessWidget {
                   subject: CupertinoIcons.percent,
                   textColor: Theme.of(context).colorScheme.inversePrimary,
                   onPressed: () {
-                    BlocProvider.of<CalculatorBloc>(context)
+                    context
+                        .read<CalculatorBloc>()
                         .add(OperatorPressedEvent(operator: '%'));
                   },
                 ),
@@ -58,7 +61,8 @@ class CalcKeyBoard extends StatelessWidget {
                   subject: CupertinoIcons.divide,
                   textColor: Theme.of(context).colorScheme.inversePrimary,
                   onPressed: () {
-                    BlocProvider.of<CalculatorBloc>(context)
+                    context
+                        .read<CalculatorBloc>()
                         .add(OperatorPressedEvent(operator: '/'));
                   },
                 ),
@@ -74,7 +78,8 @@ class CalcKeyBoard extends StatelessWidget {
                   subject: AppLanguage.seven,
                   textColor: Theme.of(context).colorScheme.onSurface,
                   onPressed: () {
-                    BlocProvider.of<CalculatorBloc>(context)
+                    context
+                        .read<CalculatorBloc>()
                         .add(NumberPressedEvent(number: 7));
                   },
                 ),
@@ -83,7 +88,8 @@ class CalcKeyBoard extends StatelessWidget {
                   subject: AppLanguage.eight,
                   textColor: Theme.of(context).colorScheme.onSurface,
                   onPressed: () {
-                    BlocProvider.of<CalculatorBloc>(context)
+                    context
+                        .read<CalculatorBloc>()
                         .add(NumberPressedEvent(number: 8));
                   },
                 ),
@@ -93,7 +99,8 @@ class CalcKeyBoard extends StatelessWidget {
                   textColor: Theme.of(context).colorScheme.onSurface,
                   onPressed: () {
                     // print('9');
-                    BlocProvider.of<CalculatorBloc>(context)
+                    context
+                        .read<CalculatorBloc>()
                         .add(NumberPressedEvent(number: 9));
                   },
                 ),
@@ -102,7 +109,8 @@ class CalcKeyBoard extends StatelessWidget {
                   subject: Icons.clear,
                   textColor: Theme.of(context).colorScheme.inversePrimary,
                   onPressed: () {
-                    BlocProvider.of<CalculatorBloc>(context)
+                    context
+                        .read<CalculatorBloc>()
                         .add(OperatorPressedEvent(operator: '*'));
                   },
                 ),
@@ -118,7 +126,8 @@ class CalcKeyBoard extends StatelessWidget {
                   subject: AppLanguage.four,
                   textColor: Theme.of(context).colorScheme.onSurface,
                   onPressed: () {
-                    BlocProvider.of<CalculatorBloc>(context)
+                    context
+                        .read<CalculatorBloc>()
                         .add(NumberPressedEvent(number: 4));
                   },
                 ),
@@ -127,7 +136,8 @@ class CalcKeyBoard extends StatelessWidget {
                   subject: AppLanguage.five,
                   textColor: Theme.of(context).colorScheme.onSurface,
                   onPressed: () {
-                    BlocProvider.of<CalculatorBloc>(context)
+                    context
+                        .read<CalculatorBloc>()
                         .add(NumberPressedEvent(number: 5));
                   },
                 ),
@@ -136,7 +146,8 @@ class CalcKeyBoard extends StatelessWidget {
                   subject: AppLanguage.six,
                   textColor: Theme.of(context).colorScheme.onSurface,
                   onPressed: () {
-                    BlocProvider.of<CalculatorBloc>(context)
+                    context
+                        .read<CalculatorBloc>()
                         .add(NumberPressedEvent(number: 6));
                   },
                 ),
@@ -145,7 +156,8 @@ class CalcKeyBoard extends StatelessWidget {
                   subject: Icons.remove,
                   textColor: Theme.of(context).colorScheme.inversePrimary,
                   onPressed: () {
-                    BlocProvider.of<CalculatorBloc>(context)
+                    context
+                        .read<CalculatorBloc>()
                         .add(OperatorPressedEvent(operator: '-'));
                   },
                 ),
@@ -161,7 +173,8 @@ class CalcKeyBoard extends StatelessWidget {
                   subject: AppLanguage.one,
                   textColor: Theme.of(context).colorScheme.onSurface,
                   onPressed: () {
-                    BlocProvider.of<CalculatorBloc>(context)
+                    context
+                        .read<CalculatorBloc>()
                         .add(NumberPressedEvent(number: 1));
                   },
                 ),
@@ -170,7 +183,8 @@ class CalcKeyBoard extends StatelessWidget {
                   subject: AppLanguage.two,
                   textColor: Theme.of(context).colorScheme.onSurface,
                   onPressed: () {
-                    BlocProvider.of<CalculatorBloc>(context)
+                    context
+                        .read<CalculatorBloc>()
                         .add(NumberPressedEvent(number: 2));
                   },
                 ),
@@ -179,7 +193,8 @@ class CalcKeyBoard extends StatelessWidget {
                   subject: AppLanguage.three,
                   textColor: Theme.of(context).colorScheme.onSurface,
                   onPressed: () {
-                    BlocProvider.of<CalculatorBloc>(context)
+                    context
+                        .read<CalculatorBloc>()
                         .add(NumberPressedEvent(number: 3));
                   },
                 ),
@@ -188,7 +203,8 @@ class CalcKeyBoard extends StatelessWidget {
                   subject: CupertinoIcons.add,
                   textColor: Theme.of(context).colorScheme.inversePrimary,
                   onPressed: () {
-                    BlocProvider.of<CalculatorBloc>(context)
+                    context
+                        .read<CalculatorBloc>()
                         .add(OperatorPressedEvent(operator: '+'));
                   },
                 ),
@@ -203,14 +219,19 @@ class CalcKeyBoard extends StatelessWidget {
                   buttonColor: Colors.transparent,
                   subject: AppLanguage.dot,
                   textColor: Theme.of(context).colorScheme.onSurface,
-                  onPressed: () {},
+                  onPressed: () {
+                    context
+                        .read<CalculatorBloc>()
+                        .add(OperatorPressedEvent(operator: '.'));
+                  },
                 ),
                 CalcButton(
                   buttonColor: Colors.transparent,
                   subject: AppLanguage.zero,
                   textColor: Theme.of(context).colorScheme.onSurface,
                   onPressed: () {
-                    BlocProvider.of<CalculatorBloc>(context)
+                    context
+                        .read<CalculatorBloc>()
                         .add(NumberPressedEvent(number: 0));
                   },
                 ),
@@ -219,7 +240,8 @@ class CalcKeyBoard extends StatelessWidget {
                   subject: Icons.backspace_rounded,
                   textColor: Theme.of(context).colorScheme.onSurface,
                   onPressed: () {
-                    BlocProvider.of<CalculatorBloc>(context)
+                    context
+                        .read<CalculatorBloc>()
                         .add(OperatorPressedEvent(operator: 'd'));
                   },
                 ),
@@ -228,7 +250,8 @@ class CalcKeyBoard extends StatelessWidget {
                   subject: CupertinoIcons.equal,
                   textColor: Theme.of(context).colorScheme.inversePrimary,
                   onPressed: () {
-                    BlocProvider.of<CalculatorBloc>(context)
+                    context
+                        .read<CalculatorBloc>()
                         .add(OperatorPressedEvent(operator: '='));
                   },
                 ),
