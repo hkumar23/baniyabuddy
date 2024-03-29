@@ -75,18 +75,21 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
             output: "",
           ));
         } else if (op == 'd') {
-          // print("state.inputExpression: ${state.inputExpression} ");
           String newInputExpression =
               AppMethods.removeLastChar(state.inputExpression);
-          // print("newInputExpression: ");
-          // print(newInputExpression);
-          if (newInputExpression.isNotEmpty &&
-              AppMethods.isOperator(
-                  newInputExpression[newInputExpression.length - 1])) {
-            newInputExpression = AppMethods.removeLastChar(newInputExpression);
+          String newOutput = "";
+
+          if (newInputExpression.isNotEmpty) {
+            String lastChar = newInputExpression[newInputExpression.length - 1];
+            if (AppMethods.isOperator(lastChar)) {
+              newInputExpression =
+                  AppMethods.removeLastChar(newInputExpression);
+              newOutput = AppMethods.calculateResult(newInputExpression);
+              newInputExpression += lastChar;
+            } else {
+              newOutput = AppMethods.calculateResult(newInputExpression);
+            }
           }
-          String newOutput = AppMethods.calculateResult(newInputExpression);
-          // print("newOutput: $newOutput");
           emit(CalculatorState(
             inputExpression: newInputExpression,
             output: newOutput,
