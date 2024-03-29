@@ -1,4 +1,4 @@
-import 'package:baniyabuddy/presentation/widgets/calc%20components/calc_button.dart';
+import 'package:baniyabuddy/presentation/widgets/calc%20components/keyboard/calc_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
