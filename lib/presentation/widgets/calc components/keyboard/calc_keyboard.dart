@@ -2,6 +2,7 @@ import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_bloc.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_event.dart';
 import 'package:baniyabuddy/presentation/widgets/calc%20components/keyboard/calc_button.dart';
+import 'package:baniyabuddy/presentation/widgets/calc%20components/keyboard/save_transaction.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -30,9 +31,11 @@ class CalcKeyBoard extends StatelessWidget {
               children: [
                 CalcButton(
                   buttonColor: Theme.of(context).colorScheme.primaryContainer,
-                  subject: CupertinoIcons.doc_on_doc,
+                  subject: Icons.save,
                   textColor: Theme.of(context).colorScheme.onSurface,
-                  onPressed: () {},
+                  onPressed: () {
+                    SaveTransaction.saveTransactionDialog(context);
+                  },
                 ),
                 CalcButton(
                   buttonColor: Theme.of(context).colorScheme.inverseSurface,
