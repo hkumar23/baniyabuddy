@@ -1,3 +1,4 @@
+import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:flutter/material.dart';
 
 class SaveTransaction {
@@ -11,8 +12,7 @@ class SaveTransaction {
             TextEditingController();
         final TextEditingController notesController = TextEditingController();
 
-        String? paymentMethod = "Select payment method";
-        int cnt = 0;
+        String? paymentMethod = AppLanguage.selectPaymentMethod;
 
         return AlertDialog(
           title: const Text('Save Transaction'),
@@ -36,20 +36,28 @@ class SaveTransaction {
                 //   decoration:
                 //       InputDecoration(labelText: 'Select payment method'),
                 // )
-                DropdownButton<String>(
+                DropdownButton(
                   value: paymentMethod,
                   items: const [
-                    DropdownMenuItem<String>(
-                        value: "Cash", child: Text("Cash")),
-                    DropdownMenuItem<String>(value: "UPI", child: Text("UPI")),
-                    DropdownMenuItem<String>(
-                        value: "Udhaar", child: Text("Udhaar")),
+                    DropdownMenuItem(
+                      value: AppLanguage.cash,
+                      child: Text(AppLanguage.cash),
+                    ),
+                    DropdownMenuItem(
+                      value: AppLanguage.upi,
+                      child: Text(AppLanguage.upi),
+                    ),
+                    DropdownMenuItem(
+                      value: AppLanguage.udhaar,
+                      child: Text(AppLanguage.udhaar),
+                    ),
+                    DropdownMenuItem(
+                      value: AppLanguage.selectPaymentMethod,
+                      child: Text(AppLanguage.selectPaymentMethod),
+                    ),
                   ],
-                  onChanged: (String? newValue) {
-                    cnt++;
-                    paymentMethod = cnt.toString();
-                  },
-                ),
+                  onChanged: (String? value) {},
+                )
               ],
             ),
           ),

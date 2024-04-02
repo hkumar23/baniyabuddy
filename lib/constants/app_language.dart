@@ -19,4 +19,8 @@ class AppLanguage {
   static const String eight = "8";
   static const String nine = "9";
   static const String dot = ".";
+  static const String cash = "Cash";
+  static const String upi = "UPI";
+  static const String udhaar = "Udhaar";
+  static const String selectPaymentMethod = "Select payment method";
 }
