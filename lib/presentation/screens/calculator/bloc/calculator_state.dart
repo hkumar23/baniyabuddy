@@ -1,11 +1,29 @@
 import 'package:flutter/material.dart';
 
-class CalculatorState {
-  String inputExpression;
-  String output;
+abstract class CalculatorState {
+  String? inputExpression;
+  String? output;
   ScrollController scrollController = ScrollController();
-  CalculatorState({
-    required this.inputExpression,
-    required this.output,
-  });
 }
+
+class InitialCalculatorState extends CalculatorState {
+  InitialCalculatorState() {
+    inputExpression = "";
+    output = "";
+  }
+}
+
+class EvaluateExpressionState extends CalculatorState {
+  String inputExp;
+  String outputExp;
+  // ScrollController scrollController = ScrollController();
+  EvaluateExpressionState({
+    required this.inputExp,
+    required this.outputExp,
+  }) {
+    inputExpression = inputExp;
+    output = outputExp;
+  }
+}
+
+class SaveTransactionState extends CalculatorState {}
