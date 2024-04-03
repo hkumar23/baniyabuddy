@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CalcDisplay extends StatelessWidget {
   const CalcDisplay({super.key});
-
+  // ScrollController scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     // final deviceSize = MediaQuery.of(context).size;
@@ -17,6 +17,9 @@ class CalcDisplay extends StatelessWidget {
         // TODO: implement listener
       },
       builder: (context, state) {
+        // scrollController.jumpTo(scrollController.position.maxScrollExtent);
+        // state.scrollController
+        //     .jumpTo(state.scrollController.position.maxScrollExtent);
         return Container(
           // color: Colors.red.shade300,
           padding: const EdgeInsets.symmetric(horizontal: 10),
