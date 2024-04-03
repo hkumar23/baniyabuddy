@@ -23,4 +23,7 @@ class AppLanguage {
   static const String upi = "UPI";
   static const String udhaar = "Udhaar";
   static const String selectPaymentMethod = "Select payment method";
+  static const String costumerName = "Costumer Name";
+  static const String mobNumber = "Mobile Number";
+  static const String notes = "Notes";
 }
