@@ -6,15 +6,22 @@ import 'package:bloc/bloc.dart';
 class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
   CalculatorBloc() : super(InitialCalculatorState()) {
     on<NumberPressedEvent>((event, emit) {
-      String newInputExpression =
-          state.inputExpression! + event.number.toString();
-      String newOutput = AppMethods.calculateResult(newInputExpression);
-      state.scrollController
-          .jumpTo(state.scrollController.position.maxScrollExtent);
-      emit(EvaluateExpressionState(
-        inputExp: newInputExpression,
-        outputExp: newOutput,
-      ));
+      if (state.inputExpression!.length > 25) {
+        emit(EvaluateExpressionState(
+          inputExp: state.inputExpression!,
+          outputExp: state.output!,
+        ));
+      } else {
+        String newInputExpression =
+            state.inputExpression! + event.number.toString();
+        String newOutput = AppMethods.calculateResult(newInputExpression);
+        state.scrollController
+            .jumpTo(state.scrollController.position.maxScrollExtent);
+        emit(EvaluateExpressionState(
+          inputExp: newInputExpression,
+          outputExp: newOutput,
+        ));
+      }
     });
     on<OperatorPressedEvent>((event, emit) {
       state.scrollController
