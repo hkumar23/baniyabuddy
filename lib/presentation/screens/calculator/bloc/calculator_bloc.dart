@@ -30,17 +30,11 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
       String lastChar =
           inputSize > 0 ? state.inputExpression![inputSize - 1] : "";
       if (inputSize <= 0) {
-        if (op == '-') {
-          emit(EvaluateExpressionState(
-            inputExp: op,
-            outputExp: "",
-          ));
-        } else {
-          emit(EvaluateExpressionState(
-            inputExp: "",
-            outputExp: "",
-          ));
-        }
+        if (op != '-') return;
+        emit(EvaluateExpressionState(
+          inputExp: op,
+          outputExp: "",
+        ));
       } else {
         if (op == 'a') {
           emit(EvaluateExpressionState(
@@ -90,6 +84,9 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
             outputExp: state.output!,
           ));
         } else if (op == '.') {
+          if (state.inputExpression!.contains(".")) {
+            return;
+          }
           emit(EvaluateExpressionState(
             inputExp: state.inputExpression! + op,
             outputExp: state.output!,
