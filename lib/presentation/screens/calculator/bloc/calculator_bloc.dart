@@ -13,7 +13,8 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
 
       String newInputExpression =
           state.inputExpression! + event.number.toString();
-      String newOutput = AppMethods.calculateResult(newInputExpression);
+      String tempExp = newInputExpression.replaceAll("%", "*0.01*");
+      String newOutput = AppMethods.calculateResult(tempExp);
       // state.scrollController
       //     .jumpTo(state.scrollController.position.maxScrollExtent);
       emit(EvaluateExpressionState(
@@ -50,16 +51,17 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
           String newInputExpression =
               AppMethods.removeLastChar(state.inputExpression!);
           String newOutput = "";
-
           if (newInputExpression.isNotEmpty) {
             String lastChar = newInputExpression[newInputExpression.length - 1];
             if (AppMethods.isOperator(lastChar)) {
               newInputExpression =
                   AppMethods.removeLastChar(newInputExpression);
-              newOutput = AppMethods.calculateResult(newInputExpression);
+              String tempExp = newInputExpression.replaceAll("%", "*0.01*");
+              newOutput = AppMethods.calculateResult(tempExp);
               newInputExpression += lastChar;
             } else {
-              newOutput = AppMethods.calculateResult(newInputExpression);
+              String tempExp = newInputExpression.replaceAll("%", "*0.01*");
+              newOutput = AppMethods.calculateResult(tempExp);
             }
           }
           emit(EvaluateExpressionState(
@@ -71,11 +73,14 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
           if (AppMethods.isOperator(lastChar)) {
             newInputExpression = AppMethods.removeLastChar(newInputExpression);
           }
-          String newOutput = AppMethods.calculateResult(newInputExpression);
-          emit(EvaluateExpressionState(
-            inputExp: newOutput,
-            outputExp: newOutput,
-          ));
+          String tempExp = newInputExpression.replaceAll("%", "*0.01*");
+          String newOutput = AppMethods.calculateResult(tempExp);
+          emit(
+            EvaluateExpressionState(
+              outputExp: newOutput,
+              inputExp: newOutput,
+            ),
+          );
         } else if (op == '.' &&
             (lastChar == '.' || AppMethods.isOperator(lastChar))) {
           String newInputExpression =
