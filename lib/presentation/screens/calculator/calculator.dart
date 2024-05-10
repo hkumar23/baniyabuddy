@@ -23,13 +23,13 @@ class Calculator extends StatelessWidget {
         centerTitle: true,
         // backgroundColor: Colors.grey.shade300,
       ),
-      body: Column(
+      body: const Column(
         children: [
           Expanded(
             flex: 1,
             child: CalcDisplay(),
           ),
-          const Expanded(
+          Expanded(
             flex: 2,
             child: CalcKeyBoard(),
           ),
