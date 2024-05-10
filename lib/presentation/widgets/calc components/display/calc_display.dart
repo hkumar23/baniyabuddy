@@ -22,27 +22,29 @@ class CalcDisplay extends StatelessWidget {
         //     .jumpTo(state.scrollController.position.maxScrollExtent);
         return Container(
           // color: Colors.red.shade300,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 5),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               IODisplayItem(
                 flex: 3,
-                backgroundColor: Colors.black.withOpacity(0.2),
-                alignment: Alignment.bottomLeft,
+                backgroundColor: Colors.black.withOpacity(0.4),
+                // alignment: Alignment.bottomLeft,
                 scrollController: null,
                 expression: state.output!,
-                mainAxisAlignment: MainAxisAlignment.start,
+                // mainAxisAlignment: MainAxisAlignment.end,
                 fontSize: 50,
+                isUpperDisplay: true,
               ),
               IODisplayItem(
                 flex: 2,
                 backgroundColor: Colors.transparent,
-                alignment: Alignment.bottomRight,
+                // alignment: Alignment.bottomRight,
                 scrollController: state.scrollController,
                 expression: state.inputExpression!,
-                mainAxisAlignment: MainAxisAlignment.end,
+                // mainAxisAlignment: MainAxisAlignment.start,
                 fontSize: 30,
+                isUpperDisplay: false,
               ),
             ],
           ),

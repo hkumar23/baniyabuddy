@@ -2,5 +2,48 @@
     "github.copilot.enable": {
         "plaintext": "true",
         "markdown": "true"
+    },
+    "todo-tree.general.tagGroups": {},
+    "todo-tree.highlights.customHighlight": {
+        "BUG": {
+            "icon": "bug",
+            "background": "#00ffc8",
+            "foreground": "#000000",
+        },
+        "HACK": {
+            "icon": "tools"
+        },
+        "FIXME": {
+            "icon": "flame",
+            "background": "#ff0000",
+            "foreground": "#ffffff",
+        },
+        "XXX": {
+            "icon": "x"
+        },
+        "[ ]": {
+            "icon": "issue-draft"
+        },
+        "[x]": {
+            "icon": "issue-closed"
+        },
+        "EditHere": {
+            "icon": "pencil",
+            "foreground": "#000000",
+            "background": "#dd00ff",
+        },
+    },
+    "todo-tree.general.tags": [
+        "BUG",
+        "HACK",
+        "FIXME",
+        "TODO",
+        "XXX",
+        "[ ]",
+        "[x]",
+        "EditHere"
+    ],
+    "todo-tree.highlights.defaultHighlight": {
+
     }
 }
