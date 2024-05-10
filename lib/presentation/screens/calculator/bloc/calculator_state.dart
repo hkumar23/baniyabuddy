@@ -21,6 +21,14 @@ class EvaluateExpressionState extends CalculatorState {
     required this.inputExp,
     required this.outputExp,
   }) {
+    // if (outputExp.isNotEmpty &&
+    //     outputExp[outputExp.length - 2] == '.' &&
+    //     outputExp[outputExp.length - 1] == '0') {
+    //   output = outputExp.substring(0, outputExp.length - 2);
+    // } else {
+    //   output = outputExp;
+    // }
+    // inputExpression = inputExp;
     inputExpression = inputExp;
     output = outputExp;
   }

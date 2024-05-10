@@ -35,9 +35,15 @@ class IODisplayItem extends StatelessWidget {
         // alignment: alignment,
         child: isUpperDisplay
             ? FittedBox(
-                child: Text(
-                  expression,
-                  style: TextStyle(fontSize: fontSize),
+                fit: BoxFit.scaleDown,
+                child: Container(
+                  constraints: const BoxConstraints(minWidth: 5),
+                  child: Text(
+                    // overflow: TextOverflow.visible,
+                    expression,
+                    style: TextStyle(fontSize: fontSize),
+                    // softWrap: true,
+                  ),
                 ),
               )
             : SingleChildScrollView(
