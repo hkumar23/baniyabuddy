@@ -5,7 +5,6 @@ import 'package:baniyabuddy/presentation/widgets/calc%20components/keyboard/calc
 import 'package:baniyabuddy/presentation/widgets/calc%20components/keyboard/save_transaction_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CalcKeyBoard extends StatelessWidget {
@@ -15,6 +14,7 @@ class CalcKeyBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     // final deviceSize = MediaQuery.of(context).size;
     // final appBarHeight = AppBar().preferredSize.height;
+
     return Container(
       padding: const EdgeInsets.only(
         left: 15,
@@ -36,8 +36,23 @@ class CalcKeyBoard extends StatelessWidget {
                   onPressed: () {
                     showDialog(
                         context: context,
-                        builder: (context) {
-                          return const SaveTransactionDialog();
+                        builder: (dialogContext) {
+                          // return AlertDialog(
+                          //     title: const Text('Save Transaction'),
+                          //     content: Container(
+                          //       width: double.infinity,
+                          //       constraints:
+                          //           const BoxConstraints(minHeight: 50),
+                          //       child: const Text("Work in progress"),
+                          //     ));
+                          // BlocProvider.of<CalculatorBloc>(context).add(
+                          //   SaveTransactionEvent(),
+                          // );
+                          return BlocProvider.value(
+                            value: BlocProvider.of<CalculatorBloc>(context),
+                            child: const SaveTransactionDialog(),
+                          );
+                          // return const SaveTransactionDialog();
                         });
                   },
                 ),

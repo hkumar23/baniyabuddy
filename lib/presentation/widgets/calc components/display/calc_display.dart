@@ -1,4 +1,5 @@
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_bloc.dart';
+import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_event.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_state.dart';
 import 'package:baniyabuddy/presentation/widgets/calc%20components/display/i_o_display_item.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +15,21 @@ class CalcDisplay extends StatelessWidget {
     // final appBarHeight = AppBar().preferredSize.height;
     return BlocConsumer<CalculatorBloc, CalculatorState>(
       listener: (context, state) {
-        // TODO: implement listener
+        if (state is SaveTransactionState) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: const Text(
+              "Transaction Saved",
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
+            backgroundColor: Theme.of(context).colorScheme.primary,
+          ));
+        }
       },
       builder: (context, state) {
         // scrollController.jumpTo(scrollController.position.maxScrollExtent);
         // state.scrollController
         //     .jumpTo(state.scrollController.position.maxScrollExtent);
+
         return Container(
           // color: Colors.red.shade300,
           padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -31,7 +41,7 @@ class CalcDisplay extends StatelessWidget {
                 backgroundColor: Colors.black.withOpacity(0.4),
                 // alignment: Alignment.bottomLeft,
                 scrollController: null,
-                expression: state.output!,
+                expression: state.output,
                 // mainAxisAlignment: MainAxisAlignment.end,
                 fontSize: 50,
                 isUpperDisplay: true,
@@ -41,7 +51,7 @@ class CalcDisplay extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 // alignment: Alignment.bottomRight,
                 scrollController: state.scrollController,
-                expression: state.inputExpression!,
+                expression: state.inputExpression,
                 // mainAxisAlignment: MainAxisAlignment.start,
                 fontSize: 30,
                 isUpperDisplay: false,

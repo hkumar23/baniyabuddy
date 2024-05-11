@@ -5,8 +5,11 @@ import 'package:bloc/bloc.dart';
 
 class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
   CalculatorBloc() : super(InitialCalculatorState()) {
-    // state.scrollController
-    //     .jumpTo(state.scrollController.position.maxScrollExtent);
+    on<SaveTransactionEvent>(
+      (event, emit) {
+        emit(SaveTransactionState());
+      },
+    );
     on<NumberPressedEvent>((event, emit) {
       state.scrollController
           .jumpTo(state.scrollController.position.maxScrollExtent);

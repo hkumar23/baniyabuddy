@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 abstract class CalculatorState {
-  String? inputExpression;
-  String? output;
+  String inputExpression = "";
+  String output = "";
   ScrollController scrollController = ScrollController();
 }
 
