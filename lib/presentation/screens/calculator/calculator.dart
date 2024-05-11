@@ -1,6 +1,7 @@
 import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:baniyabuddy/presentation/widgets/calc%20components/display/calc_display.dart';
 import 'package:baniyabuddy/presentation/widgets/calc%20components/keyboard/calc_keyboard.dart';
+import 'package:baniyabuddy/utils/work_in_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -10,7 +11,12 @@ class Calculator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Drawer(),
+      drawer: Drawer(
+        backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+        child: const WorkInProgress(
+          color: Colors.black,
+        ),
+      ),
       appBar: AppBar(
         // forceMaterialTransparency: true,
         title: Text(

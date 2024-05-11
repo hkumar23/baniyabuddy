@@ -3,6 +3,7 @@ import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_bloc
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_event.dart';
 import 'package:baniyabuddy/presentation/widgets/calc%20components/keyboard/calc_button.dart';
 import 'package:baniyabuddy/presentation/widgets/calc%20components/keyboard/save_transaction_dialog.dart';
+import 'package:baniyabuddy/utils/work_in_progress.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,22 +38,21 @@ class CalcKeyBoard extends StatelessWidget {
                     showDialog(
                         context: context,
                         builder: (dialogContext) {
-                          // return AlertDialog(
-                          //     title: const Text('Save Transaction'),
-                          //     content: Container(
-                          //       width: double.infinity,
-                          //       constraints:
-                          //           const BoxConstraints(minHeight: 50),
-                          //       child: const Text("Work in progress"),
-                          //     ));
-                          // BlocProvider.of<CalculatorBloc>(context).add(
-                          //   SaveTransactionEvent(),
-                          // );
-                          return BlocProvider.value(
-                            value: BlocProvider.of<CalculatorBloc>(context),
-                            child: const SaveTransactionDialog(),
+                          return AlertDialog(
+                            contentPadding: const EdgeInsets.all(20),
+                            // title: Text(
+                            //   'Save Transaction',
+                            //   style: TextStyle(fontWeight: FontWeight.bold),
+                            content: WorkInProgress(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSecondaryContainer,
+                            ),
                           );
-                          // return const SaveTransactionDialog();
+                          // return BlocProvider.value(
+                          //   value: BlocProvider.of<CalculatorBloc>(context),
+                          //   child: const SaveTransactionDialog(),
+                          // );
                         });
                   },
                 ),

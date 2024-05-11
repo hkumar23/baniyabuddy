@@ -8,7 +8,7 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
   CalculatorBloc() : super(InitialCalculatorState()) {
     on<SaveTransactionEvent>((event, emit) {
       //save transaction on firebase //IMPLEMENT THIS
-      print(event.transactionDetails.toJson());
+      // print(event.transactionDetails.toJson());
       emit(SaveTransactionState());
     });
     on<NumberPressedEvent>((event, emit) {
