@@ -26,4 +26,5 @@ class AppLanguage {
   static const String costumerName = "Costumer Name";
   static const String mobNumber = "Mobile Number";
   static const String notes = "Notes";
+  static const String notSelected = "Not Selected";
 }

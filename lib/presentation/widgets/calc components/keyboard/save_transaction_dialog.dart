@@ -1,11 +1,13 @@
 import 'package:baniyabuddy/constants/app_constants.dart';
 import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:baniyabuddy/data/models/transaction_details.dart';
+import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_bloc.dart';
+import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SaveTransactionDialog extends StatefulWidget {
   const SaveTransactionDialog({super.key});
-
   @override
   State<SaveTransactionDialog> createState() => _SaveTransactionDialogState();
 }
@@ -14,7 +16,7 @@ class _SaveTransactionDialogState extends State<SaveTransactionDialog> {
   final TextEditingController costumerNameController = TextEditingController();
   final TextEditingController mobNumberController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
-  String? paymentMethod = AppLanguage.selectPaymentMethod;
+  String? paymentMethod = AppLanguage.notSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +62,8 @@ class _SaveTransactionDialogState extends State<SaveTransactionDialog> {
                   child: Text(AppLanguage.udhaar),
                 ),
                 DropdownMenuItem(
-                  value: AppLanguage.selectPaymentMethod,
-                  child: Text(AppLanguage.selectPaymentMethod),
+                  value: AppLanguage.notSelected,
+                  child: Text(AppLanguage.notSelected),
                 ),
               ],
               onChanged: (String? value) {
@@ -88,7 +90,9 @@ class _SaveTransactionDialogState extends State<SaveTransactionDialog> {
               notes: notesController.text,
               paymentMethod: paymentMethod!,
             );
-            // BlocProvider.of<CalculatorBloc>(context).saveCalculationWithCustomerDetails(customerDetails);
+            // print(transactionDetails.toJson());
+            BlocProvider.of<CalculatorBloc>(context).add(
+                SaveTransactionEvent(transactionDetails: transactionDetails));
             Navigator.of(context).pop();
           },
           child: const Text('Save'),
