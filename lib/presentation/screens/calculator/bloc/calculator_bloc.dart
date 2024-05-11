@@ -1,3 +1,4 @@
+import 'package:baniyabuddy/data/models/transaction_details.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_event.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_state.dart';
 import 'package:baniyabuddy/utils/app_methods.dart';
@@ -5,17 +6,17 @@ import 'package:bloc/bloc.dart';
 
 class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
   CalculatorBloc() : super(InitialCalculatorState()) {
-    on<SaveTransactionEvent>(
-      (event, emit) {
-        emit(SaveTransactionState());
-      },
-    );
+    on<SaveTransactionEvent>((event, emit) {
+      //save transaction on firebase //IMPLEMENT THIS
+      print(event.transactionDetails.toJson());
+      emit(SaveTransactionState());
+    });
     on<NumberPressedEvent>((event, emit) {
       state.scrollController
           .jumpTo(state.scrollController.position.maxScrollExtent);
 
       String newInputExpression =
-          state.inputExpression! + event.number.toString();
+          state.inputExpression + event.number.toString();
       String tempExp = newInputExpression.replaceAll("%", "*0.01*");
       String newOutput = AppMethods.calculateResult(tempExp);
       // state.scrollController
@@ -29,9 +30,9 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
       state.scrollController
           .jumpTo(state.scrollController.position.maxScrollExtent);
       String op = event.operator;
-      int inputSize = state.inputExpression!.length;
+      int inputSize = state.inputExpression.length;
       String lastChar =
-          inputSize > 0 ? state.inputExpression![inputSize - 1] : "";
+          inputSize > 0 ? state.inputExpression[inputSize - 1] : "";
       if (inputSize <= 0) {
         if (op != '-') return;
         emit(EvaluateExpressionState(
@@ -46,7 +47,7 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
           ));
         } else if (op == 'd') {
           String newInputExpression =
-              AppMethods.removeLastChar(state.inputExpression!);
+              AppMethods.removeLastChar(state.inputExpression);
           String newOutput = "";
           if (newInputExpression.isNotEmpty) {
             String lastChar = newInputExpression[newInputExpression.length - 1];
@@ -66,7 +67,7 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
             outputExp: newOutput,
           ));
         } else if (op == '=') {
-          String newInputExpression = state.inputExpression!;
+          String newInputExpression = state.inputExpression;
           if (AppMethods.isOperator(lastChar)) {
             newInputExpression = AppMethods.removeLastChar(newInputExpression);
           }
@@ -81,33 +82,33 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
         } else if (op == '.' &&
             (lastChar == '.' || AppMethods.isOperator(lastChar))) {
           String newInputExpression =
-              AppMethods.removeLastChar(state.inputExpression!) + op;
+              AppMethods.removeLastChar(state.inputExpression) + op;
           emit(EvaluateExpressionState(
             inputExp: newInputExpression,
-            outputExp: state.output!,
+            outputExp: state.output,
           ));
         } else if (op == '.') {
-          if (state.inputExpression!.contains(".")) {
+          if (state.inputExpression.contains(".")) {
             return;
           }
           emit(EvaluateExpressionState(
-            inputExp: state.inputExpression! + op,
-            outputExp: state.output!,
+            inputExp: state.inputExpression + op,
+            outputExp: state.output,
           ));
         } else if (AppMethods.isOperator(lastChar)) {
           String newInputExpression =
-              AppMethods.removeLastChar(state.inputExpression!) + op;
+              AppMethods.removeLastChar(state.inputExpression) + op;
           if (lastChar == '-' && inputSize == 1) {
             newInputExpression = '-';
           }
           emit(EvaluateExpressionState(
             inputExp: newInputExpression,
-            outputExp: state.output!,
+            outputExp: state.output,
           ));
         } else {
           emit(EvaluateExpressionState(
-            inputExp: state.inputExpression! + op,
-            outputExp: state.output!,
+            inputExp: state.inputExpression + op,
+            outputExp: state.output,
           ));
         }
       }

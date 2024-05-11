@@ -18,7 +18,7 @@ class CalcDisplay extends StatelessWidget {
         if (state is SaveTransactionState) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: const Text(
-              "Transaction Saved",
+              "Transaction saved successfully! ",
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
             backgroundColor: Theme.of(context).colorScheme.primary,

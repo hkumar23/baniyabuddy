@@ -89,6 +89,7 @@ class _SaveTransactionDialogState extends State<SaveTransactionDialog> {
               mobNumber: mobNumberController.text,
               notes: notesController.text,
               paymentMethod: paymentMethod!,
+              timeStamp: DateTime.now(),
             );
             // print(transactionDetails.toJson());
             BlocProvider.of<CalculatorBloc>(context).add(

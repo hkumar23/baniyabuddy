@@ -5,6 +5,8 @@
     },
     "todo-tree.general.tagGroups": {},
     "todo-tree.highlights.customHighlight": {
+
+
         "BUG": {
             "icon": "bug",
             "background": "#00ffc8",
@@ -32,6 +34,11 @@
             "foreground": "#000000",
             "background": "#dd00ff",
         },
+        "IMPLEMENT THIS": {
+            "icon": "rocket",
+            "foreground": "#ffffff",
+            "background": "#ff9100",
+        },
     },
     "todo-tree.general.tags": [
         "BUG",
@@ -41,7 +48,8 @@
         "XXX",
         "[ ]",
         "[x]",
-        "EditHere"
+        "EditHere",
+        "IMPLEMENT THIS"
     ],
     "todo-tree.highlights.defaultHighlight": {
 
