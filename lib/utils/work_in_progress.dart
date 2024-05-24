@@ -16,8 +16,8 @@ class WorkInProgress extends StatelessWidget {
           // color: Colors.red,
           alignment: Alignment.center,
           height: 150,
-          child: Image.network(
-            "https://cdn-icons-png.freepik.com/512/9483/9483028.png",
+          child: Image.asset(
+            "assets/images/work_in_progress.png",
             fit: BoxFit.contain,
             color: color,
           ),
