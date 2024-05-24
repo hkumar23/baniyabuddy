@@ -40,9 +40,6 @@ class CalcKeyBoard extends StatelessWidget {
                         builder: (dialogContext) {
                           return AlertDialog(
                             contentPadding: const EdgeInsets.all(20),
-                            // title: Text(
-                            //   'Save Transaction',
-                            //   style: TextStyle(fontWeight: FontWeight.bold),
                             content: WorkInProgress(
                               color: Theme.of(context)
                                   .colorScheme
