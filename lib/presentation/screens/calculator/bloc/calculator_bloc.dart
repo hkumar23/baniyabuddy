@@ -88,9 +88,21 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
             outputExp: state.output,
           ));
         } else if (op == '.') {
-          if (state.inputExpression.contains(".")) {
+          // Check if the current operand already contains a decimal point
+          bool operandContainsDecimal = false;
+          int indexOfOperator =
+              state.inputExpression.lastIndexOf(RegExp(r'[+\-*/]'));
+
+          String currentOperand =
+              state.inputExpression.substring(indexOfOperator + 1);
+          operandContainsDecimal = currentOperand.contains('.');
+
+          // If the current operand already contains a decimal point, don't add another one
+          if (operandContainsDecimal) {
             return;
           }
+
+          // Otherwise, append the decimal point to the input expression
           emit(EvaluateExpressionState(
             inputExp: state.inputExpression + op,
             outputExp: state.output,
