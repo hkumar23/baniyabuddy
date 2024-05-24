@@ -41,7 +41,12 @@ dependencies:
   google_fonts: ^5.1.0
   bloc: ^8.1.4
   math_expressions: ^2.4.0
+  flutter_launcher_icons: ^0.13.1
 
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo/baniya_buddy_logo.png"
 dev_dependencies:
   flutter_test:
     sdk: flutter
