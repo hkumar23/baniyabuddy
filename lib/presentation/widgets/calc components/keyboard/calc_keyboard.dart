@@ -38,18 +38,18 @@ class CalcKeyBoard extends StatelessWidget {
                     showDialog(
                         context: context,
                         builder: (dialogContext) {
-                          return AlertDialog(
-                            contentPadding: const EdgeInsets.all(20),
-                            content: WorkInProgress(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSecondaryContainer,
-                            ),
-                          );
-                          // return BlocProvider.value(
-                          //   value: BlocProvider.of<CalculatorBloc>(context),
-                          //   child: const SaveTransactionDialog(),
+                          // return AlertDialog(
+                          //   contentPadding: const EdgeInsets.all(20),
+                          //   content: WorkInProgress(
+                          //     color: Theme.of(context)
+                          //         .colorScheme
+                          //         .onSecondaryContainer,
+                          //   ),
                           // );
+                          return BlocProvider.value(
+                            value: BlocProvider.of<CalculatorBloc>(context),
+                            child: const SaveTransactionDialog(),
+                          );
                         });
                   },
                 ),

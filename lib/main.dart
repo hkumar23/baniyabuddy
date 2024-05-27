@@ -1,7 +1,10 @@
 import 'package:baniyabuddy/constants/app_constants.dart';
 import 'package:baniyabuddy/firebase_options.dart';
+import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_bloc.dart';
+import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_bloc.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/calculator.dart';
+import 'package:baniyabuddy/presentation/screens/sign_in_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,18 +21,41 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: AppConstants.appName,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.teal,
-          brightness: Brightness.dark,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthBloc>(create: (context) => AuthBloc()),
+        BlocProvider<CalculatorBloc>(create: (context) => CalculatorBloc()),
+      ],
+      child: MaterialApp(
+        title: AppConstants.appName,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.teal,
+            brightness: Brightness.dark,
+          ),
+          useMaterial3: true,
         ),
-        useMaterial3: true,
-      ),
-      home: BlocProvider<CalculatorBloc>(
-        create: (context) => CalculatorBloc(),
-        child: const Calculator(),
+        home: BlocBuilder<AuthBloc, AuthState>(
+          buildWhen: (oldState, newState) {
+            return oldState is InitialAuthState;
+          },
+          builder: (context, state) {
+            if (state is LoggedInState) {
+              // print("Main, User: ${state.user} ");
+              return const Calculator();
+            } else if (state is LoggedOutState) {
+              return const SignInScreen();
+            } else {
+              return const Scaffold();
+            }
+            // return const SignInScreen();
+            // return const Calculator();
+          },
+        ),
+        // BlocProvider<CalculatorBloc>(
+        //   create: (context) => CalculatorBloc(),
+        //   child: const Calculator(),
+        // ),
       ),
     );
   }
