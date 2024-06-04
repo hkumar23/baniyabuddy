@@ -5,6 +5,7 @@ import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_bloc.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/calculator.dart';
 import 'package:baniyabuddy/presentation/screens/sign_in_screen.dart';
+import 'package:baniyabuddy/presentation/screens/verify_mob_num_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,6 +51,9 @@ class MyApp extends StatelessWidget {
             }
             // return const SignInScreen();
             // return const Calculator();
+            // return const VerifyMobNumScreen(
+            //   phoneNumber: "__________",
+            // );
           },
         ),
         // BlocProvider<CalculatorBloc>(
