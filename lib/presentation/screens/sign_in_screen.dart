@@ -97,13 +97,24 @@ class _SignInScreenState extends State<SignInScreen> {
                 listener: (context, state) {
                   if (state is AuthCodeSentState) {
                     // print("Auth Code Sent State");
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const VerifyMobNumScreen()));
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => VerifyMobNumScreen(
+                          phoneNumber: state.phoneNumber,
+                        ),
+                      ),
+                    );
                   } else if (state is AuthErrorState) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(state.errorMessage),
-                        backgroundColor: Colors.red,
+                        content: Text(
+                          state.errorMessage,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.surface,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        backgroundColor: Theme.of(context).colorScheme.error,
                       ),
                     );
                   }
@@ -130,13 +141,15 @@ class _SignInScreenState extends State<SignInScreen> {
                       onPressed: () {
                         context.read<AuthBloc>().add(
                               SendCodeEvent(
-                                  phoneNumber:
-                                      "+91${phoneNumController!.text}"),
+                                  phoneNumber: phoneNumController!.text),
                             );
                       },
                       child: const Text(
                         'Get OTP',
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   );

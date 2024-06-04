@@ -1,5 +1,6 @@
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_event.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
+import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -29,11 +30,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthLoadingState());
       // sendOtp(event.phoneNumber);
       // await Future.delayed(const Duration(seconds: 3));
+      String phoneNumber = event.phoneNumber;
+      if (phoneNumber.length < 10 || !AppMethods.isNumeric(phoneNumber)) {
+        emit(AuthErrorState(errorMessage: "Invalid Phone Number"));
+        return;
+      }
       await _auth.verifyPhoneNumber(
-        phoneNumber: event.phoneNumber,
+        phoneNumber: "+91$phoneNumber",
         codeSent: (verificationId, forceResendingToken) {
           _verificationId = verificationId;
-          emit(AuthCodeSentState());
+          emit(AuthCodeSentState(phoneNumber: phoneNumber));
         },
         verificationCompleted: (phoneAuthCredential) {
           // signInWithPhone();
@@ -48,7 +54,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         },
       );
       // print("Verification Id-1: $_verificationId");
-      emit(AuthCodeSentState());
+      emit(AuthCodeSentState(phoneNumber: phoneNumber));
     });
     on<VerifyCodeEvent>((event, emit) {
       emit(AuthLoadingState());

@@ -4,7 +4,10 @@ abstract class AuthState {}
 
 class InitialAuthState extends AuthState {}
 
-class AuthCodeSentState extends AuthState {}
+class AuthCodeSentState extends AuthState {
+  final String phoneNumber;
+  AuthCodeSentState({required this.phoneNumber});
+}
 
 class AuthCodeVerifiedState extends AuthState {}
 
