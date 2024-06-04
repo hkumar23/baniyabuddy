@@ -49,7 +49,7 @@ flutter_launcher_icons:
   ios: true
   image_path: "assets/logo/baniya_buddy_logo.png"
   adaptive_icon_background: "#FFFFFF"
-  adaptive_icon_foreground: "assets/logo/logo_foreground.png"
+  adaptive_icon_foreground: "assets/logo/logo_foreground_dark.png"
   
 dev_dependencies:
   flutter_test:
@@ -77,6 +77,8 @@ flutter:
   assets:
     - assets/logo/baniya_buddy_logo.png
     - assets/images/work_in_progress.png
+    - assets/images/phone_auth_icons_1.png
+    - assets/images/phone_auth_icons_2.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
