@@ -49,8 +49,8 @@ class MyApp extends StatelessWidget {
             } else {
               return const Scaffold();
             }
-            // return const SignInScreen();
-            // return const Calculator();
+            return const SignInScreen();
+            return const Calculator();
             // return const VerifyMobNumScreen(
             //   phoneNumber: "__________",
             // );
