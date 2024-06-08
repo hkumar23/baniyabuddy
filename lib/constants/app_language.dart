@@ -27,4 +27,7 @@ class AppLanguage {
   static const String mobNumber = "Mobile Number";
   static const String notes = "Notes";
   static const String notSelected = "Not Selected";
+  static const String invalidPhoneNumber = "Invalid Phone Number";
+  static const String yes = "Yes";
+  static const String no = "No";
 }
