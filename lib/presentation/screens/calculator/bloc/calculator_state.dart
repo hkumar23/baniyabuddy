@@ -35,3 +35,10 @@ class EvaluateExpressionState extends CalculatorState {
 }
 
 class SaveTransactionState extends CalculatorState {}
+
+class CalcErrorState extends CalculatorState {
+  final String errorMessage;
+  CalcErrorState({required this.errorMessage});
+}
+
+class CalcLoadingState extends CalculatorState {}

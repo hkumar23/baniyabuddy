@@ -6,13 +6,16 @@ class TransactionDetails {
   final String notes;
   final String paymentMethod;
   final DateTime timeStamp;
-
+  final String? totalAmount;
+  final String? inputExpression;
   TransactionDetails({
     required this.costumerName,
     required this.mobNumber,
     required this.notes,
     required this.paymentMethod,
     required this.timeStamp,
+    this.totalAmount,
+    this.inputExpression,
   });
 
   factory TransactionDetails.fromJson(Map json) {
@@ -22,6 +25,8 @@ class TransactionDetails {
       notes: json[AppConstants.notes],
       paymentMethod: json[AppConstants.paymentMethod],
       timeStamp: json[AppConstants.timeStamp],
+      totalAmount: json[AppConstants.totalAmount],
+      inputExpression: json[AppConstants.inputExpression],
     );
   }
 
@@ -32,6 +37,8 @@ class TransactionDetails {
       AppConstants.notes: notes,
       AppConstants.paymentMethod: paymentMethod,
       AppConstants.timeStamp: timeStamp,
+      AppConstants.totalAmount: totalAmount,
+      AppConstants.inputExpression: inputExpression,
     };
   }
 }

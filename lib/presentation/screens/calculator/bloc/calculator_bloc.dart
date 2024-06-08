@@ -3,15 +3,29 @@ import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_even
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_state.dart';
 import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   CalculatorBloc() : super(InitialCalculatorState()) {
-    on<SaveTransactionEvent>((event, emit) {
-      //save transaction on firebase //IMPLEMENT THIS
-      // print(event.transactionDetails.toJson());
-      emit(SaveTransactionState());
+    on<SaveTransactionEvent>((event, emit) async {
+      try {
+        emit(CalcLoadingState());
+        TransactionDetails transactionDetails = event.transactionDetails;
+        // print(transactionDetails.toJson());
+        String userId = _auth.currentUser!.uid;
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(userId)
+            .collection("transactions")
+            .add(transactionDetails.toJson());
+        emit(SaveTransactionState());
+        return;
+      } catch (err) {
+        emit(CalcErrorState(errorMessage: err.toString()));
+        return;
+      }
     });
     on<NumberPressedEvent>((event, emit) {
       state.scrollController
