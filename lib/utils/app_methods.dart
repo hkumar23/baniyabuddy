@@ -1,4 +1,8 @@
+import 'package:baniyabuddy/constants/app_language.dart';
+import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_bloc.dart';
+import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:math_expressions/math_expressions.dart';
 
 class AppMethods {
@@ -35,5 +39,30 @@ class AppMethods {
 
   static bool isNumeric(String s) {
     return RegExp(r'^[0-9]+$').hasMatch(s);
+  }
+
+  static void logoutWithDialog(BuildContext ctx) {
+    showDialog(
+      context: ctx,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shadowColor: Theme.of(context).colorScheme.shadow,
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          title: const Text("Are you sure you want to logout?"),
+          actions: [
+            OutlinedButton(
+              onPressed: () {
+                context.read<AuthBloc>().add(LogoutEvent());
+              },
+              child: const Text(AppLanguage.yes),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text(AppLanguage.no),
+            )
+          ],
+        );
+      },
+    );
   }
 }

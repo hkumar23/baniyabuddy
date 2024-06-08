@@ -5,6 +5,7 @@ import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
 import 'package:baniyabuddy/presentation/screens/sign_in_screen.dart';
 import 'package:baniyabuddy/presentation/widgets/calc%20components/display/calc_display.dart';
 import 'package:baniyabuddy/presentation/widgets/calc%20components/keyboard/calc_keyboard.dart';
+import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:baniyabuddy/utils/work_in_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,10 +35,20 @@ class Calculator extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   ListTile(
-                    title: const Text("Logout"),
-                    leading: const Icon(Icons.logout),
+                    title: const Text(
+                      "Logout",
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    leading: const Icon(
+                      Icons.logout,
+                      color: Colors.red,
+                    ),
+                    contentPadding: const EdgeInsets.only(bottom: 8, left: 16),
                     onTap: () {
-                      context.read<AuthBloc>().add(LogoutEvent());
+                      AppMethods.logoutWithDialog(context);
                     },
                   )
                 ],

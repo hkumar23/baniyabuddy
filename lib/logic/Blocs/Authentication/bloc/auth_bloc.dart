@@ -1,3 +1,4 @@
+import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_event.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
 import 'package:baniyabuddy/utils/app_methods.dart';
@@ -32,7 +33,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       // await Future.delayed(const Duration(seconds: 3));
       String phoneNumber = event.phoneNumber;
       if (phoneNumber.length < 10 || !AppMethods.isNumeric(phoneNumber)) {
-        emit(AuthErrorState(errorMessage: "Invalid Phone Number"));
+        emit(AuthErrorState(errorMessage: AppLanguage.invalidPhoneNumber));
         return;
       }
       await _auth.verifyPhoneNumber(
