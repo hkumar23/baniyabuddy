@@ -21,6 +21,14 @@ class CalcDisplay extends StatelessWidget {
             ),
             backgroundColor: Theme.of(context).colorScheme.primary,
           ));
+        } else if (state is CalcErrorState) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              "Transaction not saved: ${state.errorMessage}",
+              style: const TextStyle(fontWeight: FontWeight.w500),
+            ),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ));
         }
       },
       builder: (context, state) {
