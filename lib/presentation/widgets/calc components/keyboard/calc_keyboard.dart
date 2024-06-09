@@ -2,7 +2,7 @@ import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_bloc.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_event.dart';
 import 'package:baniyabuddy/presentation/widgets/calc%20components/keyboard/calc_button.dart';
-import 'package:baniyabuddy/presentation/widgets/calc%20components/keyboard/save_transaction_dialog.dart';
+import 'package:baniyabuddy/presentation/widgets/calc%20components/keyboard/record_sale_dialog.dart';
 import 'package:baniyabuddy/utils/work_in_progress.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +48,7 @@ class CalcKeyBoard extends StatelessWidget {
                           // );
                           return BlocProvider.value(
                             value: BlocProvider.of<CalculatorBloc>(context),
-                            child: const SaveTransactionDialog(),
+                            child: const RecordSaleDialog(),
                           );
                         });
                   },

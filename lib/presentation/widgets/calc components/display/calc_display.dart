@@ -13,10 +13,10 @@ class CalcDisplay extends StatelessWidget {
     // final appBarHeight = AppBar().preferredSize.height;
     return BlocConsumer<CalculatorBloc, CalculatorState>(
       listener: (context, state) {
-        if (state is SaveTransactionState) {
+        if (state is SaveSalesRecordState) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: const Text(
-              "Transaction saved successfully! ",
+              "Sale recorded successfully! ",
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
             backgroundColor: Theme.of(context).colorScheme.primary,
@@ -24,7 +24,7 @@ class CalcDisplay extends StatelessWidget {
         } else if (state is CalcErrorState) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
-              "Transaction not saved: ${state.errorMessage}",
+              "Sale not recorded: ${state.errorMessage}",
               style: const TextStyle(fontWeight: FontWeight.w500),
             ),
             backgroundColor: Theme.of(context).colorScheme.error,
