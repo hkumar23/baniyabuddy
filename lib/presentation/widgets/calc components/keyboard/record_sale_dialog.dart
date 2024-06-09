@@ -86,7 +86,10 @@ class _RecordSaleDialogState extends State<RecordSaleDialog> {
                 key: const Key(AppConstants.mobNumber),
                 controller: _mobNumberController,
                 validator: (value) {
-                  if (value!.length != 10 || !AppMethods.isNumeric(value)) {
+                  if (value!.isEmpty) {
+                    return null;
+                  }
+                  if (value.length != 10 || !AppMethods.isNumeric(value)) {
                     return 'Please enter valid mobile number';
                   }
                   return null;
