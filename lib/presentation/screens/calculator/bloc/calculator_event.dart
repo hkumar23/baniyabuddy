@@ -1,4 +1,4 @@
-import 'package:baniyabuddy/data/models/transaction_details.dart';
+import 'package:baniyabuddy/data/models/sales_record_details.dart';
 
 abstract class CalculatorEvent {}
 
@@ -14,7 +14,7 @@ class OperatorPressedEvent extends CalculatorEvent {
   OperatorPressedEvent({required this.operator});
 }
 
-class SaveTransactionEvent extends CalculatorEvent {
-  final TransactionDetails transactionDetails;
-  SaveTransactionEvent({required this.transactionDetails});
+class RecordSalesEvent extends CalculatorEvent {
+  final SalesRecordDetails salesRecordDetails;
+  RecordSalesEvent({required this.salesRecordDetails});
 }

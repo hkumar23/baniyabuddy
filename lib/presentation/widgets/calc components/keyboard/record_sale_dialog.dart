@@ -1,6 +1,6 @@
 import 'package:baniyabuddy/constants/app_constants.dart';
 import 'package:baniyabuddy/constants/app_language.dart';
-import 'package:baniyabuddy/data/models/transaction_details.dart';
+import 'package:baniyabuddy/data/models/sales_record_details.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_bloc.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_event.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_state.dart';
@@ -8,13 +8,13 @@ import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SaveTransactionDialog extends StatefulWidget {
-  const SaveTransactionDialog({super.key});
+class RecordSaleDialog extends StatefulWidget {
+  const RecordSaleDialog({super.key});
   @override
-  State<SaveTransactionDialog> createState() => _SaveTransactionDialogState();
+  State<RecordSaleDialog> createState() => _RecordSaleDialogState();
 }
 
-class _SaveTransactionDialogState extends State<SaveTransactionDialog> {
+class _RecordSaleDialogState extends State<RecordSaleDialog> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _costumerNameController = TextEditingController();
@@ -38,7 +38,7 @@ class _SaveTransactionDialogState extends State<SaveTransactionDialog> {
       return;
     }
     _formKey.currentState!.save();
-    final transactionDetails = TransactionDetails(
+    final salesRecordDetails = SalesRecordDetails(
       costumerName: _costumerNameController.text,
       mobNumber: _mobNumberController.text,
       notes: _notesController.text,
@@ -48,7 +48,7 @@ class _SaveTransactionDialogState extends State<SaveTransactionDialog> {
       inputExpression: context.read<CalculatorBloc>().state.inputExpression,
     );
     BlocProvider.of<CalculatorBloc>(context)
-        .add(SaveTransactionEvent(transactionDetails: transactionDetails));
+        .add(RecordSalesEvent(salesRecordDetails: salesRecordDetails));
     Navigator.of(context).pop();
   }
 
@@ -56,7 +56,11 @@ class _SaveTransactionDialogState extends State<SaveTransactionDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       contentPadding: const EdgeInsets.all(0),
-      title: const Text('Save Transaction'),
+      title: const Text(
+        'Record Sale',
+        textAlign: TextAlign.center,
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
       content: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Form(

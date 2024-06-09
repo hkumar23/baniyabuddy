@@ -1,6 +1,7 @@
 import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_bloc.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
+import 'package:baniyabuddy/presentation/screens/sales_history/sales_history_screen.dart';
 import 'package:baniyabuddy/presentation/screens/sign_in_screen.dart';
 import 'package:baniyabuddy/presentation/widgets/calc%20components/display/calc_display.dart';
 import 'package:baniyabuddy/presentation/widgets/calc%20components/keyboard/calc_keyboard.dart';
@@ -58,6 +59,20 @@ class Calculator extends StatelessWidget {
           // ),
           ),
       appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const SalesHistory();
+                  },
+                ),
+              );
+            },
+            icon: const Icon(Icons.history_rounded),
+          ),
+        ],
         forceMaterialTransparency: true,
         title: Row(
           mainAxisSize: MainAxisSize.min,

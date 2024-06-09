@@ -1,4 +1,4 @@
-import 'package:baniyabuddy/data/models/transaction_details.dart';
+import 'package:baniyabuddy/data/models/sales_record_details.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_event.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_state.dart';
 import 'package:baniyabuddy/utils/app_methods.dart';
@@ -9,20 +9,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   CalculatorBloc() : super(InitialCalculatorState()) {
-    on<SaveTransactionEvent>((event, emit) async {
+    on<RecordSalesEvent>((event, emit) async {
       try {
         emit(CalcLoadingState());
-        TransactionDetails transactionDetails = event.transactionDetails;
-        // print(transactionDetails.toJson());
+        SalesRecordDetails salesRecordDetails = event.salesRecordDetails;
+        // print(salesRecordDetails.toJson());
         String userId = _auth.currentUser!.uid;
         await FirebaseFirestore.instance
             .collection("users")
             .doc(userId)
-            .collection("transactions")
-            .add(transactionDetails.toJson());
-        emit(SaveTransactionState());
+            .collection("sales_record")
+            .add(salesRecordDetails.toJson());
+        emit(SaveSalesRecordState());
         return;
       } catch (err) {
+        print(err.toString());
         emit(CalcErrorState(errorMessage: err.toString()));
         return;
       }
