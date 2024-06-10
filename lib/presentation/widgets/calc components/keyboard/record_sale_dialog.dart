@@ -79,8 +79,8 @@ class _RecordSaleDialogState extends State<RecordSaleDialog> {
                   return null;
                 },
                 keyboardType: TextInputType.name,
-                decoration:
-                    const InputDecoration(labelText: AppLanguage.costumerName),
+                decoration: const InputDecoration(
+                    labelText: "${AppLanguage.costumerName} *"),
               ),
               TextFormField(
                 key: const Key(AppConstants.mobNumber),
