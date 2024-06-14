@@ -33,39 +33,50 @@ class SalesHistory extends StatelessWidget {
           child: Container(
             width: deviceSize.width,
             // color: Colors.amber,
-            margin: const EdgeInsets.only(top: 16, left: 12, right: 12),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const FiltersRow(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: Row(
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            child: Column(
+              children: [
+                const FiltersRow(),
+                Container(
+                  // color: Colors.amber,
+                  padding: const EdgeInsets.only(top: 5, left: 4, bottom: 5),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Sales History",
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.search),
+                        padding: const EdgeInsets.all(0),
+                      )
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
                       children: [
-                        Text(
-                          "Sales History",
-                          style:
-                              Theme.of(context).textTheme.titleLarge!.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                        ),
-                        const Spacer(),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.search),
-                        )
+                        SalesHistoryItem(deviceSize: deviceSize),
+                        SalesHistoryItem(deviceSize: deviceSize),
+                        SalesHistoryItem(deviceSize: deviceSize),
+                        SalesHistoryItem(deviceSize: deviceSize),
+                        SalesHistoryItem(deviceSize: deviceSize),
+                        SalesHistoryItem(deviceSize: deviceSize),
+                        SalesHistoryItem(deviceSize: deviceSize),
+                        SalesHistoryItem(deviceSize: deviceSize),
+                        SalesHistoryItem(deviceSize: deviceSize),
+                        SalesHistoryItem(deviceSize: deviceSize),
+                        SalesHistoryItem(deviceSize: deviceSize),
                       ],
                     ),
                   ),
-                  SalesHistoryItem(deviceSize: deviceSize),
-                  SalesHistoryItem(deviceSize: deviceSize),
-                  SalesHistoryItem(deviceSize: deviceSize),
-                  SalesHistoryItem(deviceSize: deviceSize),
-                  SalesHistoryItem(deviceSize: deviceSize),
-                  SalesHistoryItem(deviceSize: deviceSize),
-                  SalesHistoryItem(deviceSize: deviceSize),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
