@@ -1,3 +1,4 @@
+import 'package:baniyabuddy/presentation/widgets/sales%20history%20components/history_options_dropdown.dart';
 import 'package:flutter/material.dart';
 
 class TotalSalesWidget extends StatelessWidget {
@@ -29,7 +30,7 @@ class TotalSalesWidget extends StatelessWidget {
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       Text(
-                        "Harsh Kumar",
+                        "Our Valued User",
                         style: Theme.of(context)
                             .textTheme
                             .headlineMedium!
@@ -46,13 +47,13 @@ class TotalSalesWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Last Month total sales",
+                        "Total sales",
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       // const SizedBox(height: 8),
@@ -66,7 +67,7 @@ class TotalSalesWidget extends StatelessWidget {
                     ],
                   ),
                   const Spacer(),
-                  const Icon(Icons.calendar_month),
+                  const HistoryOptionsDropDown(),
                 ],
               ),
             ),
