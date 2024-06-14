@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../widgets/sales history components/SalesHistoryItem.dart';
+import '../../widgets/sales history components/sales_history_item.dart';
 import '../../widgets/sales history components/filters_row.dart';
 import '../../widgets/sales history components/total_sales_widget.dart';
 
@@ -46,7 +46,7 @@ class SalesHistory extends StatelessWidget {
                           "Sales History",
                           style:
                               Theme.of(context).textTheme.titleLarge!.copyWith(
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.bold,
                                   ),
                         ),
                         const Spacer(),
@@ -57,6 +57,12 @@ class SalesHistory extends StatelessWidget {
                       ],
                     ),
                   ),
+                  SalesHistoryItem(deviceSize: deviceSize),
+                  SalesHistoryItem(deviceSize: deviceSize),
+                  SalesHistoryItem(deviceSize: deviceSize),
+                  SalesHistoryItem(deviceSize: deviceSize),
+                  SalesHistoryItem(deviceSize: deviceSize),
+                  SalesHistoryItem(deviceSize: deviceSize),
                   SalesHistoryItem(deviceSize: deviceSize),
                 ],
               ),
