@@ -18,7 +18,7 @@ class SalesHistorySheet extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 15),
                   Text(
                     "Customer Name",
                     style: Theme.of(context).textTheme.headlineMedium!.copyWith(
@@ -26,7 +26,7 @@ class SalesHistorySheet extends StatelessWidget {
                         ),
                   ),
                   Container(
-                    padding: const EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.only(top: 7),
                     width: deviceSize.width,
                     child: Wrap(
                       crossAxisAlignment: WrapCrossAlignment.end,
@@ -41,18 +41,16 @@ class SalesHistorySheet extends StatelessWidget {
                         ),
                         Text(
                           "₹ 10000",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineMedium!
-                              .copyWith(
-                                fontWeight: FontWeight.bold,
-                                // fontStyle: FontStyle.italic,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    // fontStyle: FontStyle.italic,
+                                  ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -72,7 +70,27 @@ class SalesHistorySheet extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Phone Number:",
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                ),
+                      ),
+                      Text(
+                        "+91 1234567890",
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 5),
                   Text(
                     "Calculation:",
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
@@ -84,7 +102,7 @@ class SalesHistorySheet extends StatelessWidget {
                     // overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 5),
                   Text(
                     "Notes:",
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
@@ -95,7 +113,7 @@ class SalesHistorySheet extends StatelessWidget {
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -109,7 +127,7 @@ class SalesHistorySheet extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 15),
                 ]),
           )),
     );

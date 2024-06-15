@@ -22,6 +22,9 @@ class AppLanguage {
   static const String cash = "Cash";
   static const String upi = "UPI";
   static const String udhaar = "Udhaar";
+  static const String all = "All";
+  static const String netBanking = "Net Banking";
+  static const String creditDebitCard = "Credit/Debit Card";
   static const String selectPaymentMethod = "Select payment method";
   static const String costumerName = "Costumer Name";
   static const String mobNumber = "Mobile Number";
