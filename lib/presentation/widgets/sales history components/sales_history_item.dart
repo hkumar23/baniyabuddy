@@ -1,4 +1,4 @@
-import 'package:baniyabuddy/presentation/widgets/sales%20history%20components/customer_details_sheet.dart';
+import 'package:baniyabuddy/presentation/widgets/sales%20history%20components/sales_history_sheet.dart';
 import 'package:flutter/material.dart';
 
 class SalesHistoryItem extends StatelessWidget {
@@ -28,7 +28,7 @@ class SalesHistoryItem extends StatelessWidget {
               color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
             ),
             borderRadius: BorderRadius.circular(10),
-            color: Theme.of(context).colorScheme.secondaryContainer,
+            // color: Theme.of(context).colorScheme.onSurface.withOpacity(0.05),
           ),
           // elevation: 10,
           // color: Theme.of(context).colorScheme.secondaryContainer,
@@ -42,7 +42,7 @@ class SalesHistoryItem extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(
-                      "Costumer Nameph",
+                      "Costumer Name",
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
