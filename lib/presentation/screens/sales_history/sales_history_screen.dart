@@ -11,8 +11,9 @@ class SalesHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
+    // double bottomInsets = MediaQuery.of(context).viewInsets.bottom;
     return Scaffold(
-        // extendBodyBehindAppBar: true,
+        // extendBodyBehindAppBar: false,
         // appBar: AppBar(
         //   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         //   title: const Text(
@@ -23,82 +24,75 @@ class SalesHistory extends StatelessWidget {
         //   ),
         //   centerTitle: true,
         // ),
+        resizeToAvoidBottomInset: false,
         body: Column(
-      children: [
-        Expanded(
-          flex: 2,
-          child: TotalSalesWidget(deviceSize: deviceSize),
-        ),
-        Expanded(
-          flex: 7,
-          child: Container(
-            width: deviceSize.width,
-            // color: Colors.amber,
-            margin: const EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              children: [
-                const FiltersRow(),
-                Container(
-                  // color: Colors.amber,
-                  padding: const EdgeInsets.only(top: 5, left: 4, bottom: 5),
-                  child: Row(
-                    children: [
-                      // Text(
-                      //   AppLanguage.salesHistory,
-                      //   style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      //         fontWeight: FontWeight.bold,
-                      //       ),
-                      // ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 7),
-                          child: TextField(
-                            decoration: InputDecoration(
-                                hintText: "Search with Name / Phone Number",
-                                filled: true,
-                                fillColor: Theme.of(context)
-                                    .colorScheme
-                                    .onSurface
-                                    .withOpacity(0.1),
-                                border: UnderlineInputBorder(
-                                  borderRadius: BorderRadius.circular(50),
-                                  borderSide: BorderSide.none,
-                                ),
-                                suffixIcon: IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.search),
-                                  padding: const EdgeInsets.all(0),
-                                )),
+          children: [
+            Expanded(
+              flex: 2,
+              child: TotalSalesWidget(deviceSize: deviceSize),
+            ),
+            Expanded(
+              flex: 7,
+              child: Container(
+                width: deviceSize.width,
+                // color: Colors.amber,
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  children: [
+                    const FiltersRow(),
+                    Container(
+                      // color: Colors.amber,
+                      padding:
+                          const EdgeInsets.only(top: 5, left: 4, bottom: 5),
+                      child: Row(
+                        children: [
+                          // Text(
+                          //   AppLanguage.salesHistory,
+                          //   style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          //         fontWeight: FontWeight.bold,
+                          //       ),
+                          // ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 7),
+                              child: TextField(
+                                decoration: InputDecoration(
+                                    hintText: "Search with Name / Phone Number",
+                                    filled: true,
+                                    fillColor: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface
+                                        .withOpacity(0.1),
+                                    border: UnderlineInputBorder(
+                                      borderRadius: BorderRadius.circular(50),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    suffixIcon: IconButton(
+                                      onPressed: () {},
+                                      icon: const Icon(Icons.search),
+                                      padding: const EdgeInsets.all(0),
+                                    )),
+                              ),
+                            ),
                           ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            for (int i = 0; i < 15; i++)
+                              SalesHistoryItem(deviceSize: deviceSize),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        SalesHistoryItem(deviceSize: deviceSize),
-                        SalesHistoryItem(deviceSize: deviceSize),
-                        SalesHistoryItem(deviceSize: deviceSize),
-                        SalesHistoryItem(deviceSize: deviceSize),
-                        SalesHistoryItem(deviceSize: deviceSize),
-                        SalesHistoryItem(deviceSize: deviceSize),
-                        SalesHistoryItem(deviceSize: deviceSize),
-                        SalesHistoryItem(deviceSize: deviceSize),
-                        SalesHistoryItem(deviceSize: deviceSize),
-                        SalesHistoryItem(deviceSize: deviceSize),
-                        SalesHistoryItem(deviceSize: deviceSize),
-                      ],
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ],
-    ));
+          ],
+        ));
   }
 }
