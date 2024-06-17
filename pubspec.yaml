@@ -39,7 +39,7 @@ dependencies:
   cloud_firestore: ^4.15.8
   flutter_bloc: ^8.1.5
   google_fonts: ^5.1.0
-  bloc: ^8.1.4
+  bloc: ^8.1.6
   math_expressions: ^2.4.0
   flutter_launcher_icons: ^0.13.1
   firebase_auth: ^4.17.8
