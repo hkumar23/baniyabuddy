@@ -1,3 +1,4 @@
+import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:baniyabuddy/presentation/widgets/sales%20history%20components/history_options_dropdown.dart';
 import 'package:flutter/material.dart';
 
@@ -26,18 +27,18 @@ class TotalSalesWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Welcome back!",
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      Text(
-                        "Our Valued User",
+                        AppLanguage.salesHistory,
                         style: Theme.of(context)
                             .textTheme
                             .headlineMedium!
                             .copyWith(
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.bold,
                             ),
                       ),
+                      // Text(
+                      //   "Welcome back!",
+                      //   style: Theme.of(context).textTheme.titleMedium,
+                      // ),
                     ],
                   ),
                 ],
