@@ -24,7 +24,8 @@ class SalesRecordDetails {
       mobNumber: json[AppConstants.mobNumber],
       notes: json[AppConstants.notes],
       paymentMethod: json[AppConstants.paymentMethod],
-      timeStamp: json[AppConstants.timeStamp],
+      timeStamp: DateTime.fromMicrosecondsSinceEpoch(
+          json[AppConstants.timeStamp].microsecondsSinceEpoch),
       totalAmount: json[AppConstants.totalAmount],
       inputExpression: json[AppConstants.inputExpression],
     );
