@@ -1,4 +1,5 @@
 import 'package:baniyabuddy/data/models/sales_record_details.dart';
+import 'package:baniyabuddy/data/repositories/sales_record_repo.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_event.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_state.dart';
 import 'package:baniyabuddy/utils/app_methods.dart';
@@ -12,18 +13,11 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
     on<RecordSalesEvent>((event, emit) async {
       try {
         emit(CalcLoadingState());
-        SalesRecordDetails salesRecordDetails = event.salesRecordDetails;
-        // print(salesRecordDetails.toJson());
-        String userId = _auth.currentUser!.uid;
-        await FirebaseFirestore.instance
-            .collection("users")
-            .doc(userId)
-            .collection("sales_record")
-            .add(salesRecordDetails.toJson());
+        SalesRecordRepo salesRecordRepo = SalesRecordRepo();
+        await salesRecordRepo.addSalesRecord(event.salesRecordDetails);
         emit(SaveSalesRecordState());
         return;
       } catch (err) {
-        print(err.toString());
         emit(CalcErrorState(errorMessage: err.toString()));
         return;
       }

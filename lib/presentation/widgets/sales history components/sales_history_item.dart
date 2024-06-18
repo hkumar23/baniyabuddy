@@ -1,23 +1,34 @@
-import 'package:baniyabuddy/presentation/widgets/sales%20history%20components/sales_history_sheet.dart';
+import 'package:baniyabuddy/constants/app_language.dart';
+import 'package:baniyabuddy/data/models/sales_record_details.dart';
+import 'package:baniyabuddy/presentation/widgets/sales%20history%20components/sales_history_bottom_sheet.dart';
+import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class SalesHistoryItem extends StatelessWidget {
   const SalesHistoryItem({
     super.key,
     required this.deviceSize,
+    required this.saleDetails,
   });
 
   final Size deviceSize;
+  final SalesRecordDetails saleDetails;
 
   @override
   Widget build(BuildContext context) {
+    Color paymentMethodColor = saleDetails.paymentMethod == AppLanguage.udhaar
+        ? Colors.red
+        : saleDetails.paymentMethod == AppLanguage.notSelected
+            ? Theme.of(context).colorScheme.onSurface.withOpacity(0.6)
+            : Colors.green;
     return GestureDetector(
       onTap: () {
         showModalBottomSheet(
             elevation: 10,
             context: context,
             builder: (ctx) {
-              return const SalesHistorySheet();
+              return SalesHistoryBottomSheet(saleDetails: saleDetails);
             });
       },
       child: Padding(
@@ -42,14 +53,14 @@ class SalesHistoryItem extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(
-                      "Costumer Name",
+                      saleDetails.costumerName,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           ),
                     ),
                     Text(
-                      "14 May 2024",
+                      DateFormat('d MMMM yyyy').format(saleDetails.timeStamp),
                       style: Theme.of(context).textTheme.labelMedium!.copyWith(
                             color: Theme.of(context)
                                 .colorScheme
@@ -65,14 +76,17 @@ class SalesHistoryItem extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(
-                      "Udhaar",
+                      saleDetails.paymentMethod,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                            color: Colors.red,
+                            color: paymentMethodColor,
                             fontWeight: FontWeight.bold,
                           ),
                     ),
                     Text(
-                      "₹ 1000",
+                      saleDetails.totalAmount == null ||
+                              saleDetails.totalAmount == ""
+                          ? "₹ 0"
+                          : "₹ ${saleDetails.totalAmount}",
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
