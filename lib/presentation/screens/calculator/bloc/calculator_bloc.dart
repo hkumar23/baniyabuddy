@@ -1,14 +1,11 @@
-import 'package:baniyabuddy/data/models/sales_record_details.dart';
 import 'package:baniyabuddy/data/repositories/sales_record_repo.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_event.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_state.dart';
 import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
   CalculatorBloc() : super(InitialCalculatorState()) {
     on<RecordSalesEvent>((event, emit) async {
       try {

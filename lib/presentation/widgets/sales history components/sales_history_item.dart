@@ -1,7 +1,6 @@
 import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:baniyabuddy/data/models/sales_record_details.dart';
 import 'package:baniyabuddy/presentation/widgets/sales%20history%20components/sales_history_bottom_sheet.dart';
-import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
