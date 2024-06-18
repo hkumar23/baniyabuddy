@@ -7,147 +7,106 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../widgets/sales history components/sales_history_item.dart';
 import '../../widgets/sales history components/filters_row.dart';
+import '../../widgets/sales history components/search_costumer.dart';
 import '../../widgets/sales history components/total_sales_widget.dart';
 import 'bloc/sales_history_state.dart';
 
-class SalesHistory extends StatefulWidget {
+class SalesHistory extends StatelessWidget {
   const SalesHistory({super.key});
 
-  @override
-  State<SalesHistory> createState() => _SalesHistoryState();
-}
-
-class _SalesHistoryState extends State<SalesHistory> {
-  late SalesHistoryBloc _salesHistoryBloc;
-  @override
-  void initState() {
-    super.initState();
-    _salesHistoryBloc =
-        SalesHistoryBloc(salesHistoryRepository: SalesRecordRepo());
-    _salesHistoryBloc.add(FetchSalesHistoryEvent());
-  }
-
-  @override
-  void dispose() {
-    _salesHistoryBloc.close();
-    super.dispose();
-  }
-
+  // late SalesHistoryBloc _salesHistoryBloc;
   @override
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
-    List<SalesRecordDetails>? listOfSalesRecordDetails;
+
     // double bottomInsets = MediaQuery.of(context).viewInsets.bottom;
     return BlocProvider(
-      create: (context) => _salesHistoryBloc,
+      create: (context) => SalesHistoryBloc()..add(FetchSalesHistoryEvent()),
       child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: BlocConsumer<SalesHistoryBloc, SalesHistoryState>(
-            listener: (context, state) {
-              if (state is SalesHistoryErrorState) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.errorMessage),
-                    backgroundColor: Theme.of(context).colorScheme.error,
-                  ),
-                );
-              } else if (state is SalesHistoryFetchedDataState) {
-                listOfSalesRecordDetails = state.listOfSalesRecordDetails;
-              }
-            },
-            builder: (context, state) {
-              if (state is SalesHistoryLoadingState) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              return Column(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: TotalSalesWidget(deviceSize: deviceSize),
-                  ),
-                  Expanded(
-                    flex: 7,
-                    child: Container(
-                      width: deviceSize.width,
-                      // color: Colors.amber,
-                      margin: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Column(
-                        children: [
-                          const FiltersRow(),
-                          Container(
-                            // color: Colors.amber,
-                            padding: const EdgeInsets.only(
-                                top: 5, left: 4, bottom: 5),
-                            child: Row(
-                              children: [
-                                // Text(
-                                //   AppLanguage.salesHistory,
-                                //   style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                //         fontWeight: FontWeight.bold,
-                                //       ),
-                                // ),
-                                Expanded(
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 7),
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                          hintText:
-                                              "Search with Name / Phone Number",
-                                          filled: true,
-                                          fillColor: Theme.of(context)
-                                              .colorScheme
-                                              .onSurface
-                                              .withOpacity(0.1),
-                                          border: UnderlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                            borderSide: BorderSide.none,
-                                          ),
-                                          suffixIcon: IconButton(
-                                            onPressed: () {},
-                                            icon: const Icon(Icons.search),
-                                            padding: const EdgeInsets.all(0),
-                                          )),
-                                    ),
+        resizeToAvoidBottomInset: false,
+        body: BlocConsumer<SalesHistoryBloc, SalesHistoryState>(
+          listener: (context, state) {
+            if (state is SalesHistoryErrorState) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.errorMessage),
+                  backgroundColor: Theme.of(context).colorScheme.error,
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            List<SalesRecordDetails>? listOfSalesRecordDetails;
+            // if (state is InitialSalesHistoryState) {
+            //   context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
+            // }
+            if (state is SalesHistoryFetchedDataState) {
+              listOfSalesRecordDetails = state.listOfSalesRecordDetails;
+            }
+            if (state is SalesHistoryLoadingState) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return Column(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: TotalSalesWidget(deviceSize: deviceSize),
+                ),
+                Expanded(
+                  flex: 7,
+                  child: Container(
+                    width: deviceSize.width,
+                    // color: Colors.amber,
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(
+                      children: [
+                        const FiltersRow(),
+                        Container(
+                          // color: Colors.amber,
+                          padding:
+                              const EdgeInsets.only(top: 5, left: 4, bottom: 5),
+                          child:
+
+                              // Text(
+                              //   AppLanguage.salesHistory,
+                              //   style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                              //         fontWeight: FontWeight.bold,
+                              //       ),
+                              // ),
+                              const SearchCostumer(),
+                        ),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: listOfSalesRecordDetails == null
+                                ? const Center(
+                                    child: Text(
+                                        "You have not made any sales yet!"),
+                                  )
+                                : Column(
+                                    children: [
+                                      for (int i = 0;
+                                          i < listOfSalesRecordDetails.length;
+                                          i++)
+                                        SalesHistoryItem(
+                                          deviceSize: deviceSize,
+                                          saleDetails:
+                                              listOfSalesRecordDetails[i],
+                                        ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
                           ),
-                          Expanded(
-                            child: SingleChildScrollView(
-                              child: listOfSalesRecordDetails == null
-                                  ? const Center(
-                                      child: Text(
-                                          "You have not made any sales yet!"),
-                                    )
-                                  : Column(
-                                      children: [
-                                        for (int i = 0;
-                                            i <
-                                                listOfSalesRecordDetails!
-                                                    .length;
-                                            i++)
-                                          SalesHistoryItem(
-                                            deviceSize: deviceSize,
-                                            saleDetails:
-                                                listOfSalesRecordDetails![i],
-                                          ),
-                                      ],
-                                    ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              );
-            },
-          )),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
     );
   }
 }

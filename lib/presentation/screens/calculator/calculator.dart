@@ -1,8 +1,6 @@
 import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_bloc.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
-import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_bloc.dart';
-import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_state.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/sales_history_screen.dart';
 import 'package:baniyabuddy/presentation/screens/sign_in_screen.dart';
 import 'package:baniyabuddy/presentation/widgets/calc%20components/display/calc_display.dart';
