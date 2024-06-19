@@ -1,4 +1,4 @@
-import 'package:baniyabuddy/data/repositories/sales_record_repo.dart';
+import 'package:baniyabuddy/data/repositories/transaction_repo.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_event.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_state.dart';
 import 'package:bloc/bloc.dart';
@@ -8,13 +8,12 @@ class SalesHistoryBloc extends Bloc<SalesHistoryEvent, SalesHistoryState> {
     on<FetchSalesHistoryEvent>(_onfetchSalesHistoryEvent);
   }
   void _onfetchSalesHistoryEvent(event, emit) async {
-    final SalesRecordRepo salesHistoryRepo = SalesRecordRepo();
+    final TransactionRepo transactionRepo = TransactionRepo();
 
     emit(SalesHistoryLoadingState());
     try {
-      final listOfSalesRecordDetails = await salesHistoryRepo.getSalesRecord();
-      emit(SalesHistoryFetchedDataState(
-          listOfSalesRecordDetails: listOfSalesRecordDetails));
+      final transactionsList = await transactionRepo.getTransactionsList();
+      emit(SalesHistoryFetchedDataState(transactionsList: transactionsList));
       return;
     } catch (err) {
       emit(SalesHistoryErrorState(errorMessage: err.toString()));

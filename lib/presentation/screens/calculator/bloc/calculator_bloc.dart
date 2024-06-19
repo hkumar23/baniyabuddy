@@ -1,4 +1,4 @@
-import 'package:baniyabuddy/data/repositories/sales_record_repo.dart';
+import 'package:baniyabuddy/data/repositories/transaction_repo.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_event.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_state.dart';
 import 'package:baniyabuddy/utils/app_methods.dart';
@@ -7,12 +7,12 @@ import 'package:bloc/bloc.dart';
 class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
   // final FirebaseAuth _auth = FirebaseAuth.instance;
   CalculatorBloc() : super(InitialCalculatorState()) {
-    on<RecordSalesEvent>((event, emit) async {
+    on<SaveTransactionEvent>((event, emit) async {
       try {
         emit(CalcLoadingState());
-        SalesRecordRepo salesRecordRepo = SalesRecordRepo();
-        await salesRecordRepo.addSalesRecord(event.salesRecordDetails);
-        emit(SaveSalesRecordState());
+        TransactionRepo transactionRepo = TransactionRepo();
+        await transactionRepo.addTransaction(event.transactionDetails);
+        emit(TransactionSavedState());
         return;
       } catch (err) {
         emit(CalcErrorState(errorMessage: err.toString()));

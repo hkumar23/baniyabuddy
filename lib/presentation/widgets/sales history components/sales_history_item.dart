@@ -1,5 +1,5 @@
 import 'package:baniyabuddy/constants/app_language.dart';
-import 'package:baniyabuddy/data/models/sales_record_details.dart';
+import 'package:baniyabuddy/data/models/transaction_details.dart';
 import 'package:baniyabuddy/presentation/widgets/sales%20history%20components/sales_history_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -8,26 +8,28 @@ class SalesHistoryItem extends StatelessWidget {
   const SalesHistoryItem({
     super.key,
     required this.deviceSize,
-    required this.saleDetails,
+    required this.transactionDetails,
   });
 
   final Size deviceSize;
-  final SalesRecordDetails saleDetails;
+  final TransactionDetails transactionDetails;
 
   @override
   Widget build(BuildContext context) {
-    Color paymentMethodColor = saleDetails.paymentMethod == AppLanguage.udhaar
-        ? Colors.red
-        : saleDetails.paymentMethod == AppLanguage.notSelected
-            ? Theme.of(context).colorScheme.onSurface.withOpacity(0.6)
-            : Colors.green;
+    Color paymentMethodColor =
+        transactionDetails.paymentMethod == AppLanguage.udhaar
+            ? Colors.red
+            : transactionDetails.paymentMethod == AppLanguage.notSelected
+                ? Theme.of(context).colorScheme.onSurface.withOpacity(0.6)
+                : Colors.green;
     return GestureDetector(
       onTap: () {
         showModalBottomSheet(
             elevation: 10,
             context: context,
             builder: (ctx) {
-              return SalesHistoryBottomSheet(saleDetails: saleDetails);
+              return SalesHistoryBottomSheet(
+                  transactionDetails: transactionDetails);
             });
       },
       child: Padding(
@@ -52,14 +54,15 @@ class SalesHistoryItem extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(
-                      saleDetails.costumerName,
+                      transactionDetails.costumerName,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           ),
                     ),
                     Text(
-                      DateFormat('d MMMM yyyy').format(saleDetails.timeStamp),
+                      DateFormat('d MMMM yyyy')
+                          .format(transactionDetails.timeStamp),
                       style: Theme.of(context).textTheme.labelMedium!.copyWith(
                             color: Theme.of(context)
                                 .colorScheme
@@ -75,17 +78,17 @@ class SalesHistoryItem extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(
-                      saleDetails.paymentMethod,
+                      transactionDetails.paymentMethod,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             color: paymentMethodColor,
                             fontWeight: FontWeight.bold,
                           ),
                     ),
                     Text(
-                      saleDetails.totalAmount == null ||
-                              saleDetails.totalAmount == ""
+                      transactionDetails.totalAmount == null ||
+                              transactionDetails.totalAmount == ""
                           ? "₹ 0"
-                          : "₹ ${saleDetails.totalAmount}",
+                          : "₹ ${transactionDetails.totalAmount}",
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -98,126 +101,5 @@ class SalesHistoryItem extends StatelessWidget {
         ),
       ),
     );
-    // SizedBox(
-    //   height: 140,
-    //   width: deviceSize.width,
-    //   child: Column(
-    //     crossAxisAlignment: CrossAxisAlignment.start,
-    //     children: [
-    //       Row(
-    //         children: [
-    //           Text(
-    //             "14/06/2024",
-    //             style: Theme.of(context).textTheme.labelMedium!.copyWith(
-    //                   color: Theme.of(context)
-    //                       .colorScheme
-    //                       .onSurface
-    //                       .withOpacity(0.6),
-    //                 ),
-    //           ),
-    //           const Spacer(),
-    //           Text(
-    //             "11:25 am",
-    //             style: Theme.of(context).textTheme.labelMedium!.copyWith(
-    //                   color: Theme.of(context)
-    //                       .colorScheme
-    //                       .onSurface
-    //                       .withOpacity(0.6),
-    //                 ),
-    //           ),
-    //         ],
-    //       ),
-    //       Row(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: [
-    //           Expanded(
-    //             flex: 3,
-    //             child: Column(
-    //               crossAxisAlignment: CrossAxisAlignment.start,
-    //               children: [
-    //                 Text(
-    //                   "Costumer Nameph",
-    //                   style:
-    //                       Theme.of(context).textTheme.titleLarge!.copyWith(
-    //                             fontWeight: FontWeight.w500,
-    //                           ),
-    //                 ),
-    //                 Text("+91 1234567890",
-    //                     style: Theme.of(context).textTheme.titleMedium!),
-    //                 Text(
-    //                   "Notes:",
-    //                   style: Theme.of(context).textTheme.titleMedium,
-    //                 ),
-    //                 Text(
-    //                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
-    //                   style: Theme.of(context).textTheme.bodySmall,
-    //                   overflow: TextOverflow.ellipsis,
-    //                   maxLines: 3,
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //           const SizedBox(width: 10),
-    //           Expanded(
-    //             flex: 2,
-    //             child: Column(
-    //               // mainAxisAlignment: MainAxisAlignment.start,
-    //               crossAxisAlignment: CrossAxisAlignment.end,
-    //               // mainAxisSize: MainAxisSize.max,
-    //               children: [
-    //                 const SizedBox(height: 5),
-    //                 Text(
-    //                   "Calculation:",
-    //                   style: Theme.of(context).textTheme.labelMedium,
-    //                 ),
-    //                 Text(
-    //                   "1000*5+90*565466+165165*61616-165466+1641646*",
-    //                   overflow: TextOverflow.ellipsis,
-    //                   style:
-    //                       Theme.of(context).textTheme.titleMedium!.copyWith(
-    //                             fontWeight: FontWeight.w500,
-    //                           ),
-    //                 ),
-    //                 Text(
-    //                   "Total:",
-    //                   style: Theme.of(context).textTheme.labelMedium,
-    //                 ),
-    //                 Text(
-    //                   "₹ 1000",
-    //                   style:
-    //                       Theme.of(context).textTheme.titleLarge!.copyWith(
-    //                             fontWeight: FontWeight.bold,
-    //                           ),
-    //                 ),
-    //                 Text(
-    //                   "Udhaar",
-    //                   style:
-    //                       Theme.of(context).textTheme.titleMedium!.copyWith(
-    //                             color: Colors.red,
-    //                             fontWeight: FontWeight.bold,
-    //                           ),
-    //                 ),
-    //                 // Text(
-    //                 //   "14/062024  11:24 am",
-    //                 //   style: Theme.of(context).textTheme.labelMedium!.copyWith(
-    //                 //         color: Theme.of(context)
-    //                 //             .colorScheme
-    //                 //             .onSurface
-    //                 //             .withOpacity(0.6),
-    //                 //       ),
-    //                 // ),
-    //               ],
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     ],
-    //   ),
-    //   // color: Colors.amber,
-    // ),
-    // Divider(
-    //   color: Theme.of(context).colorScheme.onSurface.withOpacity(0.4),
-    //   thickness: 1.5,
-    //   height: 30,
   }
 }

@@ -1,17 +1,17 @@
 import 'package:baniyabuddy/constants/app_language.dart';
-import 'package:baniyabuddy/data/models/sales_record_details.dart';
+import 'package:baniyabuddy/data/models/transaction_details.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class SalesHistoryBottomSheet extends StatelessWidget {
-  const SalesHistoryBottomSheet({super.key, required this.saleDetails});
-  final SalesRecordDetails saleDetails;
+  const SalesHistoryBottomSheet({super.key, required this.transactionDetails});
+  final TransactionDetails transactionDetails;
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    final paymentMethodColor = saleDetails.paymentMethod == "Udhaar"
+    final paymentMethodColor = transactionDetails.paymentMethod == "Udhaar"
         ? Colors.red
-        : saleDetails.paymentMethod == "Not Selected"
+        : transactionDetails.paymentMethod == "Not Selected"
             ? Theme.of(context).colorScheme.onSurface.withOpacity(0.6)
             : Colors.green;
     return BottomSheet(
@@ -28,7 +28,7 @@ class SalesHistoryBottomSheet extends StatelessWidget {
                 children: [
                   const SizedBox(height: 15),
                   Text(
-                    saleDetails.costumerName,
+                    transactionDetails.costumerName,
                     style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -48,10 +48,10 @@ class SalesHistoryBottomSheet extends StatelessWidget {
                                   ),
                         ),
                         Text(
-                          saleDetails.totalAmount == null ||
-                                  saleDetails.totalAmount == ""
+                          transactionDetails.totalAmount == null ||
+                                  transactionDetails.totalAmount == ""
                               ? "₹ 0"
-                              : "₹ ${saleDetails.totalAmount.toString()}",
+                              : "₹ ${transactionDetails.totalAmount.toString()}",
                           style:
                               Theme.of(context).textTheme.titleLarge!.copyWith(
                                     fontWeight: FontWeight.bold,
@@ -73,8 +73,8 @@ class SalesHistoryBottomSheet extends StatelessWidget {
                                 ),
                       ),
                       Text(
-                        saleDetails.paymentMethod,
-                        style: saleDetails.paymentMethod ==
+                        transactionDetails.paymentMethod,
+                        style: transactionDetails.paymentMethod ==
                                 AppLanguage.notSelected
                             ? Theme.of(context).textTheme.titleMedium!.copyWith(
                                   color: paymentMethodColor,
@@ -98,9 +98,9 @@ class SalesHistoryBottomSheet extends StatelessWidget {
                                 ),
                       ),
                       Text(
-                        saleDetails.mobNumber.isEmpty
+                        transactionDetails.mobNumber.isEmpty
                             ? "Not Given"
-                            : "+91 ${saleDetails.mobNumber}",
+                            : "+91 ${transactionDetails.mobNumber}",
                         style:
                             Theme.of(context).textTheme.titleMedium!.copyWith(
                                   fontWeight: FontWeight.bold,
@@ -116,24 +116,24 @@ class SalesHistoryBottomSheet extends StatelessWidget {
                         ),
                   ),
                   Text(
-                    saleDetails.totalAmount == null ||
-                            saleDetails.totalAmount == ""
+                    transactionDetails.totalAmount == null ||
+                            transactionDetails.totalAmount == ""
                         ? "0"
-                        : saleDetails.inputExpression!,
+                        : transactionDetails.inputExpression!,
                     // overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(),
                   ),
                   const SizedBox(height: 5),
-                  if (saleDetails.notes.isNotEmpty)
+                  if (transactionDetails.notes.isNotEmpty)
                     Text(
                       "Notes:",
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontWeight: FontWeight.w500,
                           ),
                     ),
-                  if (saleDetails.notes.isNotEmpty)
+                  if (transactionDetails.notes.isNotEmpty)
                     Text(
-                      saleDetails.notes,
+                      transactionDetails.notes,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   const SizedBox(height: 5),
@@ -146,7 +146,7 @@ class SalesHistoryBottomSheet extends StatelessWidget {
                       ),
                       Text(
                         DateFormat('h:mm a, d MMMM yyyy')
-                            .format(saleDetails.timeStamp),
+                            .format(transactionDetails.timeStamp),
                         style: Theme.of(context).textTheme.titleSmall,
                       ),
                     ],
