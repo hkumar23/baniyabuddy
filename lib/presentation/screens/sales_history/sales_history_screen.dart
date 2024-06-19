@@ -17,12 +17,6 @@ class SalesHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
-    void resetFilters(String filter) {
-      context
-          .read<SalesHistoryBloc>()
-          .add((FilterTransactionsListEvent(filter)));
-    }
-
     // double bottomInsets = MediaQuery.of(context).viewInsets.bottom;
     return BlocProvider(
       create: (context) => SalesHistoryBloc()..add(FetchSalesHistoryEvent()),
@@ -47,6 +41,10 @@ class SalesHistory extends StatelessWidget {
             if (state is SalesHistoryFetchedDataState) {
               transactionsList = state.transactionsList;
             }
+            if (state is TransactionsListFilteredState) {
+              // print(state.transactionsList);
+              transactionsList = state.transactionsList;
+            }
             if (state is SalesHistoryLoadingState) {
               return const Center(
                 child: CircularProgressIndicator(),
@@ -66,9 +64,18 @@ class SalesHistory extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(horizontal: 10),
                     child: Column(
                       children: [
-                        const FiltersRow(),
+                        FiltersRow(
+                          // onTap: (String filter) {
+                          //   context.read<SalesHistoryBloc>().add(
+                          //         (FilterTransactionsListEvent(
+                          //             filter: filter,
+                          //             transactionsList: transactionsList)),
+                          //       );
+                          // },
+                          transactionsList: transactionsList,
+                        ),
                         const SearchCostumer(),
-                        transactionsList == null
+                        transactionsList == null || transactionsList.isEmpty
                             ? const Center(
                                 child: Text("You have not made any sales yet!"),
                               )

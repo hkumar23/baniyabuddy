@@ -6,6 +6,8 @@ class InitialSalesHistoryState extends SalesHistoryState {}
 
 class SalesHistoryLoadingState extends SalesHistoryState {}
 
+// class OnlyTransactionsLoadingState extends SalesHistoryState {}
+
 class SalesHistoryErrorState extends SalesHistoryState {
   final String errorMessage;
   SalesHistoryErrorState({required this.errorMessage});
@@ -18,5 +20,9 @@ class SalesHistoryFetchedDataState extends SalesHistoryState {
 
 class TransactionsListFilteredState extends SalesHistoryState {
   final List<TransactionDetails> transactionsList;
-  TransactionsListFilteredState({required this.transactionsList});
+  final String filter;
+  TransactionsListFilteredState({
+    required this.transactionsList,
+    required this.filter,
+  });
 }
