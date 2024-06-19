@@ -35,7 +35,7 @@ class FilterItem extends StatelessWidget {
                 color: isSelected
                     ? Theme.of(context).colorScheme.onPrimary
                     : Theme.of(context).colorScheme.onSurface,
-                // fontWeight: FontWeight.bold,
+                fontWeight: isSelected ? FontWeight.bold : null,
               ),
         ),
       ),

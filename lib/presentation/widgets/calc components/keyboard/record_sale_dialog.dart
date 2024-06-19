@@ -106,33 +106,59 @@ class _RecordSaleDialogState extends State<RecordSaleDialog> {
                 keyboardType: TextInputType.multiline,
                 decoration: const InputDecoration(labelText: AppLanguage.notes),
               ),
-              DropdownButton(
-                isExpanded: true,
-                itemHeight: 70,
-                value: paymentMethod,
-                items: const [
-                  DropdownMenuItem(
-                    value: AppLanguage.cash,
-                    child: Text(AppLanguage.cash),
+              Container(
+                // alignment: Alignment.centerLeft,
+
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSecondaryContainer
+                          .withOpacity(0.5),
+                      width: 1,
+                      style: BorderStyle.solid,
+                    ),
                   ),
-                  DropdownMenuItem(
-                    value: AppLanguage.upi,
-                    child: Text(AppLanguage.upi),
-                  ),
-                  DropdownMenuItem(
-                    value: AppLanguage.udhaar,
-                    child: Text(AppLanguage.udhaar),
-                  ),
-                  DropdownMenuItem(
-                    value: AppLanguage.notSelected,
-                    child: Text(AppLanguage.notSelected),
-                  ),
-                ],
-                onChanged: (String? value) {
-                  setState(() {
-                    paymentMethod = value;
-                  });
-                },
+                ),
+                child: DropdownButton(
+                  isExpanded: true,
+                  underline: Container(),
+                  itemHeight: 50,
+                  value: paymentMethod,
+                  items: const [
+                    DropdownMenuItem(
+                      value: AppLanguage.cash,
+                      child: Text(AppLanguage.cash),
+                    ),
+                    DropdownMenuItem(
+                      value: AppLanguage.upi,
+                      child: Text(AppLanguage.upi),
+                    ),
+                    DropdownMenuItem(
+                      value: AppLanguage.udhaar,
+                      child: Text(AppLanguage.udhaar),
+                    ),
+                    DropdownMenuItem(
+                      value: AppLanguage.netBanking,
+                      child: Text(AppLanguage.netBanking),
+                    ),
+                    DropdownMenuItem(
+                      value: AppLanguage.creditDebitCard,
+                      child: Text(AppLanguage.creditDebitCard),
+                    ),
+                    DropdownMenuItem(
+                      value: AppLanguage.notSelected,
+                      child: Text(AppLanguage.notSelected),
+                    ),
+                  ],
+                  onChanged: (String? value) {
+                    setState(() {
+                      paymentMethod = value;
+                    });
+                  },
+                ),
               )
             ],
           ),

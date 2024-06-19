@@ -79,10 +79,24 @@ class SalesHistoryBottomSheet extends StatelessWidget {
                             ? Theme.of(context).textTheme.titleMedium!.copyWith(
                                   color: paymentMethodColor,
                                 )
-                            : Theme.of(context).textTheme.titleLarge!.copyWith(
-                                  color: paymentMethodColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            : transactionDetails.paymentMethod ==
+                                        AppLanguage.netBanking ||
+                                    transactionDetails.paymentMethod ==
+                                        AppLanguage.creditDebitCard
+                                ? Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(
+                                      color: paymentMethodColor,
+                                      fontWeight: FontWeight.bold,
+                                    )
+                                : Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
+                                      color: paymentMethodColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                       ),
                     ],
                   ),
