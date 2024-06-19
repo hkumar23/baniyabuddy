@@ -1,5 +1,4 @@
-import 'package:baniyabuddy/data/models/sales_record_details.dart';
-import 'package:baniyabuddy/data/repositories/sales_record_repo.dart';
+import 'package:baniyabuddy/data/models/transaction_details.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_bloc.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_event.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +17,11 @@ class SalesHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
+    void resetFilters(String filter) {
+      context
+          .read<SalesHistoryBloc>()
+          .add((FilterTransactionsListEvent(filter)));
+    }
 
     // double bottomInsets = MediaQuery.of(context).viewInsets.bottom;
     return BlocProvider(
@@ -36,12 +40,12 @@ class SalesHistory extends StatelessWidget {
             }
           },
           builder: (context, state) {
-            List<SalesRecordDetails>? listOfSalesRecordDetails;
+            List<TransactionDetails>? transactionsList;
             // if (state is InitialSalesHistoryState) {
             //   context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
             // }
             if (state is SalesHistoryFetchedDataState) {
-              listOfSalesRecordDetails = state.listOfSalesRecordDetails;
+              transactionsList = state.transactionsList;
             }
             if (state is SalesHistoryLoadingState) {
               return const Center(
@@ -63,41 +67,27 @@ class SalesHistory extends StatelessWidget {
                     child: Column(
                       children: [
                         const FiltersRow(),
-                        Container(
-                          // color: Colors.amber,
-                          padding:
-                              const EdgeInsets.only(top: 5, left: 4, bottom: 5),
-                          child:
-
-                              // Text(
-                              //   AppLanguage.salesHistory,
-                              //   style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              //         fontWeight: FontWeight.bold,
-                              //       ),
-                              // ),
-                              const SearchCostumer(),
-                        ),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: listOfSalesRecordDetails == null
-                                ? const Center(
-                                    child: Text(
-                                        "You have not made any sales yet!"),
-                                  )
-                                : Column(
+                        const SearchCostumer(),
+                        transactionsList == null
+                            ? const Center(
+                                child: Text("You have not made any sales yet!"),
+                              )
+                            : Expanded(
+                                child: SingleChildScrollView(
+                                  child: Column(
                                     children: [
                                       for (int i = 0;
-                                          i < listOfSalesRecordDetails.length;
+                                          i < transactionsList.length;
                                           i++)
                                         SalesHistoryItem(
                                           deviceSize: deviceSize,
-                                          saleDetails:
-                                              listOfSalesRecordDetails[i],
+                                          transactionDetails:
+                                              transactionsList[i],
                                         ),
                                     ],
                                   ),
-                          ),
-                        ),
+                                ),
+                              ),
                       ],
                     ),
                   ),

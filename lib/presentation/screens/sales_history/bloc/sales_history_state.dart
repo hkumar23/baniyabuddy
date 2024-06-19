@@ -1,4 +1,4 @@
-import 'package:baniyabuddy/data/models/sales_record_details.dart';
+import 'package:baniyabuddy/data/models/transaction_details.dart';
 
 abstract class SalesHistoryState {}
 
@@ -12,6 +12,11 @@ class SalesHistoryErrorState extends SalesHistoryState {
 }
 
 class SalesHistoryFetchedDataState extends SalesHistoryState {
-  final List<SalesRecordDetails> listOfSalesRecordDetails;
-  SalesHistoryFetchedDataState({required this.listOfSalesRecordDetails});
+  final List<TransactionDetails> transactionsList;
+  SalesHistoryFetchedDataState({required this.transactionsList});
+}
+
+class TransactionsListFilteredState extends SalesHistoryState {
+  final List<TransactionDetails> transactionsList;
+  TransactionsListFilteredState({required this.transactionsList});
 }

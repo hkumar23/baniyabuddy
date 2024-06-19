@@ -34,7 +34,7 @@ class EvaluateExpressionState extends CalculatorState {
   }
 }
 
-class SaveSalesRecordState extends CalculatorState {}
+class TransactionSavedState extends CalculatorState {}
 
 class CalcErrorState extends CalculatorState {
   final String errorMessage;

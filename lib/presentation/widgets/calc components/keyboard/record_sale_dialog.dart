@@ -1,6 +1,6 @@
 import 'package:baniyabuddy/constants/app_constants.dart';
 import 'package:baniyabuddy/constants/app_language.dart';
-import 'package:baniyabuddy/data/models/sales_record_details.dart';
+import 'package:baniyabuddy/data/models/transaction_details.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_bloc.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_event.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_state.dart';
@@ -38,7 +38,7 @@ class _RecordSaleDialogState extends State<RecordSaleDialog> {
       return;
     }
     _formKey.currentState!.save();
-    final salesRecordDetails = SalesRecordDetails(
+    final transactionDetails = TransactionDetails(
       costumerName: _costumerNameController.text,
       mobNumber: _mobNumberController.text,
       notes: _notesController.text,
@@ -48,7 +48,7 @@ class _RecordSaleDialogState extends State<RecordSaleDialog> {
       inputExpression: context.read<CalculatorBloc>().state.inputExpression,
     );
     BlocProvider.of<CalculatorBloc>(context)
-        .add(RecordSalesEvent(salesRecordDetails: salesRecordDetails));
+        .add(SaveTransactionEvent(transactionDetails: transactionDetails));
     Navigator.of(context).pop();
   }
 

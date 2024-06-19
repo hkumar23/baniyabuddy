@@ -13,7 +13,7 @@ class CalcDisplay extends StatelessWidget {
     // final appBarHeight = AppBar().preferredSize.height;
     return BlocConsumer<CalculatorBloc, CalculatorState>(
       listener: (context, state) {
-        if (state is SaveSalesRecordState) {
+        if (state is TransactionSavedState) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: const Text(
               "Sale recorded successfully! ",
