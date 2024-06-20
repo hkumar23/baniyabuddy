@@ -12,7 +12,7 @@ class TransactionRepo {
       await _firestore
           .collection("users")
           .doc(_auth.currentUser!.uid)
-          .collection("sales_record")
+          .collection("transactions")
           .add(transactionDetails.toJson());
     } catch (err) {
       debugPrint(err.toString());

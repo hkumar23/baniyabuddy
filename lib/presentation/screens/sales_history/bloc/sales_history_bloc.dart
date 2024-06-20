@@ -7,6 +7,8 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
 class SalesHistoryBloc extends Bloc<SalesHistoryEvent, SalesHistoryState> {
+  List<TransactionDetails> globalTransactionsList = [];
+
   SalesHistoryBloc() : super(InitialSalesHistoryState()) {
     on<FetchSalesHistoryEvent>(_onfetchSalesHistoryEvent);
     on<FilterTransactionsListEvent>(_onFilterTransactionsListEvent);
@@ -16,7 +18,11 @@ class SalesHistoryBloc extends Bloc<SalesHistoryEvent, SalesHistoryState> {
     emit(SalesHistoryLoadingState());
     try {
       final transactionsList = await transactionRepo.getTransactionsList();
+      // for (int i = 0; i < transactionsList.length; i++) {
+      //   await transactionRepo.addTransaction(transactionsList[i]);
+      // }
       transactionsList.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+      globalTransactionsList = transactionsList;
       emit(SalesHistoryFetchedDataState(transactionsList: transactionsList));
       return;
     } catch (err) {
@@ -25,17 +31,12 @@ class SalesHistoryBloc extends Bloc<SalesHistoryEvent, SalesHistoryState> {
   }
 
   void _onFilterTransactionsListEvent(event, emit) async {
-    final TransactionRepo transactionRepo = TransactionRepo();
     // print("Filtering Transactions List");
     // emit(SalesHistoryLoadingState());
     try {
-      final List<TransactionDetails> transactionsList =
-          await transactionRepo.getTransactionsList();
-      List<TransactionDetails> filteredList;
-      if (event.filter == AppLanguage.all) {
-        filteredList = transactionsList;
-      } else {
-        filteredList = transactionsList
+      List<TransactionDetails> filteredList = globalTransactionsList;
+      if (event.filter != AppLanguage.all) {
+        filteredList = filteredList
             .where((element) => element.paymentMethod == event.filter)
             .toList();
       }

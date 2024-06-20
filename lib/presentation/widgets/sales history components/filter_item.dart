@@ -1,3 +1,5 @@
+import 'package:baniyabuddy/constants/app_language.dart';
+import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:flutter/material.dart';
 
 class FilterItem extends StatelessWidget {
@@ -14,7 +16,9 @@ class FilterItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onTap(title),
+      onTap: () => onTap(
+        title == AppLanguage.others ? AppLanguage.notSelected : title,
+      ),
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 5),
         padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),

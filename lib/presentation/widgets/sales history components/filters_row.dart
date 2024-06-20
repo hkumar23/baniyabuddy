@@ -75,6 +75,11 @@ class _FiltersRowState extends State<FiltersRow> {
                   onTap: onTap,
                   isSelected: _selectedFilter == AppLanguage.creditDebitCard,
                 ),
+                FilterItem(
+                  title: AppLanguage.others,
+                  onTap: onTap,
+                  isSelected: _selectedFilter == AppLanguage.notSelected,
+                ),
               ],
             ),
           ),
