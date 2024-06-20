@@ -15,14 +15,17 @@ class SalesHistoryErrorState extends SalesHistoryState {
 
 class SalesHistoryFetchedDataState extends SalesHistoryState {
   final List<TransactionDetails> transactionsList;
+  // final String timePeriodFilter;
   SalesHistoryFetchedDataState({required this.transactionsList});
 }
 
 class TransactionsListFilteredState extends SalesHistoryState {
   final List<TransactionDetails> transactionsList;
   final String filter;
+  final String timePeriodFilter;
   TransactionsListFilteredState({
     required this.transactionsList,
     required this.filter,
+    required this.timePeriodFilter,
   });
 }

@@ -1,5 +1,5 @@
 import 'package:baniyabuddy/constants/app_language.dart';
-import 'package:baniyabuddy/presentation/widgets/sales%20history%20components/history_options_dropdown.dart';
+import 'package:baniyabuddy/presentation/widgets/sales%20history%20components/time_period_filter.dart';
 import 'package:flutter/material.dart';
 
 class TotalSalesWidget extends StatelessWidget {
@@ -41,34 +41,38 @@ class TotalSalesWidget extends StatelessWidget {
                       // ),
                     ],
                   ),
+                  const Spacer(),
+                  const TimePeriodFilter(),
                 ],
               ),
             ),
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Total sales",
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      // const SizedBox(height: 8),
-                      Text(
-                        "₹ 10000",
-                        style:
-                            Theme.of(context).textTheme.headlineLarge!.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                      ),
-                    ],
+                  Text(
+                    "Total sales",
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  const Spacer(),
-                  const HistoryOptionsDropDown(),
+                  SingleChildScrollView(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // const SizedBox(height: 8),
+                        Text(
+                          "₹ 10000",
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineLarge!
+                              .copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

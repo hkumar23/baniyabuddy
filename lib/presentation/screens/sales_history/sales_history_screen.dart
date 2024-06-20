@@ -42,7 +42,7 @@ class SalesHistory extends StatelessWidget {
               transactionsList = state.transactionsList;
             }
             if (state is TransactionsListFilteredState) {
-              // print(state.transactionsList);
+              // print(state.transactionsList.length);
               transactionsList = state.transactionsList;
             }
             if (state is SalesHistoryLoadingState) {
@@ -64,16 +64,7 @@ class SalesHistory extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(horizontal: 10),
                     child: Column(
                       children: [
-                        FiltersRow(
-                          // onTap: (String filter) {
-                          //   context.read<SalesHistoryBloc>().add(
-                          //         (FilterTransactionsListEvent(
-                          //             filter: filter,
-                          //             transactionsList: transactionsList)),
-                          //       );
-                          // },
-                          transactionsList: transactionsList,
-                        ),
+                        const FiltersRow(),
                         const SearchCostumer(),
                         transactionsList == null || transactionsList.isEmpty
                             ? const Center(
