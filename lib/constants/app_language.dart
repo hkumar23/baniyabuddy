@@ -34,4 +34,5 @@ class AppLanguage {
   static const String yes = "Yes";
   static const String no = "No";
   static const String salesHistory = "Sales History";
+  static const String others = "Others";
 }
