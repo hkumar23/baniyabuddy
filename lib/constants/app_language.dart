@@ -35,4 +35,12 @@ class AppLanguage {
   static const String no = "No";
   static const String salesHistory = "Sales History";
   static const String others = "Others";
+  static const String today = "Today";
+  static const String yesterday = "Yesterday";
+  static const String oneWeek = "1 Week";
+  static const String twoWeeks = "2 Weeks";
+  static const String threeWeeks = "3 Weeks";
+  static const String oneMonth = "1 Month";
+  static const String threeMonths = "3 Months";
+  static const String sixMonths = "6 Months";
 }

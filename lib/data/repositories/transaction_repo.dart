@@ -25,7 +25,7 @@ class TransactionRepo {
       final response = await _firestore
           .collection("users")
           .doc(_auth.currentUser!.uid)
-          .collection("sales_record")
+          .collection("transactions")
           .get();
       return response.docs
           .map((val) => TransactionDetails.fromJson(val.data()))
