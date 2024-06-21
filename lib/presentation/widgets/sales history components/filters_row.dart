@@ -30,16 +30,22 @@ class _FiltersRowState extends State<FiltersRow> {
         }
         void onTap(String filter) {
           // onTap(filter);
+          if (state is SalesHistoryFetchedDataState) {
+            context.read<SalesHistoryBloc>().add(FilterTransactionsListEvent(
+                  timePeriodFilter: AppLanguage.sixMonths,
+                  filter: filter,
+                  searchedString: "",
+                ));
+          }
+          if (state is TransactionsListFilteredState) {
+            // print(filter);
+            context.read<SalesHistoryBloc>().add(FilterTransactionsListEvent(
+                  timePeriodFilter: state.timePeriodFilter,
+                  filter: filter,
+                  searchedString: "",
+                ));
+          }
           setState(() {
-            if (state is SalesHistoryFetchedDataState) {
-              context.read<SalesHistoryBloc>().add(FilterTransactionsListEvent(
-                  filter: filter, timePeriodFilter: AppLanguage.sixMonths));
-            }
-            if (state is TransactionsListFilteredState) {
-              context.read<SalesHistoryBloc>().add(FilterTransactionsListEvent(
-                  filter: filter, timePeriodFilter: state.timePeriodFilter));
-            }
-
             _selectedFilter = filter;
           });
         }

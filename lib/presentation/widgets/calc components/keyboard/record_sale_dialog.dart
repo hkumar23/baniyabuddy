@@ -76,6 +76,9 @@ class _RecordSaleDialogState extends State<RecordSaleDialog> {
                   if (value == null || value.isEmpty) {
                     return 'Please enter costumer name';
                   }
+                  if (value.length > 20) {
+                    return 'Name should be less than 20 characters';
+                  }
                   return null;
                 },
                 keyboardType: TextInputType.name,
@@ -103,7 +106,18 @@ class _RecordSaleDialogState extends State<RecordSaleDialog> {
               TextFormField(
                 key: const Key(AppConstants.notes),
                 controller: _notesController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return null;
+                  }
+                  if (value.length > 100) {
+                    return 'Notes should be less than 100 characters';
+                  }
+                  return null;
+                },
                 keyboardType: TextInputType.multiline,
+                maxLines: 3,
+                minLines: 1,
                 decoration: const InputDecoration(labelText: AppLanguage.notes),
               ),
               Container(

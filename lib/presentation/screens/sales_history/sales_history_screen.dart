@@ -35,9 +35,6 @@ class SalesHistory extends StatelessWidget {
           },
           builder: (context, state) {
             List<TransactionDetails>? transactionsList;
-            // if (state is InitialSalesHistoryState) {
-            //   context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
-            // }
             if (state is SalesHistoryFetchedDataState) {
               transactionsList = state.transactionsList;
             }

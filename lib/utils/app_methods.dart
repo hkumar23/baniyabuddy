@@ -1,4 +1,5 @@
 import 'package:baniyabuddy/constants/app_language.dart';
+import 'package:baniyabuddy/data/models/transaction_details.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_bloc.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_event.dart';
 import 'package:flutter/material.dart';
@@ -64,5 +65,18 @@ class AppMethods {
         );
       },
     );
+  }
+
+  static String calcTransactionTotal(
+      List<TransactionDetails> transactionsList) {
+    double total = 0.0;
+    for (int i = 0; i < transactionsList.length; i++) {
+      String? currAmount = transactionsList[i].totalAmount == ""
+          ? "0.0"
+          : transactionsList[i].totalAmount;
+      total += double.parse(currAmount ?? "0.0");
+    }
+    return total.toStringAsFixed(1);
+    // return "Testing";
   }
 }
