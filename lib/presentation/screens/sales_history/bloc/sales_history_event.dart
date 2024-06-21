@@ -1,23 +1,36 @@
-import 'package:baniyabuddy/data/models/transaction_details.dart';
-
 abstract class SalesHistoryEvent {}
 
 class FetchSalesHistoryEvent extends SalesHistoryEvent {}
 
-class FilterTransactionsListEvent extends SalesHistoryEvent {
-  final String filter;
+class TimePeriodFilterEvent extends SalesHistoryEvent {
   final String timePeriodFilter;
-  FilterTransactionsListEvent({
-    required this.filter,
+  final String filter;
+  final String searchedString;
+  TimePeriodFilterEvent({
     required this.timePeriodFilter,
+    required this.filter,
+    required this.searchedString,
   });
 }
 
-class TimePeriodFilterEvent extends SalesHistoryEvent {
-  final String filter;
+class FilterTransactionsListEvent extends SalesHistoryEvent {
   final String timePeriodFilter;
-  TimePeriodFilterEvent({
-    required this.filter,
+  final String filter;
+  final String searchedString;
+  FilterTransactionsListEvent({
     required this.timePeriodFilter,
+    required this.filter,
+    required this.searchedString,
+  });
+}
+
+class SearchTransactionsListEvent extends SalesHistoryEvent {
+  final String timePeriodFilter;
+  final String filter;
+  final String searchedString;
+  SearchTransactionsListEvent({
+    required this.timePeriodFilter,
+    required this.filter,
+    required this.searchedString,
   });
 }

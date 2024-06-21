@@ -43,4 +43,5 @@ class AppLanguage {
   static const String oneMonth = "1 Month";
   static const String threeMonths = "3 Months";
   static const String sixMonths = "6 Months";
+  static const String totalSales = "Total Sales";
 }

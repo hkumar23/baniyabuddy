@@ -42,16 +42,12 @@ class _TimePeriodFilterState extends State<TimePeriodFilter> {
           child: DropdownButton(
             value: selectedOption,
             onChanged: (value) {
-              if (state is TransactionsListFilteredState) {
-                context.read<SalesHistoryBloc>().add(TimePeriodFilterEvent(
-                      filter: state.filter,
-                      timePeriodFilter: value!,
-                    ));
-              }
               context.read<SalesHistoryBloc>().add(TimePeriodFilterEvent(
-                    filter: AppLanguage.all,
                     timePeriodFilter: value!,
+                    filter: AppLanguage.all,
+                    searchedString: "",
                   ));
+
               setState(() {
                 selectedOption = value;
               });
