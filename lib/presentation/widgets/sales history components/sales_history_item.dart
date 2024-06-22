@@ -7,15 +7,13 @@ import 'package:intl/intl.dart';
 class SalesHistoryItem extends StatelessWidget {
   const SalesHistoryItem({
     super.key,
-    required this.deviceSize,
     required this.transactionDetails,
   });
 
-  final Size deviceSize;
   final TransactionDetails transactionDetails;
-
   @override
   Widget build(BuildContext context) {
+    // final deviceSize = MediaQuery.of(context).size;
     Color paymentMethodColor =
         transactionDetails.paymentMethod == AppLanguage.udhaar
             ? Colors.red
