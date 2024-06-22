@@ -3,6 +3,7 @@ import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_histor
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../../widgets/sales history components/sales_history_item.dart';
 import '../../widgets/sales history components/filters_row.dart';
@@ -70,16 +71,10 @@ class SalesHistory extends StatelessWidget {
                             : Expanded(
                                 child: SingleChildScrollView(
                                   child: Column(
-                                    children: [
-                                      for (int i = 0;
-                                          i < transactionsList.length;
-                                          i++)
-                                        SalesHistoryItem(
-                                          deviceSize: deviceSize,
-                                          transactionDetails:
-                                              transactionsList[i],
-                                        ),
-                                    ],
+                                    children: _buildTransactionList(
+                                      transactionsList,
+                                      deviceSize,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -94,4 +89,17 @@ class SalesHistory extends StatelessWidget {
       ),
     );
   }
+}
+
+List<Widget> _buildTransactionList(
+  List<TransactionDetails> transactionsList,
+  Size deviceSize,
+) {
+  List<Widget> transactionWidgets = [];
+  for (int i = 0; i < transactionsList.length - 1; i++) {
+    transactionWidgets.add(SalesHistoryItem(
+      transactionDetails: transactionsList[i],
+    ));
+  }
+  return transactionWidgets;
 }

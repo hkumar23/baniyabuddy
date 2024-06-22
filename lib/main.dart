@@ -5,6 +5,7 @@ import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_bloc.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/calculator.dart';
 import 'package:baniyabuddy/presentation/screens/sign_in_screen.dart';
+import 'package:baniyabuddy/presentation/screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
+        // home: const SplashScreen(),
         home: BlocBuilder<AuthBloc, AuthState>(
           buildWhen: (oldState, newState) {
             return oldState is InitialAuthState;
@@ -46,19 +48,11 @@ class MyApp extends StatelessWidget {
             } else if (state is LoggedOutState) {
               return const SignInScreen();
             } else {
+              // return const SplashScreen();
               return const Scaffold();
             }
-            // return const SignInScreen();
-            // return const Calculator();
-            // return const VerifyMobNumScreen(
-            //   phoneNumber: "__________",
-            // );
           },
         ),
-        // BlocProvider<CalculatorBloc>(
-        //   create: (context) => CalculatorBloc(),
-        //   child: const Calculator(),
-        // ),
       ),
     );
   }
