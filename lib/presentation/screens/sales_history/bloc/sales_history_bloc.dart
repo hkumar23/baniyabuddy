@@ -130,9 +130,13 @@ class SalesHistoryBloc extends Bloc<SalesHistoryEvent, SalesHistoryState> {
       if (event.filter == AppLanguage.all) {
         filteredList = timePeriodFilteredList;
       } else {
-        filteredList = timePeriodFilteredList
-            .where((element) => element.paymentMethod == event.filter)
-            .toList();
+        filteredList = timePeriodFilteredList.where((element) {
+          // if (element.paymentMethod == event.filter) {
+          //   print(event.filter);
+          //   print(element.paymentMethod);
+          // }
+          return element.paymentMethod == event.filter;
+        }).toList();
       }
       totalSales = AppMethods.calcTransactionTotal(filteredList);
       emit(TransactionsListFilteredState(
