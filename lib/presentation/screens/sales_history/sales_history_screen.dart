@@ -96,7 +96,7 @@ List<Widget> _buildTransactionList(
   Size deviceSize,
 ) {
   List<Widget> transactionWidgets = [];
-  for (int i = 0; i < transactionsList.length - 1; i++) {
+  for (int i = 0; i < transactionsList.length; i++) {
     transactionWidgets.add(SalesHistoryItem(
       transactionDetails: transactionsList[i],
     ));
