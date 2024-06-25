@@ -22,6 +22,7 @@ class SalesHistoryBloc extends Bloc<SalesHistoryEvent, SalesHistoryState> {
   }
 
   void _onfetchSalesHistoryEvent(event, emit) async {
+    // print("Fetching Sales History");
     final TransactionRepo transactionRepo = TransactionRepo();
     DateTime now = DateTime.now();
     emit(SalesHistoryLoadingState());

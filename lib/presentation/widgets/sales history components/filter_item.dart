@@ -1,5 +1,4 @@
 import 'package:baniyabuddy/constants/app_language.dart';
-import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:flutter/material.dart';
 
 class FilterItem extends StatelessWidget {
