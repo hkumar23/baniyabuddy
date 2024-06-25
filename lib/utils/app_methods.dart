@@ -1,3 +1,4 @@
+import 'package:baniyabuddy/constants/app_constants.dart';
 import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:baniyabuddy/data/models/transaction_details.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_bloc.dart';
@@ -79,4 +80,23 @@ class AppMethods {
     return total.toStringAsFixed(1);
     // return "Testing";
   }
+
+  // static DateTime getPreviousDate(int n, String timePeriod) {
+  //   LocalDate today = LocalDate.today();
+  //   LocalDate targetDate = today;
+  //   if (timePeriod == AppConstants.days) {
+  //     targetDate = today.subtract(Period(days: n));
+  //   } else if (AppConstants.weeks == timePeriod) {
+  //     targetDate = today.subtract(Period(weeks: n));
+  //   } else {
+  //     targetDate = today.subtract(Period(months: n));
+  //   }
+  //   print(
+  //       "${targetDate.year} ${targetDate.monthOfYear} ${targetDate.dayOfMonth}");
+  //   return DateTime(
+  //     targetDate.year,
+  //     targetDate.monthOfYear,
+  //     targetDate.dayOfMonth,
+  //   );
+  // }
 }

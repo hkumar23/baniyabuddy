@@ -18,6 +18,7 @@ class SalesHistoryBloc extends Bloc<SalesHistoryEvent, SalesHistoryState> {
     on<FilterTransactionsListEvent>(_onFilterTransactionsListEvent);
     on<TimePeriodFilterEvent>(_onTimePeriodFilterEvent);
     on<SearchTransactionsListEvent>(_onSearchTransactionsListEvent);
+    on<DeleteTransactionEvent>(_onDeteteTransactionEvent);
   }
 
   void _onfetchSalesHistoryEvent(event, emit) async {
@@ -174,6 +175,38 @@ class SalesHistoryBloc extends Bloc<SalesHistoryEvent, SalesHistoryState> {
         filter: event.filter,
         searchedString: event.searchedString,
       ));
+    } catch (err) {
+      debugPrint("Error: $err");
+      emit(SalesHistoryErrorState(errorMessage: err.toString()));
+    }
+  }
+
+  void _onDeteteTransactionEvent(event, emit) async {
+    // print("Deleting Transaction");
+    emit(SalesHistoryLoadingState());
+    try {
+      await TransactionRepo().deleteTransaction(event.docId);
+      globalTransactionsList
+          .removeWhere((element) => element.docId == event.docId);
+      DateTime now = DateTime.now();
+      DateTime sixMonthsAgo = DateTime(now.year, now.month - 6, now.day);
+      timePeriodFilteredList = globalTransactionsList
+          .where((element) => element.timeStamp.isAfter(sixMonthsAgo))
+          .toList();
+      filteredList = timePeriodFilteredList;
+      totalSales = AppMethods.calcTransactionTotal(filteredList);
+      emit(
+        TransactionsListFilteredState(
+          transactionsList: filteredList,
+          totalSales: totalSales,
+          timePeriodFilter: AppLanguage.sixMonths,
+          filter: AppLanguage.all,
+          searchedString: "",
+        ),
+      );
+      // print(totalSales);
+      // print("Transaction Deleted");
+      // emit(TransactionsDeletedState());
     } catch (err) {
       debugPrint("Error: $err");
       emit(SalesHistoryErrorState(errorMessage: err.toString()));

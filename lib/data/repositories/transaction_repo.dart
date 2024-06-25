@@ -8,12 +8,16 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class TransactionRepo {
   Future<void> addTransaction(TransactionDetails transactionDetails) async {
+    Map<String, dynamic> data = transactionDetails.toJson();
     try {
+      if (data['docId'] == "" && data.containsKey("docId")) {
+        data.remove("docId");
+      }
       await _firestore
           .collection("users")
           .doc(_auth.currentUser!.uid)
           .collection("transactions")
-          .add(transactionDetails.toJson());
+          .add(data);
     } catch (err) {
       debugPrint(err.toString());
       rethrow;
@@ -27,9 +31,25 @@ class TransactionRepo {
           .doc(_auth.currentUser!.uid)
           .collection("transactions")
           .get();
-      return response.docs
-          .map((val) => TransactionDetails.fromJson(val.data()))
-          .toList();
+      return response.docs.map((val) {
+        Map<String, dynamic> transaction = val.data();
+        transaction["docId"] = val.id;
+        return TransactionDetails.fromJson(transaction);
+      }).toList();
+    } catch (err) {
+      debugPrint(err.toString());
+      rethrow;
+    }
+  }
+
+  Future<void> deleteTransaction(String transactionId) async {
+    try {
+      await _firestore
+          .collection("users")
+          .doc(_auth.currentUser!.uid)
+          .collection("transactions")
+          .doc(transactionId)
+          .delete();
     } catch (err) {
       debugPrint(err.toString());
       rethrow;

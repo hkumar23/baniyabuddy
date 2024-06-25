@@ -39,6 +39,7 @@ class _RecordSaleDialogState extends State<RecordSaleDialog> {
     }
     _formKey.currentState!.save();
     final transactionDetails = TransactionDetails(
+      docId: "",
       costumerName: _costumerNameController.text,
       mobNumber: _mobNumberController.text,
       notes: _notesController.text,

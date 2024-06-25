@@ -34,3 +34,8 @@ class SearchTransactionsListEvent extends SalesHistoryEvent {
     required this.searchedString,
   });
 }
+
+class DeleteTransactionEvent extends SalesHistoryEvent {
+  final String docId;
+  DeleteTransactionEvent({required this.docId});
+}
