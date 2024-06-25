@@ -37,3 +37,7 @@ class TransactionsListFilteredState extends SalesHistoryState {
     required this.searchedString,
   });
 }
+
+class TransactionsDeletedState extends SalesHistoryState {}
+
+class TransactionDeletionLoadingState extends SalesHistoryState {}

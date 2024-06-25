@@ -1,3 +1,4 @@
+import 'package:baniyabuddy/constants/app_constants.dart';
 import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_bloc.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
@@ -27,32 +28,6 @@ class Calculator extends StatelessWidget {
       },
       builder: (context, state) {
         return Scaffold(
-          // drawer: Drawer(
-          //   backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-          //   child: Column(
-          //     mainAxisSize: MainAxisSize.max,
-          //     mainAxisAlignment: MainAxisAlignment.end,
-          //     children: [
-          //       ListTile(
-          //         title: const Text(
-          //           "Logout",
-          //           style: TextStyle(
-          //             color: Colors.red,
-          //             fontWeight: FontWeight.bold,
-          //           ),
-          //         ),
-          //         leading: const Icon(
-          //           Icons.logout,
-          //           color: Colors.red,
-          //         ),
-          //         contentPadding: const EdgeInsets.only(bottom: 8, left: 16),
-          //         onTap: () {
-          //           AppMethods.logoutWithDialog(context);
-          //         },
-          //       )
-          //     ],
-          //   ),
-          // ),
           appBar: AppBar(
             leading: IconButton(
               onPressed: () {

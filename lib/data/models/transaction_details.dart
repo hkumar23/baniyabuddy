@@ -1,6 +1,7 @@
 import 'package:baniyabuddy/constants/app_constants.dart';
 
 class TransactionDetails {
+  final String docId;
   final String costumerName;
   final String mobNumber;
   final String notes;
@@ -9,6 +10,7 @@ class TransactionDetails {
   final String? totalAmount;
   final String? inputExpression;
   TransactionDetails({
+    required this.docId,
     required this.costumerName,
     required this.mobNumber,
     required this.notes,
@@ -20,6 +22,7 @@ class TransactionDetails {
 
   factory TransactionDetails.fromJson(Map json) {
     return TransactionDetails(
+      docId: json[AppConstants.docId],
       costumerName: json[AppConstants.costumerName],
       mobNumber: json[AppConstants.mobNumber],
       notes: json[AppConstants.notes],
@@ -33,6 +36,7 @@ class TransactionDetails {
 
   Map<String, dynamic> toJson() {
     return {
+      AppConstants.docId: docId,
       AppConstants.costumerName: costumerName,
       AppConstants.mobNumber: mobNumber,
       AppConstants.notes: notes,

@@ -3,7 +3,6 @@ import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_histor
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 import '../../widgets/sales history components/sales_history_item.dart';
 import '../../widgets/sales history components/filters_row.dart';
