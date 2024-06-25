@@ -1,7 +1,6 @@
 import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_bloc.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_state.dart';
-import 'package:baniyabuddy/presentation/screens/sales_history/sales_history_screen.dart';
 import 'package:baniyabuddy/presentation/widgets/sales%20history%20components/time_period_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
