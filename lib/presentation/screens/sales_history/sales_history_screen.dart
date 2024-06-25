@@ -18,75 +18,80 @@ class SalesHistory extends StatelessWidget {
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
     // double bottomInsets = MediaQuery.of(context).viewInsets.bottom;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: BlocConsumer<SalesHistoryBloc, SalesHistoryState>(
-        listener: (context, state) {
-          if (state is SalesHistoryErrorState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.errorMessage),
-                backgroundColor: Theme.of(context).colorScheme.error,
-              ),
-            );
-          }
-        },
-        builder: (context, state) {
-          List<TransactionDetails>? transactionsList;
-          if (state is InitialSalesHistoryState) {
-            if (transactionsList == null || transactionsList.isEmpty) {
-              context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
+    return RefreshIndicator.adaptive(
+      onRefresh: () async {
+        context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: BlocConsumer<SalesHistoryBloc, SalesHistoryState>(
+          listener: (context, state) {
+            if (state is SalesHistoryErrorState) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.errorMessage),
+                  backgroundColor: Theme.of(context).colorScheme.error,
+                ),
+              );
             }
-          }
-          if (state is SalesHistoryFetchedDataState) {
-            transactionsList = state.transactionsList;
-          }
-          if (state is TransactionsListFilteredState) {
-            // print(state.transactionsList.length);
-            transactionsList = state.transactionsList;
-          }
-          if (state is SalesHistoryLoadingState) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return Column(
-            children: [
-              Expanded(
-                flex: 2,
-                child: TotalSalesWidget(deviceSize: deviceSize),
-              ),
-              Expanded(
-                flex: 7,
-                child: Container(
-                  width: deviceSize.width,
-                  // color: Colors.amber,
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    children: [
-                      const FiltersRow(),
-                      const SearchCostumer(),
-                      transactionsList == null || transactionsList.isEmpty
-                          ? const Center(
-                              child: Text("You have not made any sales yet!"),
-                            )
-                          : Expanded(
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  children: _buildTransactionList(
-                                    transactionsList,
-                                    deviceSize,
+          },
+          builder: (context, state) {
+            List<TransactionDetails>? transactionsList;
+            if (state is InitialSalesHistoryState) {
+              if (transactionsList == null || transactionsList.isEmpty) {
+                context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
+              }
+            }
+            if (state is SalesHistoryFetchedDataState) {
+              transactionsList = state.transactionsList;
+            }
+            if (state is TransactionsListFilteredState) {
+              // print(state.transactionsList.length);
+              transactionsList = state.transactionsList;
+            }
+            if (state is SalesHistoryLoadingState) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return Column(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: TotalSalesWidget(deviceSize: deviceSize),
+                ),
+                Expanded(
+                  flex: 7,
+                  child: Container(
+                    width: deviceSize.width,
+                    // color: Colors.amber,
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(
+                      children: [
+                        const FiltersRow(),
+                        const SearchCostumer(),
+                        transactionsList == null || transactionsList.isEmpty
+                            ? const Center(
+                                child: Text("You have not made any sales yet!"),
+                              )
+                            : Expanded(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: _buildTransactionList(
+                                      transactionsList,
+                                      deviceSize,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          );
-        },
+              ],
+            );
+          },
+        ),
       ),
     );
   }
