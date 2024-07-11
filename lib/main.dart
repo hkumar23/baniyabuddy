@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<SalesHistoryBloc>(create: (context) => SalesHistoryBloc()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: AppConstants.appName,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
           builder: (context, state) {
             if (state is LoggedInState) {
               // print("Main, User: ${state.user} ");
+              context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
               return const Calculator();
             } else if (state is LoggedOutState) {
               return const SignInScreen();

@@ -3,6 +3,7 @@ import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_even
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_state.dart';
 import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
   // final FirebaseAuth _auth = FirebaseAuth.instance;
