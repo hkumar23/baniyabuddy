@@ -110,12 +110,12 @@ class _VerifyMobNumScreenState extends State<VerifyMobNumScreen> {
                   BlocConsumer<AuthBloc, AuthState>(
                     listener: (context, state) {
                       if (state is AuthErrorState) {
-                        // ScaffoldMessenger.of(context).showSnackBar(
-                        //   SnackBar(
-                        //     content: Text(state.errorMessage),
-                        //     backgroundColor: Colors.red,
-                        //   ),
-                        // );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(state.errorMessage),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
                       } else if (state is LoggedInState) {
                         // print("Verify Otp Screen, User: ${state.user} ");
                         Navigator.of(context)

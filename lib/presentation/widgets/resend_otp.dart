@@ -13,7 +13,7 @@ class ResendOTP extends StatefulWidget {
   State<ResendOTP> createState() => _ResendOTPState();
 }
 
-int _start = 60;
+int _start = 90;
 bool isResendOtp = false;
 
 class _ResendOTPState extends State<ResendOTP> {
@@ -74,7 +74,7 @@ class _ResendOTPState extends State<ResendOTP> {
                         SendCodeEvent(phoneNumber: widget.phoneNumber),
                       );
                       setState(() {
-                        _start = 60;
+                        _start = 90;
                         isResendOtp = false;
                       });
                     }

@@ -19,6 +19,7 @@ class SalesHistory extends StatelessWidget {
     Size deviceSize = MediaQuery.of(context).size;
     // double bottomInsets = MediaQuery.of(context).viewInsets.bottom;
     return RefreshIndicator.adaptive(
+      backgroundColor: const Color.fromARGB(0, 155, 146, 146),
       onRefresh: () async {
         context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
       },
@@ -38,9 +39,7 @@ class SalesHistory extends StatelessWidget {
           builder: (context, state) {
             List<TransactionDetails>? transactionsList;
             if (state is InitialSalesHistoryState) {
-              if (transactionsList == null || transactionsList.isEmpty) {
-                context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
-              }
+              context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
             }
             if (state is SalesHistoryFetchedDataState) {
               transactionsList = state.transactionsList;
