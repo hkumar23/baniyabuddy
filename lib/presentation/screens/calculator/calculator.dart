@@ -2,7 +2,7 @@ import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_bloc.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/sales_history_screen.dart';
-import 'package:baniyabuddy/presentation/screens/sign_in_screen.dart';
+import 'package:baniyabuddy/presentation/screens/authentication/sign_in_screen.dart';
 import 'package:baniyabuddy/presentation/widgets/calc%20components/display/calc_display.dart';
 import 'package:baniyabuddy/presentation/widgets/calc%20components/keyboard/calc_keyboard.dart';
 import 'package:baniyabuddy/utils/app_methods.dart';

@@ -1,4 +1,4 @@
-package com.example.baniyabuddy
+package com.infinitycodeworks.baniyabuddy
 
 import io.flutter.embedding.android.FlutterActivity
 

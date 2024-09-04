@@ -63,6 +63,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1066097681961',
     projectId: 'baniyabuddy-1bfef',
     storageBucket: 'baniyabuddy-1bfef.appspot.com',
-    iosBundleId: 'com.example.baniyabuddy',
+    iosBundleId: 'com.infinitycodeworks.baniyabuddy',
   );
 }
