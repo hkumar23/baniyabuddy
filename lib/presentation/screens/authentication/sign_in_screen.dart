@@ -130,8 +130,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     height: 60,
                     child: FilledButton(
                       style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.circular(15), // Rounded corners

@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
               return const Calculator();
             } else if (state is LoggedOutState) {
               // return const SignInScreen();
-              return const SignInWithEmailScreen();
+              return SignInWithEmailScreen();
             } else {
               // return const SplashScreen();
               return const Scaffold();

@@ -12,7 +12,20 @@
           "package_name": "com.infinitycodeworks.baniyabuddy"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1066097681961-uocbrmr5f56jcp8fic944scln84a6he8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.infinitycodeworks.baniyabuddy",
+            "certificate_hash": "37a4c82da73fc3b1b2dc2fc737b3fa2f056352fa"
+          }
+        },
+        {
+          "client_id": "1066097681961-vtluhq012ijdimdoc6amrgjfc34ocumh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDngsRQdlt6pDe4K-Bf9RF4VcuEt38nwCk"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1066097681961-vtluhq012ijdimdoc6amrgjfc34ocumh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1066097681961-6tckic0213qfsrqe56bnjbu9ke90kdbi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.infinitycodeworks.baniyabuddy"
+              }
+            }
+          ]
         }
       }
     }
