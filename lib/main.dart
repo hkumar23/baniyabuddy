@@ -2,6 +2,7 @@ import 'package:baniyabuddy/constants/app_constants.dart';
 import 'package:baniyabuddy/firebase_options.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_bloc.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
+import 'package:baniyabuddy/presentation/screens/authentication/email/sign_in_with_email.dart';
 import 'package:baniyabuddy/presentation/screens/authentication/email/sign_up_with_email.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_bloc.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/calculator.dart';
@@ -52,8 +53,8 @@ class MyApp extends StatelessWidget {
               context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
               return const Calculator();
             } else if (state is LoggedOutState) {
-              return const SignInScreen();
-              // return const SignUpWithEmailScreen();
+              // return const SignInScreen();
+              return const SignInWithEmailScreen();
             } else {
               // return const SplashScreen();
               return const Scaffold();
