@@ -16,6 +16,11 @@ class LoggedInState extends AuthState {
   LoggedInState(this.user);
 }
 
+class SignUpWithEmailSuccessState extends AuthState {
+  final User user;
+  SignUpWithEmailSuccessState(this.user);
+}
+
 class LoggedOutState extends AuthState {}
 
 class AuthLoadingState extends AuthState {}

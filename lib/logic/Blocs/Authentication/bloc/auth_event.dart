@@ -18,3 +18,17 @@ class VerifyCodeEvent extends AuthEvent {
   final String code;
   VerifyCodeEvent({required this.code});
 }
+
+class SignInWithEmailEvent extends AuthEvent {
+  final String email;
+  final String password;
+  SignInWithEmailEvent({required this.email, required this.password});
+}
+
+class SignUpWithEmailEvent extends AuthEvent {
+  final String email;
+  final String password;
+  SignUpWithEmailEvent({required this.email, required this.password});
+}
+
+class SignInWithGoogleEvent extends AuthEvent {}
