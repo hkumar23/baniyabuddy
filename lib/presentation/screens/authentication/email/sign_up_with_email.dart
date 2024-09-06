@@ -76,24 +76,24 @@ class SignUpWithEmailScreen extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: ElevatedButton(
                   style: ButtonStyle(
-                    shape: MaterialStateProperty.all(
+                    shape: WidgetStateProperty.all(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    textStyle: MaterialStateProperty.all(
+                    textStyle: WidgetStateProperty.all(
                         Theme.of(context).textTheme.titleLarge!.copyWith(
                               fontWeight: FontWeight.w500,
                             )),
-                    backgroundColor: MaterialStateProperty.all(
+                    backgroundColor: WidgetStateProperty.all(
                         Theme.of(context).colorScheme.primary),
-                    foregroundColor: MaterialStateProperty.all(
+                    foregroundColor: WidgetStateProperty.all(
                         Theme.of(context).colorScheme.onPrimary),
                   ),
                   onPressed: () {
                     // TODO: Implement sign up logic
                   },
-                  child: const Text('Sign Up'),
+                  child: const Text('Sign up'),
                 ),
               ),
               const SizedBox(height: 20),
@@ -103,14 +103,14 @@ class SignUpWithEmailScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyMedium,
                   children: [
                     TextSpan(
-                      text: 'Sign In',
+                      text: 'Sign in',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
                         fontWeight: FontWeight.bold,
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          // print('Sign In');
+                          Navigator.of(context).pop();
                         },
                     ),
                   ],
