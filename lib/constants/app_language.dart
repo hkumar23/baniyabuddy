@@ -26,7 +26,7 @@ class AppLanguage {
   static const String netBanking = "Net Banking";
   static const String creditDebitCard = "Credit/Debit Card";
   static const String selectPaymentMethod = "Select payment method";
-  static const String costumerName = "Costumer Name";
+  static const String customerName = "Customer Name";
   static const String mobNumber = "Mobile Number";
   static const String notes = "Notes";
   static const String notSelected = "Not Selected";

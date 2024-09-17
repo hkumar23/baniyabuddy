@@ -22,8 +22,8 @@ class SalesHistoryItem extends StatelessWidget {
               context: context,
               builder: (ctx) {
                 return AlertDialog(
-                  backgroundColor: Theme.of(context).colorScheme.background,
-                  title: Text(transactionDetails.costumerName),
+                  backgroundColor: Theme.of(context).colorScheme.surface,
+                  title: Text(transactionDetails.customerName),
                   content: const Text(
                       "Are you sure you want to delete this transaction?"),
                   actions: [
@@ -127,7 +127,7 @@ class SalesHistoryItem extends StatelessWidget {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Text(
-                            transactionDetails.costumerName,
+                            transactionDetails.customerName,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleMedium!
