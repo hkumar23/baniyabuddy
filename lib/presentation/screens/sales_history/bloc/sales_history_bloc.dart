@@ -161,7 +161,7 @@ class SalesHistoryBloc extends Bloc<SalesHistoryEvent, SalesHistoryState> {
       if (event.searchedString.isNotEmpty) {
         searchedList = filteredList
             .where((element) =>
-                element.costumerName
+                element.customerName
                     .toLowerCase()
                     .contains(event.searchedString.trim().toLowerCase()) ||
                 element.mobNumber.contains(event.searchedString.trim()))

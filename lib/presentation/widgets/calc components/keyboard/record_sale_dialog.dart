@@ -17,7 +17,7 @@ class RecordSaleDialog extends StatefulWidget {
 class _RecordSaleDialogState extends State<RecordSaleDialog> {
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _costumerNameController = TextEditingController();
+  final TextEditingController _customerNameController = TextEditingController();
   final TextEditingController _mobNumberController = TextEditingController();
   final TextEditingController _notesController = TextEditingController();
 
@@ -25,7 +25,7 @@ class _RecordSaleDialogState extends State<RecordSaleDialog> {
 
   @override
   void dispose() {
-    _costumerNameController.dispose();
+    _customerNameController.dispose();
     _mobNumberController.dispose();
     _notesController.dispose();
     super.dispose();
@@ -40,7 +40,7 @@ class _RecordSaleDialogState extends State<RecordSaleDialog> {
     _formKey.currentState!.save();
     final transactionDetails = TransactionDetails(
       docId: "",
-      costumerName: _costumerNameController.text,
+      customerName: _customerNameController.text,
       mobNumber: _mobNumberController.text,
       notes: _notesController.text,
       paymentMethod: paymentMethod!,
@@ -71,8 +71,8 @@ class _RecordSaleDialogState extends State<RecordSaleDialog> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
-                key: const Key(AppConstants.costumerName),
-                controller: _costumerNameController,
+                key: const Key(AppConstants.customerName),
+                controller: _customerNameController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter costumer name';
@@ -84,7 +84,7 @@ class _RecordSaleDialogState extends State<RecordSaleDialog> {
                 },
                 keyboardType: TextInputType.name,
                 decoration: const InputDecoration(
-                    labelText: "${AppLanguage.costumerName} *"),
+                    labelText: "${AppLanguage.customerName} *"),
               ),
               TextFormField(
                 key: const Key(AppConstants.mobNumber),

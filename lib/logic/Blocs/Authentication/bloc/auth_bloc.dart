@@ -29,7 +29,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _onSignInWithGoogleEvent(event, emit) async {
     emit(AuthLoadingState());
     try {
-      print("Sign in with Google");
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       if (googleUser == null) {
         emit(AuthErrorState(errorMessage: "Sign in with Google cancelled"));
@@ -56,7 +55,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } on FirebaseException catch (err) {
       emit(AuthErrorState(errorMessage: err.message.toString()));
     } catch (err) {
-      debugPrint("Error: $err");
+      // debugPrint("Error: $err");
+      emit(AuthErrorState(errorMessage: err.toString()));
     }
   }
 

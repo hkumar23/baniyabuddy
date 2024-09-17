@@ -32,7 +32,7 @@ class SalesHistoryBottomSheet extends StatelessWidget {
                   children: [
                     const SizedBox(height: 15),
                     Text(
-                      transactionDetails.costumerName,
+                      transactionDetails.customerName,
                       style:
                           Theme.of(context).textTheme.headlineMedium!.copyWith(
                                 fontWeight: FontWeight.bold,
