@@ -33,6 +33,8 @@ class _TimePeriodFilterState extends State<TimePeriodFilter> {
           selectedOption = state.timePeriodFilter;
         }
         return Container(
+          // height: 100,
+          // alignment: Alignment.center,
           decoration: BoxDecoration(
             // color: Theme.of(context).colorScheme.surface,
             border: Border.all(color: Theme.of(context).colorScheme.primary),

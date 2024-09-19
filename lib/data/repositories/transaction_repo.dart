@@ -25,12 +25,14 @@ class TransactionRepo {
   }
 
   Future<List<TransactionDetails>> getTransactionsList() async {
+    // AppMethods.modifyingAllUserData();
     try {
       final response = await _firestore
           .collection("users")
           .doc(_auth.currentUser!.uid)
           .collection("transactions")
           .get();
+      // print("Yes");
       return response.docs.map((val) {
         Map<String, dynamic> transaction = val.data();
         transaction["docId"] = val.id;
