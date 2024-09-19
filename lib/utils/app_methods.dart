@@ -1,7 +1,11 @@
+import 'package:baniyabuddy/constants/app_constants.dart';
 import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:baniyabuddy/data/models/transaction_details.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_bloc.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_event.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:math_expressions/math_expressions.dart';
@@ -80,6 +84,35 @@ class AppMethods {
     // return "Testing";
   }
 
+  static Future<void> modifyingAllUserData() async {
+    try {
+      print("running");
+      final FirebaseFirestore firestore = FirebaseFirestore.instance;
+      final response = await firestore.collection("users").get();
+      // print(response.docs.length);
+      for (var user in response.docs) {
+        // print("Yes");
+        final newResponse = await firestore
+            .collection("users")
+            .doc(user.id)
+            .collection("transactions")
+            .get();
+        for (var transaction in newResponse.docs) {
+          final data = transaction.data();
+          final transactionRef = transaction.reference;
+          if (data.containsKey("costumerName")) {
+            final fieldValue = data["costumerName"];
+            await transactionRef.update({
+              AppConstants.customerName: fieldValue,
+              "costumerName": FieldValue.delete(),
+            });
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
   // static DateTime getPreviousDate(int n, String timePeriod) {
   //   LocalDate today = LocalDate.today();
   //   LocalDate targetDate = today;
