@@ -113,6 +113,21 @@ class AppMethods {
       debugPrint(e.toString());
     }
   }
+
+  static Future<void> logUserActivity() async {
+    final userActivity = FirebaseFirestore.instance.collection("user_activity");
+    FirebaseAuth auth = FirebaseAuth.instance;
+    if (auth.currentUser == null) return;
+    try {
+      final userId = auth.currentUser!.uid;
+      await userActivity.doc(userId).set({
+        "email": auth.currentUser!.email,
+        "created_at": Timestamp.now(),
+      });
+    } catch (e) {
+      debugPrint("Saving Log Error: $e");
+    }
+  }
   // static DateTime getPreviousDate(int n, String timePeriod) {
   //   LocalDate today = LocalDate.today();
   //   LocalDate targetDate = today;
