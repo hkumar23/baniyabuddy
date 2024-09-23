@@ -4,11 +4,11 @@ import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
 import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ["profile", "email"]);
   String? _verificationId;
 
   AuthBloc() : super(InitialAuthState()) {
@@ -29,7 +29,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _onSignInWithGoogleEvent(event, emit) async {
     emit(AuthLoadingState());
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
         emit(AuthErrorState(errorMessage: "Sign in with Google cancelled"));
         return;
@@ -55,7 +55,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } on FirebaseException catch (err) {
       emit(AuthErrorState(errorMessage: err.message.toString()));
     } catch (err) {
-      // debugPrint("Error: $err");
       emit(AuthErrorState(errorMessage: err.toString()));
     }
   }
@@ -95,8 +94,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  void _onLogoutEvent(event, emit) {
-    _auth.signOut();
+  void _onLogoutEvent(event, emit) async {
+    for (final provider in _auth.currentUser!.providerData) {
+      if (provider.providerId == 'google.com') {
+        // It is a good practice to check before signout but if called directly won't give any error
+        _googleSignIn.signOut();
+        break;
+      }
+    }
+    await _auth.signOut();
     emit(LoggedOutState());
   }
 
