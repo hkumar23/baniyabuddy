@@ -44,9 +44,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      AppMethods.logUserActivity();
-    }
+    // if (state == AppLifecycleState.resumed || state==AppLifecycleState.) {
+    //   print(state);
+    AppMethods.logUserActivity();
+    // }
   }
 
   @override
