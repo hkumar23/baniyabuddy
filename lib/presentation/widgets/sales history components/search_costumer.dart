@@ -72,31 +72,32 @@ class _SearchCostumerState extends State<SearchCostumer> {
               borderRadius: BorderRadius.circular(50),
               borderSide: BorderSide.none,
             ),
-            suffixIcon: IconButton(
-              onPressed: () {
-                // print(searchController.text);
-                // if (state is SalesHistoryFetchedDataState) {
-                //   context
-                //       .read<SalesHistoryBloc>()
-                //       .add(SearchTransactionsListEvent(
-                //         timePeriodFilter: AppLanguage.sixMonths,
-                //         filter: AppLanguage.all,
-                //         searchedString: searchController.text,
-                //       ));
-                // }
-                // if (state is TransactionsListFilteredState) {
-                //   context
-                //       .read<SalesHistoryBloc>()
-                //       .add(SearchTransactionsListEvent(
-                //         timePeriodFilter: state.timePeriodFilter,
-                //         filter: state.filter,
-                //         searchedString: searchController.text,
-                //       ));
-                // }
-              },
-              icon: const Icon(Icons.search),
-              padding: const EdgeInsets.all(0),
-            ),
+            prefixIcon: const Icon(Icons.search),
+            // suffixIcon: IconButton(
+            //   onPressed: () {
+            // print(searchController.text);
+            // if (state is SalesHistoryFetchedDataState) {
+            //   context
+            //       .read<SalesHistoryBloc>()
+            //       .add(SearchTransactionsListEvent(
+            //         timePeriodFilter: AppLanguage.sixMonths,
+            //         filter: AppLanguage.all,
+            //         searchedString: searchController.text,
+            //       ));
+            // }
+            // if (state is TransactionsListFilteredState) {
+            //   context
+            //       .read<SalesHistoryBloc>()
+            //       .add(SearchTransactionsListEvent(
+            //         timePeriodFilter: state.timePeriodFilter,
+            //         filter: state.filter,
+            //         searchedString: searchController.text,
+            //       ));
+            // }
+            //   },
+            //   icon: const Icon(Icons.search),
+            //   padding: const EdgeInsets.all(0),
+            // ),
           ),
         ),
         // );
