@@ -53,9 +53,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             errorMessage: "Sign in with Google failed, Try Again Later!"));
       }
     } on FirebaseException catch (err) {
-      emit(AuthErrorState(errorMessage: err.message.toString()));
+      // emit(AuthErrorState(errorMessage: err.message.toString()));
+      firebaseAuthErrorHandling(err, emit);
     } catch (err) {
-      emit(AuthErrorState(errorMessage: err.toString()));
+      emit(AuthErrorState(
+          errorMessage:
+              'An unknown error occurred. Please try again after some time.'));
+      // emit(AuthErrorState(errorMessage: err.toString()));
     }
   }
 
@@ -72,7 +76,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthErrorState(errorMessage: "User not found"));
       }
     } on FirebaseException catch (err) {
-      emit(AuthErrorState(errorMessage: err.message.toString()));
+      // print(err.code);
+      firebaseAuthErrorHandling(err, emit);
+    } catch (e) {
+      emit(AuthErrorState(
+          errorMessage:
+              'An unknown error occurred. Please try again after some time.'));
     }
   }
 
@@ -90,7 +99,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthErrorState(errorMessage: "User not created"));
       }
     } on FirebaseException catch (err) {
-      emit(AuthErrorState(errorMessage: err.message.toString()));
+      // emit(AuthErrorState(errorMessage: err.message.toString()));
+      firebaseAuthErrorHandling(err, emit);
+    } catch (e) {
+      emit(AuthErrorState(
+          errorMessage:
+              'An unknown error occurred. Please try again after some time.'));
     }
   }
 
@@ -159,6 +173,67 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     // print("Verification Id-1: $_verificationId");
     emit(AuthCodeSentState(phoneNumber: phoneNumber));
   }
+
+  void firebaseAuthErrorHandling(err, emit) {
+    switch (err.code) {
+      case 'invalid-email':
+        emit(AuthErrorState(errorMessage: 'The email address is not valid.'));
+        break;
+      case 'user-disabled':
+        emit(AuthErrorState(errorMessage: 'This user has been disabled.'));
+        break;
+      case 'user-not-found':
+        emit(AuthErrorState(errorMessage: 'Account not found. Sign up first.'));
+        break;
+      case 'wrong-password':
+        emit(AuthErrorState(errorMessage: 'Wrong password provided.'));
+        break;
+      case 'email-already-in-use':
+        emit(AuthErrorState(
+            errorMessage: 'The email address is already in use.'));
+        break;
+      case 'weak-password':
+        emit(AuthErrorState(errorMessage: 'The password is too weak.'));
+        break;
+      case 'too-many-requests':
+        emit(AuthErrorState(
+            errorMessage: 'Too many requests. Please try again later.'));
+        break;
+      // Google Sign-In specific errors
+      case 'account-exists-with-different-credential':
+        emit(AuthErrorState(
+            errorMessage:
+                'An account already exists with a different sign-in method.'));
+        break;
+      case 'invalid-credential':
+        emit(AuthErrorState(
+            errorMessage: 'The sign-in credentials are invalid.'));
+        break;
+      case 'popup-closed-by-user':
+        emit(AuthErrorState(errorMessage: 'The sign-in window was closed.'));
+        break;
+      case 'popup-blocked':
+        emit(AuthErrorState(
+            errorMessage: 'Popup blocked. Please allow popups.'));
+        break;
+      // Avoid showing these codes to users
+      case 'internal-error':
+      case 'operation-not-supported-in-this-environment':
+      case 'app-not-authorized':
+      case 'invalid-action-code':
+      case 'expired-action-code':
+      case 'credential-already-in-use':
+        emit(AuthErrorState(
+            errorMessage: 'An error occurred. Please try again later.'));
+        break;
+
+      default:
+        emit(AuthErrorState(
+            errorMessage:
+                'An unknown error occurred. Please try again later.'));
+    }
+  }
+
   // void sendOtp(String phoneNumber) async {}
   // void verifyOtp(String otp) {}
   // void signInWithPhone(PhoneAuthCredential credential) async {}
