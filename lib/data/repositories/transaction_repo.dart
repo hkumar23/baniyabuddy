@@ -1,3 +1,5 @@
+import 'package:baniyabuddy/constants/app_constants.dart';
+import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:baniyabuddy/data/models/transaction_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,6 +11,9 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 class TransactionRepo {
   Future<void> addTransaction(TransactionDetails transactionDetails) async {
     Map<String, dynamic> data = transactionDetails.toJson();
+    if (data[AppConstants.customerName] == "") {
+      data[AppConstants.customerName] = AppLanguage.unknown;
+    }
     try {
       if (data['docId'] == "" && data.containsKey("docId")) {
         data.remove("docId");

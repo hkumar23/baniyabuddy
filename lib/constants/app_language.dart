@@ -45,4 +45,5 @@ class AppLanguage {
   static const String sixMonths = "6 Months";
   static const String totalSales = "Total Sales";
   static const String baniyaBuddy = "Baniya Buddy";
+  static const String unknown = "Unknown";
 }

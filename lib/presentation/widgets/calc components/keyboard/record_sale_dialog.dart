@@ -74,17 +74,18 @@ class _RecordSaleDialogState extends State<RecordSaleDialog> {
                 key: const Key(AppConstants.customerName),
                 controller: _customerNameController,
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter costumer name';
-                  }
+                  // if (value == null || value.isEmpty) {
+                  //   return 'Please enter costumer name';
+                  // }
+                  if (value == null) return null;
                   if (value.length > 20) {
                     return 'Name should be less than 20 characters';
                   }
                   return null;
                 },
                 keyboardType: TextInputType.name,
-                decoration: const InputDecoration(
-                    labelText: "${AppLanguage.customerName} *"),
+                decoration:
+                    const InputDecoration(labelText: AppLanguage.customerName),
               ),
               TextFormField(
                 key: const Key(AppConstants.mobNumber),
@@ -99,6 +100,7 @@ class _RecordSaleDialogState extends State<RecordSaleDialog> {
                   return null;
                 },
                 keyboardType: TextInputType.phone,
+                maxLength: 10,
                 decoration: const InputDecoration(
                   labelText: AppLanguage.mobNumber,
                   prefix: Text("+91 "),
