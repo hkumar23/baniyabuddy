@@ -86,7 +86,7 @@ class AppMethods {
 
   static Future<void> modifyingAllUserData() async {
     try {
-      print("running");
+      // print("running");
       final FirebaseFirestore firestore = FirebaseFirestore.instance;
       final response = await firestore.collection("users").get();
       // print(response.docs.length);
@@ -128,6 +128,16 @@ class AppMethods {
       debugPrint("Saving Log Error: $e");
     }
   }
+
+  // static Future<bool> checkInternetConnection() async {
+  //   var connectivityResult = await Connectivity().checkConnectivity();
+  //   if (connectivityResult.contains(ConnectivityResult.mobile) ||
+  //       connectivityResult.contains(ConnectivityResult.wifi)) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
+
   // static DateTime getPreviousDate(int n, String timePeriod) {
   //   LocalDate today = LocalDate.today();
   //   LocalDate targetDate = today;
