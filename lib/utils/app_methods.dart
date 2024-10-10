@@ -4,6 +4,7 @@ import 'package:baniyabuddy/data/models/transaction_details.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_bloc.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -129,14 +130,14 @@ class AppMethods {
     }
   }
 
-  // static Future<bool> checkInternetConnection() async {
-  //   var connectivityResult = await Connectivity().checkConnectivity();
-  //   if (connectivityResult.contains(ConnectivityResult.mobile) ||
-  //       connectivityResult.contains(ConnectivityResult.wifi)) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
+  static Future<bool> checkInternetConnection() async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      return true;
+    }
+    return false;
+  }
 
   // static DateTime getPreviousDate(int n, String timePeriod) {
   //   LocalDate today = LocalDate.today();

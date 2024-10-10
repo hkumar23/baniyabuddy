@@ -11,6 +11,10 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
     on<SaveTransactionEvent>((event, emit) async {
       try {
         emit(CalcLoadingState());
+        bool isConnected = await AppMethods.checkInternetConnection();
+        if (!isConnected) {
+          throw "You are not connected to the internet!";
+        }
         TransactionRepo transactionRepo = TransactionRepo();
         await transactionRepo.addTransaction(event.transactionDetails);
         emit(TransactionSavedState());
