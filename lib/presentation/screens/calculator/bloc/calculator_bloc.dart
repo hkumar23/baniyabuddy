@@ -15,6 +15,9 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
         if (!isConnected) {
           throw "You are not connected to the internet!";
         }
+        if (AppMethods.isNegative(event.transactionDetails.totalAmount!)) {
+          throw "You can't add a negative transaction!";
+        }
         TransactionRepo transactionRepo = TransactionRepo();
         await transactionRepo.addTransaction(event.transactionDetails);
         emit(TransactionSavedState());
