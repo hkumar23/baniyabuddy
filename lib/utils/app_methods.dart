@@ -85,32 +85,32 @@ class AppMethods {
     // return "Testing";
   }
 
-  static Future<void> modifyingAllUserData() async {
-    try {
-      // print("running");
-      final FirebaseFirestore firestore = FirebaseFirestore.instance;
-      final response = await firestore.collection("users").get();
-      // print(response.docs.length);
-      for (var user in response.docs) {
-        // print("Yes");
-        final newResponse = await firestore
-            .collection("users")
-            .doc(user.id)
-            .collection("transactions")
-            .get();
-        for (var transaction in newResponse.docs) {
-          final data = transaction.data();
-          final transactionRef = transaction.reference;
-          if (data[AppConstants.paymentMethod] == AppLanguage.udhaar) {
-            await transactionRef
-                .update({AppConstants.paymentMethod: AppLanguage.amountDue});
-          }
-        }
-      }
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
+  // static Future<void> modifyingAllUserData() async {
+  //   try {
+  //     // print("running");
+  //     final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //     final response = await firestore.collection("users").get();
+  //     // print(response.docs.length);
+  //     for (var user in response.docs) {
+  //       // print("Yes");
+  //       final newResponse = await firestore
+  //           .collection("users")
+  //           .doc(user.id)
+  //           .collection("transactions")
+  //           .get();
+  //       for (var transaction in newResponse.docs) {
+  //         final data = transaction.data();
+  //         final transactionRef = transaction.reference;
+  //         if (data[AppConstants.paymentMethod] == AppLanguage.udhaar) {
+  //           await transactionRef
+  //               .update({AppConstants.paymentMethod: AppLanguage.amountDue});
+  //         }
+  //       }
+  //     }
+  //   } catch (e) {
+  //     debugPrint(e.toString());
+  //   }
+  // }
 
   static Future<void> logUserActivity() async {
     final userActivity = FirebaseFirestore.instance.collection("user_activity");
@@ -136,6 +136,11 @@ class AppMethods {
     return false;
   }
 
+  static bool isNegative(String value) {
+    double number = double.tryParse(value) ?? 0;
+    if (number < 0) return true;
+    return false;
+  }
   // static DateTime getPreviousDate(int n, String timePeriod) {
   //   LocalDate today = LocalDate.today();
   //   LocalDate targetDate = today;
