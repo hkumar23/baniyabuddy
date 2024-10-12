@@ -101,12 +101,9 @@ class AppMethods {
         for (var transaction in newResponse.docs) {
           final data = transaction.data();
           final transactionRef = transaction.reference;
-          if (data.containsKey("costumerName")) {
-            final fieldValue = data["costumerName"];
-            await transactionRef.update({
-              AppConstants.customerName: fieldValue,
-              "costumerName": FieldValue.delete(),
-            });
+          if (data[AppConstants.paymentMethod] == AppLanguage.udhaar) {
+            await transactionRef
+                .update({AppConstants.paymentMethod: AppLanguage.amountDue});
           }
         }
       }

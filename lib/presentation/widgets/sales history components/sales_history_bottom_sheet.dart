@@ -10,11 +10,12 @@ class SalesHistoryBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    final paymentMethodColor = transactionDetails.paymentMethod == "Udhaar"
-        ? Colors.red
-        : transactionDetails.paymentMethod == "Not Selected"
-            ? Theme.of(context).colorScheme.onSurface.withOpacity(0.6)
-            : Colors.green;
+    final paymentMethodColor =
+        transactionDetails.paymentMethod == AppLanguage.amountDue
+            ? Colors.red
+            : transactionDetails.paymentMethod == "Not Selected"
+                ? Theme.of(context).colorScheme.onSurface.withOpacity(0.6)
+                : Colors.green;
 
     return
         // BottomSheet(

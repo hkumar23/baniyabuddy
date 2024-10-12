@@ -71,9 +71,9 @@ class _FiltersRowState extends State<FiltersRow> {
                   isSelected: _selectedFilter == AppLanguage.cash,
                 ),
                 FilterItem(
-                  title: AppLanguage.udhaar,
+                  title: AppLanguage.amountDue,
                   onTap: onTap,
-                  isSelected: _selectedFilter == AppLanguage.udhaar,
+                  isSelected: _selectedFilter == AppLanguage.amountDue,
                 ),
                 FilterItem(
                     title: AppLanguage.netBanking,
