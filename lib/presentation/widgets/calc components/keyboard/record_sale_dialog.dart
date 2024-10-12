@@ -154,8 +154,8 @@ class _RecordSaleDialogState extends State<RecordSaleDialog> {
                       child: Text(AppLanguage.upi),
                     ),
                     DropdownMenuItem(
-                      value: AppLanguage.udhaar,
-                      child: Text(AppLanguage.udhaar),
+                      value: AppLanguage.amountDue,
+                      child: Text(AppLanguage.amountDue),
                     ),
                     DropdownMenuItem(
                       value: AppLanguage.netBanking,

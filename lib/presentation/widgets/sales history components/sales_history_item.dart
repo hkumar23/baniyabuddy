@@ -61,7 +61,7 @@ class SalesHistoryItem extends StatelessWidget {
 
     // final deviceSize = MediaQuery.of(context).size;
     Color paymentMethodColor =
-        transactionDetails.paymentMethod == AppLanguage.udhaar
+        transactionDetails.paymentMethod == AppLanguage.amountDue
             ? Colors.red
             : transactionDetails.paymentMethod == AppLanguage.notSelected
                 ? Theme.of(context).colorScheme.onSurface.withOpacity(0.6)
