@@ -6,6 +6,7 @@ import 'package:baniyabuddy/presentation/screens/sales_history/sales_history_scr
 import 'package:baniyabuddy/presentation/screens/authentication/sign_in_screen.dart';
 import 'package:baniyabuddy/presentation/widgets/calc%20components/display/calc_display.dart';
 import 'package:baniyabuddy/presentation/widgets/calc%20components/keyboard/calc_keyboard.dart';
+import 'package:baniyabuddy/presentation/widgets/custom_bottom_nav_bar.dart';
 import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,6 +29,7 @@ class Calculator extends StatelessWidget {
       },
       builder: (context, state) {
         return Scaffold(
+          bottomNavigationBar: const CustomBottomNavBar(selectedIndex: 2),
           appBar: AppBar(
             leading: IconButton(
               onPressed: () {

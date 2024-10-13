@@ -1,6 +1,7 @@
 import 'package:baniyabuddy/data/models/transaction_details.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_bloc.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_event.dart';
+import 'package:baniyabuddy/presentation/widgets/custom_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,6 +26,7 @@ class SalesHistory extends StatelessWidget {
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
+        bottomNavigationBar: const CustomBottomNavBar(selectedIndex: 0),
         body: BlocConsumer<SalesHistoryBloc, SalesHistoryState>(
           listener: (context, state) {
             if (state is SalesHistoryErrorState) {
