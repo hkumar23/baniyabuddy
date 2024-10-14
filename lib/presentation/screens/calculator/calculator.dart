@@ -31,18 +31,18 @@ class Calculator extends StatelessWidget {
         return Scaffold(
           bottomNavigationBar: const CustomBottomNavBar(selectedIndex: 2),
           appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const SalesHistory();
-                    },
-                  ),
-                );
-              },
-              icon: const Icon(Icons.history_rounded),
-            ),
+            // leading: IconButton(
+            //   onPressed: () {
+            //     Navigator.of(context).push(
+            //       MaterialPageRoute(
+            //         builder: (context) {
+            //           return const SalesHistory();
+            //         },
+            //       ),
+            //     );
+            //   },
+            //   icon: const Icon(Icons.history_rounded),
+            // ),
             actions: [
               IconButton(
                 onPressed: () {

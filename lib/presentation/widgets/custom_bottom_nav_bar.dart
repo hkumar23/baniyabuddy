@@ -28,12 +28,11 @@ class CustomBottomNavBar extends StatelessWidget {
       if (index == selectedIndex) return;
       switch (index) {
         case 0:
-          Navigator.of(context).popUntil((route) => route.isFirst);
+          // Navigator.of(context).popUntil((route) => route.isFirst);
           Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => const SalesHistory()));
           break;
-        case 2:
-          Navigator.of(context).popUntil((route) => route.isFirst);
+        case 2:          
           Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => const Calculator()));
           break;
