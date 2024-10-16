@@ -5,6 +5,7 @@ import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
 import 'package:baniyabuddy/presentation/screens/authentication/email/sign_in_with_email.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_bloc.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/calculator.dart';
+import 'package:baniyabuddy/presentation/screens/main_screen.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_bloc.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_event.dart';
 import 'package:baniyabuddy/utils/app_methods.dart';
@@ -75,7 +76,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             if (state is LoggedInState) {
               // print("Main, User: ${state.user} ");
               context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
-              return const Calculator();
+              // return const Calculator();
+              return const MainScreen();
             } else if (state is LoggedOutState) {
               // return const SignInScreen();
               return SignInWithEmailScreen();

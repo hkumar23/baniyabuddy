@@ -47,4 +47,7 @@ class AppLanguage {
   static const String baniyaBuddy = "Baniya Buddy";
   static const String unknown = "Unknown";
   static const String amountDue = "Amount Due";
+  static const String billing = "Billing";
+  static const String gemini = "Gemini";
+  static const String settings = "Settings";
 }

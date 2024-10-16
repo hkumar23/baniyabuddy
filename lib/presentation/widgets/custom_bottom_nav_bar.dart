@@ -4,8 +4,13 @@ import 'package:baniyabuddy/presentation/screens/sales_history/sales_history_scr
 import 'package:flutter/material.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
-  const CustomBottomNavBar({super.key, required this.selectedIndex});
+  const CustomBottomNavBar({
+    super.key,
+    required this.selectedIndex,
+    required this.onTapped,
+  });
   final int selectedIndex;
+  final Function onTapped;
   @override
   Widget build(BuildContext context) {
     final List<IconData> icons = [
@@ -18,26 +23,26 @@ class CustomBottomNavBar extends StatelessWidget {
 
     final List<String> labels = [
       AppLanguage.salesHistory,
-      "Billing",
+      AppLanguage.billing,
       AppLanguage.calculator,
-      "Gemini",
-      "Settings",
+      AppLanguage.gemini,
+      AppLanguage.settings,
     ];
 
-    void onItemTapped(int index) {
-      if (index == selectedIndex) return;
-      switch (index) {
-        case 0:
-          // Navigator.of(context).popUntil((route) => route.isFirst);
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const SalesHistory()));
-          break;
-        case 2:          
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const Calculator()));
-          break;
-      }
-    }
+    // void onItemTapped(int index) {
+    //   if (index == selectedIndex) return;
+    //   switch (index) {
+    //     case 0:
+    //       // Navigator.of(context).popUntil((route) => route.isFirst);
+    //       Navigator.of(context).pushReplacement(
+    //           MaterialPageRoute(builder: (context) => const SalesHistory()));
+    //       break;
+    //     case 2:
+    //       Navigator.of(context).pushReplacement(
+    //           MaterialPageRoute(builder: (context) => const Calculator()));
+    //       break;
+    //   }
+    // }
 
     return Container(
       // padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
@@ -59,7 +64,7 @@ class CustomBottomNavBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: List.generate(icons.length, (index) {
           return IconButton(
-            onPressed: () => onItemTapped(index),
+            onPressed: () => onTapped(index),
             icon: selectedIndex == index
                 ? Container(
                     padding: const EdgeInsets.symmetric(

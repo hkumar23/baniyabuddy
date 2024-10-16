@@ -16,7 +16,12 @@ class Calculator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthBloc, AuthState>(
+    return
+        // Scaffold(
+        //   // bottomNavigationBar: const CustomBottomNavBar(selectedIndex: 2),
+
+        //   body:
+        BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is LoggedOutState) {
           Navigator.of(context).popUntil((route) => route.isFirst);
@@ -28,68 +33,20 @@ class Calculator extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        return Scaffold(
-          bottomNavigationBar: const CustomBottomNavBar(selectedIndex: 2),
-          appBar: AppBar(
-            // leading: IconButton(
-            //   onPressed: () {
-            //     Navigator.of(context).push(
-            //       MaterialPageRoute(
-            //         builder: (context) {
-            //           return const SalesHistory();
-            //         },
-            //       ),
-            //     );
-            //   },
-            //   icon: const Icon(Icons.history_rounded),
-            // ),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  AppMethods.logoutWithDialog(context);
-                },
-                icon: const Icon(
-                  Icons.logout,
-                  // color: Colors.red,
-                ),
-              ),
-            ],
-            forceMaterialTransparency: true,
-            title: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Image.asset(
-                //   "assets/logo/baniya_buddy_logo.png",
-                //   fit: BoxFit.contain,
-                //   height: 32,
-                // ),
-                Text(
-                  AppLanguage.appName,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineSmall!
-                      .copyWith(fontWeight: FontWeight.w500),
-                ),
-              ],
+        return const Column(
+          children: [
+            Expanded(
+              flex: 1,
+              child: CalcDisplay(),
             ),
-            centerTitle: true,
-            // backgroundColor: Colors.grey.shade300,
-          ),
-          body: const Column(
-            children: [
-              Expanded(
-                flex: 1,
-                child: CalcDisplay(),
-              ),
-              Expanded(
-                flex: 2,
-                child: CalcKeyBoard(),
-              ),
-            ],
-          ),
+            Expanded(
+              flex: 2,
+              child: CalcKeyBoard(),
+            ),
+          ],
         );
       },
+      // ),
     );
   }
 }
