@@ -47,6 +47,7 @@ dependencies:
   flutter_native_splash: ^2.4.0
   google_sign_in: ^6.2.1
   connectivity_plus: 5.0.2
+  material_design_icons_flutter: ^7.0.7296
 
 flutter_launcher_icons:
   android: true
@@ -98,6 +99,7 @@ flutter:
     - assets/images/phone_auth_icons_1.png
     - assets/images/phone_auth_icons_2.png
     - assets/images/google_logo.png
+    - assets/images/christmas-stars.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
