@@ -1,57 +1,40 @@
 import 'package:baniyabuddy/constants/app_language.dart';
-import 'package:baniyabuddy/presentation/screens/calculator/calculator.dart';
-import 'package:baniyabuddy/presentation/screens/sales_history/sales_history_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
-  const CustomBottomNavBar({
+  CustomBottomNavBar({
     super.key,
     required this.selectedIndex,
     required this.onTapped,
   });
   final int selectedIndex;
   final Function onTapped;
+  final List<IconData> icons = [
+    Icons.history,
+    Icons.article,
+    Icons.calculate,
+    MdiIcons.star,
+    Icons.settings,
+  ];
+  final List<String> labels = [
+    AppLanguage.salesHistory,
+    AppLanguage.billing,
+    AppLanguage.calculator,
+    AppLanguage.gemini,
+    AppLanguage.settings,
+  ];
+
   @override
   Widget build(BuildContext context) {
-    final List<IconData> icons = [
-      Icons.history,
-      Icons.article,
-      Icons.calculate,
-      Icons.star,
-      Icons.settings,
-    ];
-
-    final List<String> labels = [
-      AppLanguage.salesHistory,
-      AppLanguage.billing,
-      AppLanguage.calculator,
-      AppLanguage.gemini,
-      AppLanguage.settings,
-    ];
-
-    // void onItemTapped(int index) {
-    //   if (index == selectedIndex) return;
-    //   switch (index) {
-    //     case 0:
-    //       // Navigator.of(context).popUntil((route) => route.isFirst);
-    //       Navigator.of(context).pushReplacement(
-    //           MaterialPageRoute(builder: (context) => const SalesHistory()));
-    //       break;
-    //     case 2:
-    //       Navigator.of(context).pushReplacement(
-    //           MaterialPageRoute(builder: (context) => const Calculator()));
-    //       break;
-    //   }
-    // }
-
     return Container(
-      // padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainer,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
+        // borderRadius: const BorderRadius.only(
+        //   topLeft: Radius.circular(30),
+        //   topRight: Radius.circular(30),
+        // ),
         // boxShadow: const [
         //   BoxShadow(
         //     color: Colors.black12,
@@ -63,41 +46,55 @@ class CustomBottomNavBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: List.generate(icons.length, (index) {
-          return IconButton(
-            onPressed: () => onTapped(index),
-            icon: selectedIndex == index
-                ? Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 8,
-                    ),
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.onPrimary,
-                        // shape: BoxShape.circle,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(30))),
-                    child: Row(
-                      children: [
-                        Icon(
-                          icons[index],
-                          color: Theme.of(context).colorScheme.primary,
-                          size: 30,
-                        ),
-                        const SizedBox(width: 5),
-                        Text(
-                          labels[index],
-                          style: Theme.of(context).textTheme.labelLarge,
-                        )
-                      ],
-                    ),
-                  )
-                : Icon(
-                    icons[index],
-                    color: Colors.white54,
-                    size: 30,
-                  ),
-          );
+          return buildNavItem(index, context);
         }),
+      ),
+    );
+  }
+
+  Widget buildNavItem(int index, BuildContext context) {
+    bool isSelected = selectedIndex == index;
+    final deviceSize = MediaQuery.of(context).size.width;
+    return GestureDetector(
+      onTap: () => onTapped(index),
+      child: Container(
+        margin: isSelected ? const EdgeInsets.symmetric(horizontal: 5) : null,
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          color: isSelected
+              ? Theme.of(context).colorScheme.onPrimary
+              : Colors.transparent,
+          borderRadius: const BorderRadius.all(Radius.circular(30)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          child: Row(
+            children: [
+              if (index != 3)
+                Icon(
+                  icons[index],
+                  color: isSelected
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.white54,
+                  size: deviceSize * 0.08,
+                )
+              else
+                Image.asset(
+                  "assets/images/christmas-stars.png",
+                  height: deviceSize * 0.08,
+                  color: isSelected
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.white54,
+                ),
+              if (isSelected) const SizedBox(width: 5),
+              if (isSelected)
+                Text(
+                  labels[index],
+                  style: Theme.of(context).textTheme.labelLarge,
+                )
+            ],
+          ),
+        ),
       ),
     );
   }

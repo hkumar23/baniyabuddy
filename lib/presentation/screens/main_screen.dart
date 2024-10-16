@@ -42,18 +42,18 @@ class _MainScreenState extends State<MainScreen> {
       ),
       appBar: _selectedIndex == 2
           ? AppBar(
-              leading: IconButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const SalesHistory();
-                      },
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.history_rounded),
-              ),
+              // leading: IconButton(
+              //   onPressed: () {
+              //     Navigator.of(context).push(
+              //       MaterialPageRoute(
+              //         builder: (context) {
+              //           return const SalesHistory();
+              //         },
+              //       ),
+              //     );
+              //   },
+              //   icon: const Icon(Icons.history_rounded),
+              // ),
               actions: [
                 IconButton(
                   onPressed: () {
