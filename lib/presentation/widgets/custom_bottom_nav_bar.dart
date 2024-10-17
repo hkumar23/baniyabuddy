@@ -12,7 +12,10 @@ class CustomBottomNavBar extends StatelessWidget {
   final Function onTapped;
   final List<IconData> icons = [
     Icons.history,
-    Icons.article,
+    // MdiIcons.cashRegister,
+    // Icons.description,
+    // MdiIcons.currencyInr,
+    MdiIcons.fileDocument,
     Icons.calculate,
     MdiIcons.star,
     Icons.settings,
@@ -54,10 +57,11 @@ class CustomBottomNavBar extends StatelessWidget {
 
   Widget buildNavItem(int index, BuildContext context) {
     bool isSelected = selectedIndex == index;
-    final deviceSize = MediaQuery.of(context).size.width;
+    final deviceWidth = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: () => onTapped(index),
       child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         margin: isSelected ? const EdgeInsets.symmetric(horizontal: 5) : null,
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
@@ -66,34 +70,31 @@ class CustomBottomNavBar extends StatelessWidget {
               : Colors.transparent,
           borderRadius: const BorderRadius.all(Radius.circular(30)),
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-          child: Row(
-            children: [
-              if (index != 3)
-                Icon(
-                  icons[index],
-                  color: isSelected
-                      ? Theme.of(context).colorScheme.primary
-                      : Colors.white54,
-                  size: deviceSize * 0.08,
-                )
-              else
-                Image.asset(
-                  "assets/images/christmas-stars.png",
-                  height: deviceSize * 0.08,
-                  color: isSelected
-                      ? Theme.of(context).colorScheme.primary
-                      : Colors.white54,
-                ),
-              if (isSelected) const SizedBox(width: 5),
-              if (isSelected)
-                Text(
-                  labels[index],
-                  style: Theme.of(context).textTheme.labelLarge,
-                )
-            ],
-          ),
+        child: Row(
+          children: [
+            if (index != 3)
+              Icon(
+                icons[index],
+                color: isSelected
+                    ? Theme.of(context).colorScheme.primary
+                    : Colors.white54,
+                size: deviceWidth * 0.08,
+              )
+            else
+              Image.asset(
+                "assets/images/christmas-stars.png",
+                height: deviceWidth * 0.08,
+                color: isSelected
+                    ? Theme.of(context).colorScheme.primary
+                    : Colors.white54,
+              ),
+            if (isSelected) const SizedBox(width: 5),
+            if (isSelected)
+              Text(
+                labels[index],
+                style: Theme.of(context).textTheme.labelLarge,
+              )
+          ],
         ),
       ),
     );

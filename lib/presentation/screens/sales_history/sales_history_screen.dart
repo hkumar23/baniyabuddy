@@ -82,10 +82,8 @@ class SalesHistory extends StatelessWidget {
                                   height:
                                       MediaQuery.of(context).size.height * 0.7,
                                   child: Column(
-                                    children: _buildTransactionList(
-                                      transactionsList,
-                                      deviceSize,
-                                    ),
+                                    children:
+                                        _buildTransactionList(transactionsList),
                                   ),
                                 ),
                               ),
@@ -105,7 +103,6 @@ class SalesHistory extends StatelessWidget {
 
 List<Widget> _buildTransactionList(
   List<TransactionDetails> transactionsList,
-  Size deviceSize,
 ) {
   List<Widget> transactionWidgets = [];
   for (int i = 0; i < transactionsList.length; i++) {
