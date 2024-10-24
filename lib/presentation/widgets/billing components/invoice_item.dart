@@ -1,86 +1,123 @@
+import 'package:baniyabuddy/presentation/widgets/billing%20components/invoice_details_bottomsheet.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class InvoiceItem extends StatelessWidget {
-  const InvoiceItem({super.key});
+  InvoiceItem({super.key});
+  final List<Map<String, dynamic>> items = [
+    {
+      'item': 'Product A',
+      'quantity': 2,
+      'unitPrice': 500,
+      'tax': 18,
+      'discount': 10,
+      'totalPrice': 900
+    },
+    {
+      'item': 'Product B',
+      'quantity': 1,
+      'unitPrice': 1200,
+      'tax': 18,
+      'discount': 5,
+      'totalPrice': 1140
+    },
+    {
+      'item': 'Product C',
+      'quantity': 1,
+      'unitPrice': 1000,
+      'tax': 18,
+      'discount': 15,
+      'totalPrice': 950
+    }
+  ];
+
+  void showInvoiceDetails(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true, // Ensures the bottom sheet can expand fully
+      enableDrag: true,
+      builder: (BuildContext context) {
+        return InvoiceDetailsBottomsheet.bottomSheet(context, items);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    // return Container(
-    //     padding: const EdgeInsets.symmetric(horizontal: 10),
-    //     height: 80,
-    //     child: Card(
-    //       color: Theme.of(context).colorScheme.surfaceContainerHighest,
-    //       child: const Row(
-    //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-    //         children: [],
-    //       ),
-    //     ));
-    int quantity = 50;
-    int price = 40;
-    int totalPrice = quantity * price;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      // height: 100,
-      child: Card(
-        elevation: 4,
-        color: Theme.of(context).colorScheme.surfaceContainerHighest,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          side: BorderSide(color: Theme.of(context).colorScheme.outline),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    return GestureDetector(
+      onTap: () => showInvoiceDetails(context),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Card(
+          elevation: 6,
+          color: Theme.of(context).colorScheme.surfaceContainerHigh,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+            // side: BorderSide(color: Theme.of(context).colorScheme.outline),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 8,
+            ),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      "ItemName",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
                     Text(
-                      'Quantity: $quantity',
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontSize: 14,
-                      ),
+                      "Customer Name",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall!
+                          .copyWith(fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(height: 5),
+                    const Icon(Icons.edit)
+                  ],
+                ),
+                const SizedBox(height: 5),
+                Row(
+                  children: [
                     Text(
-                      'Unit Price: ₹${price.toStringAsFixed(2)}',
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontSize: 14,
-                      ),
+                      'INV00001',
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                     ),
-                    const SizedBox(height: 5),
+                  ],
+                ),
+                const SizedBox(height: 5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
                     Text(
-                      'Total: ₹${totalPrice.toStringAsFixed(2)}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Theme.of(context).colorScheme.primary,
+                      'Total: ₹1000',
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: Text(
+                        DateFormat('d MMMM yyyy')
+                            .format(Timestamp.now().toDate()),
+                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withOpacity(0.6),
+                            ),
                       ),
                     ),
                   ],
                 ),
-              ),
+              ],
             ),
-            IconButton(
-              icon: const Icon(Icons.delete, color: Colors.red),
-              onPressed: () {
-                // Handle deletion of the invoice item
-              },
-            ),
-          ],
+          ),
         ),
       ),
     );

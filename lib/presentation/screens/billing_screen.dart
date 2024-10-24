@@ -1,6 +1,6 @@
-import 'package:baniyabuddy/utils/work_in_progress.dart';
+import 'package:baniyabuddy/presentation/screens/invoice_form_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../widgets/billing components/invoice_item.dart';
 
@@ -17,7 +17,16 @@ class BillingScreen extends StatelessWidget {
         Align(
           alignment: Alignment.bottomCenter,
           child: GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const InvoiceFormScreen();
+                  },
+                ),
+              );
+            },
             child: Container(
               margin: const EdgeInsets.only(bottom: 12),
               padding: const EdgeInsets.all(8),
@@ -37,14 +46,14 @@ class BillingScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    MdiIcons.plus,
+                    Icons.add_rounded,
                     size: 30,
-                    color: Theme.of(context).colorScheme.onPrimary,
+                    color: Theme.of(context).colorScheme.surface,
                   ),
                   Text(
                     "Create Invoice",
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimary,
+                          color: Theme.of(context).colorScheme.surface,
                           fontWeight: FontWeight.bold,
                         ),
                   ),
@@ -63,7 +72,7 @@ List<Widget> _buildInvoiceList(
     ) {
   List<Widget> invoiceItems = [];
   for (int i = 0; i < 10; i++) {
-    invoiceItems.add(const InvoiceItem());
+    invoiceItems.add(InvoiceItem());
   }
   invoiceItems.add(const SizedBox(height: 80));
   return invoiceItems;
