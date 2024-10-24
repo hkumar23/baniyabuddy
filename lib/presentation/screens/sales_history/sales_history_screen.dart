@@ -78,14 +78,14 @@ class SalesHistory extends StatelessWidget {
                             )
                           : Expanded(
                               child: SingleChildScrollView(
-                                child: SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.7,
-                                  child: Column(
-                                    children:
-                                        _buildTransactionList(transactionsList),
-                                  ),
+                                // child: SizedBox(
+                                //   height:
+                                //       MediaQuery.of(context).size.height * 0.7,
+                                child: Column(
+                                  children:
+                                      _buildTransactionList(transactionsList),
                                 ),
+                                // ),
                               ),
                             ),
                     ],

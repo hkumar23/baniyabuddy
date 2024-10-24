@@ -2,7 +2,7 @@ import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_bloc.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_event.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
 import 'package:baniyabuddy/presentation/screens/authentication/email/sign_up_with_email.dart';
-import 'package:baniyabuddy/presentation/screens/calculator/calculator.dart';
+import 'package:baniyabuddy/presentation/screens/main_screen.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_bloc.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_event.dart';
 import 'package:flutter/gestures.dart';
@@ -44,7 +44,7 @@ class SignInWithEmailScreen extends StatelessWidget {
             context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
             Navigator.of(context).popUntil((route) => route.isFirst);
             Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => const Calculator(),
+              builder: (context) => const MainScreen(),
             ));
           }
         },

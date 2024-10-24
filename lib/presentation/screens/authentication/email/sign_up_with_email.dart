@@ -1,7 +1,7 @@
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_bloc.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_event.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
-import 'package:baniyabuddy/presentation/screens/calculator/calculator.dart';
+import 'package:baniyabuddy/presentation/screens/main_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +35,7 @@ class SignUpWithEmailScreen extends StatelessWidget {
           if (state is SignUpWithEmailSuccessState) {
             Navigator.of(context).popUntil((route) => route.isFirst);
             Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => const Calculator(),
+              builder: (context) => const MainScreen(),
             ));
           } else if (state is AuthErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
