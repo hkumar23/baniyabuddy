@@ -1,5 +1,5 @@
 import 'package:baniyabuddy/constants/app_language.dart';
-import 'package:baniyabuddy/data/models/transaction_details.dart';
+import 'package:baniyabuddy/data/models/transaction.model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

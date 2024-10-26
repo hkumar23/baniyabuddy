@@ -1,4 +1,4 @@
-import 'package:baniyabuddy/data/models/transaction_details.dart';
+import 'package:baniyabuddy/data/models/transaction.model.dart';
 
 abstract class CalculatorEvent {}
 
