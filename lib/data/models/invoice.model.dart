@@ -22,6 +22,8 @@ class InvoiceDetails {
 
   final List<BillItem> billItems;
 
+  String? notes;
+
   InvoiceDetails({
     required this.firebaseDocId,
     // Invoice Details
@@ -41,6 +43,7 @@ class InvoiceDetails {
     required this.grandTotal,
     this.shippingCharges,
     required this.billItems,
+    this.notes,
   });
 
   factory InvoiceDetails.fromJson(Map json) {
@@ -60,6 +63,7 @@ class InvoiceDetails {
       grandTotal: json[AppConstants.grandTotal],
       shippingCharges: json[AppConstants.shippingCharges],
       billItems: json[AppConstants.billItems],
+      notes: json[AppConstants.notes],
     );
   }
 
@@ -80,6 +84,7 @@ class InvoiceDetails {
       AppConstants.grandTotal: grandTotal,
       AppConstants.shippingCharges: shippingCharges,
       AppConstants.billItems: billItems.map((item) => item.toJson()).toList(),
+      AppConstants.notes: notes,
     };
   }
 }

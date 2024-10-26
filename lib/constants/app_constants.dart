@@ -25,4 +25,9 @@ class AppConstants {
   static const String totalDiscount = "totalDiscount";
   static const String totalTaxAmount = "totalTaxAmount";
   static const String shippingCharges = "shippingCharges";
+  static const String name = "name";
+  static const String address = "address";
+  static const String email = "email";
+  static const String phone = "phone";
+  static const String gstin = "gstin";
 }
