@@ -1,4 +1,4 @@
-import 'package:baniyabuddy/data/models/transaction_details.dart';
+import 'package:baniyabuddy/data/models/transaction.model.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_bloc.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_event.dart';
 import 'package:baniyabuddy/presentation/widgets/custom_bottom_nav_bar.dart';

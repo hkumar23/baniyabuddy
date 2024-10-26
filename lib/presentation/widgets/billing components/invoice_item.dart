@@ -2,7 +2,6 @@ import 'package:baniyabuddy/presentation/widgets/billing%20components/invoice_de
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class InvoiceItem extends StatelessWidget {
   InvoiceItem({super.key});
@@ -64,20 +63,30 @@ class InvoiceItem extends StatelessWidget {
               vertical: 8,
             ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Customer Name",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall!
-                          .copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    const Icon(Icons.edit)
-                  ],
+                Text(
+                  "Harsh Kumar",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall!
+                      .copyWith(fontWeight: FontWeight.bold),
+                  // textAlign: TextAlign.left,
                 ),
+                // Wrap(
+                //   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   runAlignment: WrapAlignment.spaceBetween,
+                //   children: [
+                //     Text(
+                //       "Vend Gopal MutuSwami Iyer",
+                //       style: Theme.of(context)
+                //           .textTheme
+                //           .headlineSmall!
+                //           .copyWith(fontWeight: FontWeight.bold),
+                //     ),
+                //     const Icon(Icons.edit)
+                //   ],
+                // ),
                 const SizedBox(height: 5),
                 Row(
                   children: [

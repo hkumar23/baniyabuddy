@@ -85,7 +85,7 @@ abstract class InvoiceDetailsBottomsheet {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 10),
                               child: Text('S.No',
-                                  style: theme.textTheme.bodyLarge),
+                                  style: theme.textTheme.bodyMedium),
                             ),
                           ),
                           DataColumn(
