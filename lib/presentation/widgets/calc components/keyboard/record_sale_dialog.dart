@@ -4,6 +4,7 @@ import 'package:baniyabuddy/data/models/transaction.model.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_bloc.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_event.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_state.dart';
+import 'package:baniyabuddy/presentation/widgets/payment_method_dropdown.dart';
 import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,6 +23,12 @@ class _RecordSaleDialogState extends State<RecordSaleDialog> {
   final TextEditingController _notesController = TextEditingController();
 
   String? paymentMethod = AppLanguage.notSelected;
+
+  void setPaymentMethod(String value) {
+    setState(() {
+      paymentMethod = value;
+    });
+  }
 
   @override
   void dispose() {
@@ -124,8 +131,6 @@ class _RecordSaleDialogState extends State<RecordSaleDialog> {
                 decoration: const InputDecoration(labelText: AppLanguage.notes),
               ),
               Container(
-                // alignment: Alignment.centerLeft,
-
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 decoration: BoxDecoration(
                   border: Border(
@@ -139,44 +144,11 @@ class _RecordSaleDialogState extends State<RecordSaleDialog> {
                     ),
                   ),
                 ),
-                child: DropdownButton(
-                  isExpanded: true,
-                  underline: Container(),
-                  itemHeight: 50,
-                  value: paymentMethod,
-                  items: const [
-                    DropdownMenuItem(
-                      value: AppLanguage.cash,
-                      child: Text(AppLanguage.cash),
-                    ),
-                    DropdownMenuItem(
-                      value: AppLanguage.upi,
-                      child: Text(AppLanguage.upi),
-                    ),
-                    DropdownMenuItem(
-                      value: AppLanguage.amountDue,
-                      child: Text(AppLanguage.amountDue),
-                    ),
-                    DropdownMenuItem(
-                      value: AppLanguage.netBanking,
-                      child: Text(AppLanguage.netBanking),
-                    ),
-                    DropdownMenuItem(
-                      value: AppLanguage.creditDebitCard,
-                      child: Text(AppLanguage.creditDebitCard),
-                    ),
-                    DropdownMenuItem(
-                      value: AppLanguage.notSelected,
-                      child: Text(AppLanguage.notSelected),
-                    ),
-                  ],
-                  onChanged: (String? value) {
-                    setState(() {
-                      paymentMethod = value;
-                    });
-                  },
+                child: PaymentMethodDropdown(
+                  setPaymentMethod: setPaymentMethod,
+                  paymentMethod: paymentMethod,
                 ),
-              )
+              ),
             ],
           ),
         ),

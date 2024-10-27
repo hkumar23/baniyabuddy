@@ -50,4 +50,7 @@ class AppLanguage {
   static const String billing = "Billing";
   static const String gemini = "Gemini";
   static const String settings = "Settings";
+  static const String extraDiscount = "Extra Discount";
+  static const String cancel = "Cancel";
+  static const String save = "Save";
 }

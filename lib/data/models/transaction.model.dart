@@ -1,4 +1,4 @@
-import 'package:baniyabuddy/constants/app_constants.dart';
+import '../../constants/app_constants.dart';
 
 class TransactionDetails {
   final String docId;

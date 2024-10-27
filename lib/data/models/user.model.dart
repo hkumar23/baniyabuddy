@@ -8,11 +8,11 @@ class User {
   String? gstin;
 
   User({
-    this.name,
-    this.address,
-    this.email,
-    this.phone,
-    this.gstin,
+    this.name = "Customer",
+    this.address = "ABC, 123, State,pincode, Country",
+    this.email = "customer@test.com",
+    this.phone = "9999999999",
+    this.gstin = "22AAAAA0000A1Z5",
   });
 
   Map<String, dynamic> toJson() {
