@@ -1,3 +1,4 @@
+import 'package:baniyabuddy/presentation/widgets/billing%20components/add_billitem_dialog.dart';
 import 'package:flutter/material.dart';
 
 class AddItemButtonInvoice extends StatelessWidget {
@@ -11,17 +12,7 @@ class AddItemButtonInvoice extends StatelessWidget {
         showDialog(
             context: context,
             builder: (context) {
-              return AlertDialog(
-                title: const Text("Add Item"),
-                content: Column(
-                  children: [
-                    TextFormField(),
-                    TextFormField(),
-                    TextFormField(),
-                    TextFormField(),
-                  ],
-                ),
-              );
+              return const AddBillitemDialog();
             });
       },
       child: Container(

@@ -1,12 +1,10 @@
-import 'package:baniyabuddy/constants/app_language.dart';
-import 'package:baniyabuddy/presentation/screens/billing_screen.dart';
+import 'package:baniyabuddy/presentation/screens/billing/billing_screen.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/calculator.dart';
 import 'package:baniyabuddy/presentation/screens/gemini_chat_screen.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/sales_history_screen.dart';
 import 'package:baniyabuddy/presentation/screens/settings_screen.dart';
 import 'package:baniyabuddy/presentation/widgets/custom_appbar.dart';
 import 'package:baniyabuddy/presentation/widgets/custom_bottom_nav_bar.dart';
-import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {

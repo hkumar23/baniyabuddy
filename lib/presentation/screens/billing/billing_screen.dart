@@ -1,7 +1,7 @@
-import 'package:baniyabuddy/presentation/screens/invoice_form_screen.dart';
+import 'package:baniyabuddy/presentation/screens/billing/invoice_form_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/billing components/invoice_item.dart';
+import '../../widgets/billing components/invoice_item.dart';
 
 class BillingScreen extends StatelessWidget {
   const BillingScreen({super.key});
