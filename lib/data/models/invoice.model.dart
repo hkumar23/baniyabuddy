@@ -1,28 +1,28 @@
-import 'package:baniyabuddy/constants/app_constants.dart';
-import 'package:baniyabuddy/data/models/bill_item.model.dart';
+import '../../constants/app_constants.dart';
+import 'bill_item.model.dart';
 
 class InvoiceDetails {
-  final String firebaseDocId;
+  String? firebaseDocId;
   // Invoice Details
-  final String invoiceNumber;
-  final String invoiceDate;
-  final String paymentMethod;
+  int? invoiceNumber;
+  final DateTime? invoiceDate;
+  final String? paymentMethod;
   // Client Details
   final String clientName;
-  String? clientAddress;
-  String? clientEmail;
-  String? clientPhone;
+  final String? clientAddress;
+  final String? clientEmail;
+  final String? clientPhone;
   // Summary Details
-  final String subtotal;
-  String? extraDiscount;
-  String? totalDiscount;
-  String? totalTaxAmount;
-  final String grandTotal;
-  String? shippingCharges;
+  double? subtotal;
+  double? extraDiscount;
+  double? totalDiscount;
+  double? totalTaxAmount;
+  double? grandTotal;
+  final double? shippingCharges;
 
-  final List<BillItem> billItems;
+  final List<BillItem>? billItems;
 
-  String? notes;
+  final String? notes;
 
   InvoiceDetails({
     required this.firebaseDocId,
@@ -32,18 +32,18 @@ class InvoiceDetails {
     required this.paymentMethod,
     // Client Details
     required this.clientName,
-    this.clientAddress,
-    this.clientEmail,
-    this.clientPhone,
+    required this.clientAddress,
+    required this.clientEmail,
+    required this.clientPhone,
     // Summary Details
     required this.subtotal,
-    this.extraDiscount,
-    this.totalDiscount,
-    this.totalTaxAmount,
+    required this.extraDiscount,
+    required this.totalDiscount,
+    required this.totalTaxAmount,
     required this.grandTotal,
-    this.shippingCharges,
+    required this.shippingCharges,
     required this.billItems,
-    this.notes,
+    required this.notes,
   });
 
   factory InvoiceDetails.fromJson(Map json) {
@@ -83,7 +83,7 @@ class InvoiceDetails {
       AppConstants.totalTaxAmount: totalTaxAmount,
       AppConstants.grandTotal: grandTotal,
       AppConstants.shippingCharges: shippingCharges,
-      AppConstants.billItems: billItems.map((item) => item.toJson()).toList(),
+      AppConstants.billItems: billItems?.map((item) => item.toJson()).toList(),
       AppConstants.notes: notes,
     };
   }

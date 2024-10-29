@@ -1,25 +1,57 @@
-import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:flutter/material.dart';
 
-class AddBillitemDialog extends StatefulWidget {
-  const AddBillitemDialog({super.key});
+import '../../../constants/app_language.dart';
+import '../../../data/models/bill_item.model.dart';
 
-  @override
-  _AddBillitemDialogState createState() => _AddBillitemDialogState();
-}
-
-class _AddBillitemDialogState extends State<AddBillitemDialog> {
+class AddBillitemDialog extends StatelessWidget {
+  AddBillitemDialog({
+    super.key,
+    required this.billItems,
+  });
+  List<BillItem> billItems;
   final _formKey = GlobalKey<FormState>();
+
   final TextEditingController _itemNameController = TextEditingController();
+
   final TextEditingController _quantityController = TextEditingController();
+
   final TextEditingController _unitPriceController = TextEditingController();
+
   final TextEditingController _taxController = TextEditingController();
+
   final TextEditingController _discountController = TextEditingController();
 
-  void _submitData() {
-    if (_formKey.currentState!.validate()) {
-      Navigator.of(context).pop(); // Close the dialog
+  void submitData(context) {
+    if (!_formKey.currentState!.validate()) return;
+    _formKey.currentState!.save();
+
+    int qty = int.parse(_quantityController.text);
+    double unitPrice = double.parse(_unitPriceController.text);
+    unitPrice = double.parse(unitPrice.toStringAsFixed(2));
+    double? tax = double.tryParse(_taxController.text);
+    double? discount = double.tryParse(_discountController.text);
+
+    double totalPrice = qty * unitPrice;
+    if (discount != null) {
+      discount = double.parse(discount.toStringAsFixed(2));
+      totalPrice = totalPrice - (totalPrice * discount) / 100;
     }
+    if (tax != null) {
+      tax = double.parse(tax.toStringAsFixed(2));
+      totalPrice = totalPrice + (totalPrice * tax) / 100;
+    }
+    totalPrice = double.parse(totalPrice.toStringAsFixed(2));
+
+    billItems.add(BillItem(
+      itemName: _itemNameController.text,
+      quantity: qty,
+      unitPrice: unitPrice,
+      totalPrice: totalPrice,
+      discount: discount,
+      tax: tax,
+    ));
+
+    Navigator.of(context).pop(); // Close the dialog
   }
 
   @override
@@ -36,7 +68,7 @@ class _AddBillitemDialogState extends State<AddBillitemDialog> {
             children: [
               TextFormField(
                 controller: _itemNameController,
-                decoration: const InputDecoration(labelText: "Item Name"),
+                decoration: const InputDecoration(labelText: "Item Name*"),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Please enter an item name";
@@ -50,7 +82,7 @@ class _AddBillitemDialogState extends State<AddBillitemDialog> {
                   Expanded(
                     child: TextFormField(
                       controller: _quantityController,
-                      decoration: const InputDecoration(labelText: "Quantity"),
+                      decoration: const InputDecoration(labelText: "Quantity*"),
                       keyboardType: TextInputType.number,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -68,7 +100,7 @@ class _AddBillitemDialogState extends State<AddBillitemDialog> {
                     child: TextFormField(
                       controller: _unitPriceController,
                       decoration: const InputDecoration(
-                        labelText: "Unit Price",
+                        labelText: "Unit Price*",
                         prefix: Icon(
                           Icons.currency_rupee,
                           size: 15,
@@ -80,7 +112,7 @@ class _AddBillitemDialogState extends State<AddBillitemDialog> {
                           return "Enter unit price";
                         }
                         if (double.tryParse(value) == null) {
-                          return "Enter a valid amount";
+                          return "Invalid Amount";
                         }
                         return null;
                       },
@@ -155,18 +187,12 @@ class _AddBillitemDialogState extends State<AddBillitemDialog> {
             backgroundColor: theme.colorScheme.onSecondaryContainer,
             foregroundColor: theme.colorScheme.surface,
           ),
-          onPressed: _submitData, // Validate and save
+          onPressed: () {
+            submitData(context);
+          }, // Validate and save
           child: const Text(AppLanguage.save),
         ),
       ],
     );
   }
-}
-
-// Usage
-void showAddBillitemDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (ctx) => const AddBillitemDialog(),
-  );
 }

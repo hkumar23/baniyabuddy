@@ -1,17 +1,18 @@
-import 'package:baniyabuddy/constants/app_constants.dart';
 import 'package:baniyabuddy/firebase_options.dart';
-import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_bloc.dart';
-import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
-import 'package:baniyabuddy/presentation/screens/authentication/email/sign_in_with_email.dart';
-import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_bloc.dart';
-import 'package:baniyabuddy/presentation/screens/calculator/calculator.dart';
-import 'package:baniyabuddy/presentation/screens/main_screen.dart';
-import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_bloc.dart';
-import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_event.dart';
-import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'constants/app_constants.dart';
+import 'logic/Blocs/Authentication/bloc/auth_bloc.dart';
+import 'logic/Blocs/Authentication/bloc/auth_state.dart';
+import 'presentation/screens/authentication/email/sign_in_with_email.dart';
+import 'presentation/screens/billing/bloc/billing_bloc.dart';
+import 'presentation/screens/calculator/bloc/calculator_bloc.dart';
+import 'presentation/screens/main_screen.dart';
+import 'presentation/screens/sales_history/bloc/sales_history_bloc.dart';
+import 'presentation/screens/sales_history/bloc/sales_history_event.dart';
+import 'utils/app_methods.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,6 +54,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<BillingBloc>(create: (context) => BillingBloc()),
         BlocProvider<AuthBloc>(create: (context) => AuthBloc()),
         BlocProvider<CalculatorBloc>(create: (context) => CalculatorBloc()),
         BlocProvider<SalesHistoryBloc>(create: (context) => SalesHistoryBloc()),

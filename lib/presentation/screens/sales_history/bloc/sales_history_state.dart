@@ -1,4 +1,4 @@
-import 'package:baniyabuddy/data/models/transaction.model.dart';
+import '../../../../data/models/transaction.model.dart';
 
 abstract class SalesHistoryState {}
 

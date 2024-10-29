@@ -139,6 +139,37 @@ class AppMethods {
     if (number < 0) return true;
     return false;
   }
+
+  static void shouldPopDialog(BuildContext context) async {
+    bool shouldPop = await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            "Data will be lost, if you leave !!",
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: const Text("Exit"),
+            ),
+          ],
+        );
+      },
+    );
+    if (shouldPop == true) {
+      Navigator.of(context).pop();
+    }
+  }
   // static DateTime getPreviousDate(int n, String timePeriod) {
   //   LocalDate today = LocalDate.today();
   //   LocalDate targetDate = today;
