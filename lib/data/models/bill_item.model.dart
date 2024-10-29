@@ -2,16 +2,16 @@ class BillItem {
   final String itemName;
   final int quantity;
   final double unitPrice;
-  double tax;
-  double discount;
+  double? tax;
+  double? discount;
   final double totalPrice;
 
   BillItem({
     required this.itemName,
     required this.quantity,
     required this.unitPrice,
-    this.tax = 0,
-    this.discount = 0,
+    this.tax,
+    this.discount,
     required this.totalPrice,
   });
 

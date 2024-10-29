@@ -1,6 +1,6 @@
-import 'package:baniyabuddy/presentation/screens/billing/invoice_form_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'invoice_form_screen.dart';
 import '../../widgets/billing components/invoice_item.dart';
 
 class BillingScreen extends StatelessWidget {
@@ -21,7 +21,7 @@ class BillingScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return InvoiceFormScreen();
+                    return const InvoiceFormScreen();
                   },
                 ),
               );

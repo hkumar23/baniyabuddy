@@ -53,4 +53,5 @@ class AppLanguage {
   static const String extraDiscount = "Extra Discount";
   static const String cancel = "Cancel";
   static const String save = "Save";
+  static const String phoneNumber = "Phone Number";
 }

@@ -46,47 +46,69 @@ class _CustomAnimatedButtonState extends State<CustomAnimatedButton> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return AnimatedContainer(
-      height: 45,
-      width: 130,
+    return Container(
+      padding: const EdgeInsets.all(8),
+      height: 40,
+      width: 150,
       alignment: Alignment.center,
-      duration: duration,
-      curve: Curves.easeInOut,
       decoration: BoxDecoration(
           color: theme.colorScheme.tertiary,
-          border: Border.all(
-            color: colors[index],
-            style: BorderStyle.solid,
-            width: 2,
-          ),
           borderRadius: const BorderRadius.all(Radius.circular(50)),
           boxShadow: const [
             BoxShadow(
               blurRadius: 5,
-              color: Colors.black87,
+              color: Colors.black54,
               spreadRadius: 2,
             )
           ]),
-      child:
-          // FilledButton(
-          //   style: ButtonStyle(
-          //     shadowColor: const WidgetStatePropertyAll(Colors.black),
-          //     backgroundColor: WidgetStatePropertyAll(
-          //       theme.colorScheme.tertiary,
-          //     ),
-          //     foregroundColor: WidgetStatePropertyAll(
-          //       theme.colorScheme.onTertiary,
-          //     ),
-          //   ),
-          //   onPressed: () {},
-          //   child:
-          Text(
-        'Generate Pdf',
+      child: Text(
+        'Generate Invoice',
         style: theme.textTheme.titleMedium!.copyWith(
           color: theme.colorScheme.onTertiary,
         ),
       ),
-      // ),
     );
+    // return AnimatedContainer(
+    //   height: 45,
+    //   width: 130,
+    //   alignment: Alignment.center,
+    //   duration: duration,
+    //   curve: Curves.easeInOut,
+    //   decoration: BoxDecoration(
+    //       color: theme.colorScheme.tertiary,
+    //       border: Border.all(
+    //         color: colors[index],
+    //         style: BorderStyle.solid,
+    //         width: 2,
+    //       ),
+    //       borderRadius: const BorderRadius.all(Radius.circular(50)),
+    //       boxShadow: const [
+    //         BoxShadow(
+    //           blurRadius: 5,
+    //           color: Colors.black87,
+    //           spreadRadius: 2,
+    //         )
+    //       ]),
+    //   child:
+    //       // FilledButton(
+    //       //   style: ButtonStyle(
+    //       //     shadowColor: const WidgetStatePropertyAll(Colors.black),
+    //       //     backgroundColor: WidgetStatePropertyAll(
+    //       //       theme.colorScheme.tertiary,
+    //       //     ),
+    //       //     foregroundColor: WidgetStatePropertyAll(
+    //       //       theme.colorScheme.onTertiary,
+    //       //     ),
+    //       //   ),
+    //       //   onPressed: () {},
+    //       //   child:
+    //       Text(
+    //     'Generate Pdf',
+    //     style: theme.textTheme.titleMedium!.copyWith(
+    //       color: theme.colorScheme.onTertiary,
+    //     ),
+    //   ),
+    //   // ),
+    // );
   }
 }
