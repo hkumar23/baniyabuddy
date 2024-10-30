@@ -36,7 +36,7 @@ class BillingBloc extends Bloc<BillingEvent, BillingState> {
     grandTotal += invoice.shippingCharges ?? 0;
     invoice.grandTotal = double.parse(
         grandTotal.toStringAsFixed(2)); //Updating InvoiceDetails Object
-    // print(invoice.toJson());
+    print(invoice.toJson());
   }
 
   double calcSubtotal(List<BillItem> billItems) {

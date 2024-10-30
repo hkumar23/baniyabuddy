@@ -3,6 +3,7 @@ import 'bill_item.model.dart';
 
 class InvoiceDetails {
   String? firebaseDocId;
+  bool isSynced;
   // Invoice Details
   int? invoiceNumber;
   final DateTime? invoiceDate;
@@ -26,6 +27,7 @@ class InvoiceDetails {
 
   InvoiceDetails({
     required this.firebaseDocId,
+    required this.isSynced,
     // Invoice Details
     required this.invoiceNumber,
     required this.invoiceDate,
@@ -49,6 +51,7 @@ class InvoiceDetails {
   factory InvoiceDetails.fromJson(Map json) {
     return InvoiceDetails(
       firebaseDocId: json[AppConstants.firebaseDocId],
+      isSynced: json[AppConstants.isSynced],
       invoiceNumber: json[AppConstants.invoiceNumber],
       invoiceDate: json[AppConstants.invoiceDate],
       paymentMethod: json[AppConstants.paymentMethod],
@@ -69,6 +72,7 @@ class InvoiceDetails {
 
   Map<String, dynamic> toJson() {
     return {
+      AppConstants.isSynced: isSynced,
       AppConstants.firebaseDocId: firebaseDocId,
       AppConstants.invoiceNumber: invoiceNumber,
       AppConstants.invoiceDate: invoiceDate,

@@ -50,6 +50,7 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
           GenerateInvoiceEvent(
             invoiceDetails: InvoiceDetails(
               firebaseDocId: null,
+              isSynced: false,
               invoiceNumber: null,
               invoiceDate: Timestamp.now().toDate(),
               paymentMethod: paymentMethod == AppLanguage.notSelected
@@ -90,212 +91,233 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
         appBar: AppBar(
           title: const Text('Create Invoice'),
         ),
-        body: Stack(
-          children: [
-            SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Client Details
-                    Text(
-                      'Client Details',
-                      style: theme.textTheme.titleLarge
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 10),
-                    TextFormField(
-                      controller: _clientNameController,
-                      decoration:
-                          const InputDecoration(labelText: 'Client Name*'),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter the Client Name';
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      controller: _addressController,
-                      decoration: const InputDecoration(labelText: 'Address'),
-                    ),
-                    TextFormField(
-                      controller: _emailController,
-                      decoration: const InputDecoration(labelText: 'Email'),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) return null;
-                        if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                          return 'Please enter a valid email';
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      controller: _phoneController,
-                      decoration: const InputDecoration(
-                        labelText: AppLanguage.phoneNumber,
-                        prefix: Text("+91"),
-                      ),
-                      maxLength: 10,
-                      keyboardType: TextInputType.phone,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) return null;
-                        if (value.length != 10) {
-                          return 'Phone number must be 10 digits';
-                        }
-                        if (!AppMethods.isNumeric(value)) {
-                          return "Enter a valid Phone Number";
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-
-                    // Item Details
-                    Text(
-                      'Item Details',
-                      style: theme.textTheme.titleLarge
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 10),
-
-                    Column(
-                      children: billItems.map((item) {
-                        return BillItemTile(
-                          billItem: BillItem(
-                            itemName: item.itemName,
-                            quantity: item.quantity,
-                            unitPrice: item.unitPrice,
-                            totalPrice: item.totalPrice,
-                            discount: item.discount,
-                            tax: item.tax,
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                    // Add item button
-                    const SizedBox(height: 10),
-                    GestureDetector(
-                      onTap: () async {
-                        await showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AddBillitemDialog(billItems: billItems);
-                          },
-                        );
-                        setState(() {});
-                      },
-                      child: const AddBillItemButton(),
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      'Others',
-                      style: theme.textTheme.titleLarge
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
+        body: BlocConsumer<BillingBloc, BillingState>(
+          listener: (context, state) {
+            if (state is BillingErrorState) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    state.errorMessage,
+                    style: theme.textTheme.labelLarge,
+                  ),
+                  backgroundColor: theme.colorScheme.errorContainer,
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            return Stack(
+              children: [
+                SingleChildScrollView(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          flex: 5,
-                          child: TextFormField(
-                            controller: _extraDiscountController,
-                            keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(
-                              prefix: Icon(
-                                Icons.currency_rupee,
-                                size: 15,
-                              ),
-                              labelText: AppLanguage.extraDiscount,
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) return null;
-                              if (!AppMethods.isNumeric(value)) {
-                                return "Enter a valid amount";
-                              }
-                              return null;
-                            },
-                          ),
+                        // Client Details
+                        Text(
+                          'Client Details',
+                          style: theme.textTheme.titleLarge
+                              ?.copyWith(fontWeight: FontWeight.bold),
                         ),
-                        const SizedBox(width: 7),
-                        Expanded(
-                          flex: 4,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 3,
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          controller: _clientNameController,
+                          decoration:
+                              const InputDecoration(labelText: 'Client Name*'),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter the Client Name';
+                            }
+                            return null;
+                          },
+                        ),
+                        TextFormField(
+                          controller: _addressController,
+                          decoration:
+                              const InputDecoration(labelText: 'Address'),
+                        ),
+                        TextFormField(
+                          controller: _emailController,
+                          decoration: const InputDecoration(labelText: 'Email'),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) return null;
+                            if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                                .hasMatch(value)) {
+                              return 'Please enter a valid email';
+                            }
+                            return null;
+                          },
+                        ),
+                        TextFormField(
+                          controller: _phoneController,
+                          decoration: const InputDecoration(
+                            labelText: AppLanguage.phoneNumber,
+                            prefix: Text("+91"),
+                          ),
+                          maxLength: 10,
+                          keyboardType: TextInputType.phone,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) return null;
+                            if (value.length != 10) {
+                              return 'Phone number must be 10 digits';
+                            }
+                            if (!AppMethods.isNumeric(value)) {
+                              return "Enter a valid Phone Number";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 20),
+
+                        // Item Details
+                        Text(
+                          'Item Details',
+                          style: theme.textTheme.titleLarge
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 10),
+
+                        Column(
+                          children: billItems.map((item) {
+                            return BillItemTile(
+                              billItem: BillItem(
+                                itemName: item.itemName,
+                                quantity: item.quantity,
+                                unitPrice: item.unitPrice,
+                                totalPrice: item.totalPrice,
+                                discount: item.discount,
+                                tax: item.tax,
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                        // Add item button
+                        const SizedBox(height: 10),
+                        GestureDetector(
+                          onTap: () async {
+                            await showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AddBillitemDialog(billItems: billItems);
+                              },
+                            );
+                            setState(() {});
+                          },
+                          child: const AddBillItemButton(),
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          'Others',
+                          style: theme.textTheme.titleLarge
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 5,
+                              child: TextFormField(
+                                controller: _extraDiscountController,
+                                keyboardType: TextInputType.number,
+                                decoration: const InputDecoration(
+                                  prefix: Icon(
+                                    Icons.currency_rupee,
+                                    size: 15,
+                                  ),
+                                  labelText: AppLanguage.extraDiscount,
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return null;
+                                  }
+                                  if (!AppMethods.isNumeric(value)) {
+                                    return "Enter a valid amount";
+                                  }
+                                  return null;
+                                },
+                              ),
                             ),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.white54),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(5)),
-                            ),
-                            child: PaymentMethodDropdown(
-                              setPaymentMethod: setPaymentMethod,
-                              paymentMethod: paymentMethod,
+                            const SizedBox(width: 7),
+                            Expanded(
+                              flex: 4,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 3,
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.white54),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(5)),
+                                ),
+                                child: PaymentMethodDropdown(
+                                  setPaymentMethod: setPaymentMethod,
+                                  paymentMethod: paymentMethod,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        TextFormField(
+                          controller: _shippingChargesController,
+                          decoration: const InputDecoration(
+                            labelText: 'Shipping Charges',
+                            prefix: Icon(
+                              Icons.currency_rupee,
+                              size: 15,
                             ),
                           ),
-                        )
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) return null;
+                            if (!AppMethods.isNumeric(value)) {
+                              return 'Enter a valid amount';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 12),
+                        TextFormField(
+                          controller: _notesController,
+                          maxLines: 3,
+                          decoration: const InputDecoration(
+                            alignLabelWithHint: true,
+                            labelText: 'Notes',
+                            border: OutlineInputBorder(),
+                            prefixIcon: Padding(
+                              padding: EdgeInsets.only(bottom: 50),
+                              child: Icon(Icons.notes),
+                            ),
+                          ),
+                          keyboardType: TextInputType.multiline,
+                        ),
+                        const SizedBox(height: 80),
                       ],
                     ),
-                    TextFormField(
-                      controller: _shippingChargesController,
-                      decoration: const InputDecoration(
-                        labelText: 'Shipping Charges',
-                        border: InputBorder.none,
-                        prefix: Icon(
-                          Icons.currency_rupee,
-                          size: 15,
-                        ),
-                      ),
-                      keyboardType: TextInputType.number,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) return null;
-                        if (!AppMethods.isNumeric(value)) {
-                          return 'Enter a valid amount';
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      controller: _notesController,
-                      maxLines: 3,
-                      decoration: const InputDecoration(
-                        alignLabelWithHint: true,
-                        labelText: 'Notes',
-                        border: OutlineInputBorder(),
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.only(bottom: 50),
-                          child: Icon(Icons.notes),
-                        ),
-                      ),
-                      keyboardType: TextInputType.multiline,
-                    ),
-                    const SizedBox(height: 80),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            // Submit Button
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: BlocBuilder<BillingBloc, BillingState>(
-                builder: (context, state) {
-                  return GestureDetector(
-                    onTap: () {
-                      onSubmit(context);
+                // Submit Button
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: BlocBuilder<BillingBloc, BillingState>(
+                    builder: (context, state) {
+                      return GestureDetector(
+                        onTap: () {
+                          onSubmit(context);
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.only(bottom: 20),
+                          child: CustomAnimatedButton(),
+                        ),
+                      );
                     },
-                    child: const Padding(
-                      padding: EdgeInsets.only(bottom: 20),
-                      child: CustomAnimatedButton(),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

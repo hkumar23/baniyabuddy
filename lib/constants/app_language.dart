@@ -5,7 +5,7 @@ class AppLanguage {
   static const String modulo = "%";
   static const String divide = "/";
   static const String multiply = "x";
-  // static const String subtraction = "";
+  // static const String subtraction = "-";
   static const String addition = "+";
   static const String equal = "=";
   static const String zero = "0";
@@ -54,4 +54,10 @@ class AppLanguage {
   static const String cancel = "Cancel";
   static const String save = "Save";
   static const String phoneNumber = "Phone Number";
+  static const String addItem = "Add Item";
+  static const String quantity = "Quantity";
+  static const String unitPrice = "Unit Price";
+  static const String tax = "Tax";
+  static const String discount = "Discount";
+  static const String add = "Add";
 }
