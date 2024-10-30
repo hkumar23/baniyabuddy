@@ -30,4 +30,5 @@ class AppConstants {
   static const String email = "email";
   static const String phone = "phone";
   static const String gstin = "gstin";
+  static const String isSynced = "isSynced";
 }

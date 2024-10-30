@@ -1,3 +1,4 @@
+import 'package:baniyabuddy/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/app_language.dart';
@@ -58,8 +59,8 @@ class AddBillitemDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return AlertDialog(
-      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-      title: const Text("Add Item"),
+      backgroundColor: theme.colorScheme.secondaryContainer,
+      title: const Text(AppLanguage.addItem),
       content: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -71,7 +72,7 @@ class AddBillitemDialog extends StatelessWidget {
                 decoration: const InputDecoration(labelText: "Item Name*"),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return "Please enter an item name";
+                    return "Please enter item name";
                   }
                   return null;
                 },
@@ -82,7 +83,8 @@ class AddBillitemDialog extends StatelessWidget {
                   Expanded(
                     child: TextFormField(
                       controller: _quantityController,
-                      decoration: const InputDecoration(labelText: "Quantity*"),
+                      decoration: const InputDecoration(
+                          labelText: "${AppLanguage.quantity}*"),
                       keyboardType: TextInputType.number,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -100,7 +102,7 @@ class AddBillitemDialog extends StatelessWidget {
                     child: TextFormField(
                       controller: _unitPriceController,
                       decoration: const InputDecoration(
-                        labelText: "Unit Price*",
+                        labelText: "${AppLanguage.unitPrice}*",
                         prefix: Icon(
                           Icons.currency_rupee,
                           size: 15,
@@ -127,7 +129,7 @@ class AddBillitemDialog extends StatelessWidget {
                     child: TextFormField(
                       controller: _taxController,
                       decoration: const InputDecoration(
-                        labelText: "Tax in %",
+                        labelText: "${AppLanguage.tax} in %",
                         suffix: Icon(
                           Icons.percent,
                           size: 20,
@@ -150,7 +152,7 @@ class AddBillitemDialog extends StatelessWidget {
                     child: TextFormField(
                       controller: _discountController,
                       decoration: const InputDecoration(
-                        labelText: "Discount in %",
+                        labelText: "${AppLanguage.discount} in %",
                         suffix: Icon(
                           Icons.percent,
                           size: 20,
@@ -180,17 +182,29 @@ class AddBillitemDialog extends StatelessWidget {
         TextButton(
           onPressed: () =>
               Navigator.of(context).pop(), // Close the dialog without saving
-          child: const Text(AppLanguage.cancel),
+          child: Text(
+            AppLanguage.cancel,
+            style: theme.textTheme.labelLarge!.copyWith(
+              color: theme.colorScheme.primary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
         FilledButton(
           style: FilledButton.styleFrom(
-            backgroundColor: theme.colorScheme.onSecondaryContainer,
-            foregroundColor: theme.colorScheme.surface,
+            backgroundColor: theme.colorScheme.primary,
+            foregroundColor: theme.colorScheme.onPrimary,
           ),
           onPressed: () {
             submitData(context);
           }, // Validate and save
-          child: const Text(AppLanguage.save),
+          child: Text(
+            AppLanguage.add,
+            style: theme.textTheme.labelLarge!.copyWith(
+              color: theme.colorScheme.onPrimary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       ],
     );
