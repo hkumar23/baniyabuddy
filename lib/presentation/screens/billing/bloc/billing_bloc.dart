@@ -13,7 +13,7 @@ class BillingBloc extends Bloc<BillingEvent, BillingState> {
 
   void _onGenerateInvoiceEvent(
       GenerateInvoiceEvent event, Emitter<BillingState> emit) {
-    InvoiceDetails invoice = event.invoiceDetails;
+    Invoice invoice = event.invoice;
     // print(invoice.toJson());
     if (invoice.billItems == null || invoice.billItems!.isEmpty) {
       emit(BillingErrorState(errorMessage: "You should add atleast 1 item"));
@@ -21,8 +21,8 @@ class BillingBloc extends Bloc<BillingEvent, BillingState> {
     }
 
     double subTotal = calcSubtotal(invoice.billItems!);
-    invoice.subtotal = double.parse(
-        subTotal.toStringAsFixed(2)); //Updating InvoiceDetails Object
+    invoice.subtotal =
+        double.parse(subTotal.toStringAsFixed(2)); //Updating Invoice Object
 
     List<double> totalTaxAndDiscount = calcTotalTaxAndDiscount(invoice);
     invoice.totalTaxAmount =
@@ -34,8 +34,8 @@ class BillingBloc extends Bloc<BillingEvent, BillingState> {
     grandTotal -= invoice.totalDiscount!;
     grandTotal += invoice.totalTaxAmount!;
     grandTotal += invoice.shippingCharges ?? 0;
-    invoice.grandTotal = double.parse(
-        grandTotal.toStringAsFixed(2)); //Updating InvoiceDetails Object
+    invoice.grandTotal =
+        double.parse(grandTotal.toStringAsFixed(2)); //Updating Invoice Object
     print(invoice.toJson());
   }
 
@@ -47,7 +47,7 @@ class BillingBloc extends Bloc<BillingEvent, BillingState> {
     return subTotal;
   }
 
-  List<double> calcTotalTaxAndDiscount(InvoiceDetails invoice) {
+  List<double> calcTotalTaxAndDiscount(Invoice invoice) {
     final billItems = invoice.billItems!;
     double totalTaxAmount = 0;
     double totalDiscount = 0;

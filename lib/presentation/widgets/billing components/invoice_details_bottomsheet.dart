@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-abstract class InvoiceDetailsBottomsheet {
+abstract class InvoiceBottomsheet {
   static BottomSheet bottomSheet(BuildContext context, List<dynamic> items) {
     final theme = Theme.of(context);
     return BottomSheet(

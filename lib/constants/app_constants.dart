@@ -11,7 +11,6 @@ class AppConstants {
   static const String days = "days";
   static const String months = "months";
   static const String weeks = "weeks";
-  static const String firebaseDocId = "firebaseDocId";
   static const String invoiceNumber = "invoiceNumber";
   static const String invoiceDate = "invoiceDate";
   static const String clientName = "clientName";
@@ -31,4 +30,5 @@ class AppConstants {
   static const String phone = "phone";
   static const String gstin = "gstin";
   static const String isSynced = "isSynced";
+  static const String globalInvoiceNumber = "globalInvoiceNumber";
 }

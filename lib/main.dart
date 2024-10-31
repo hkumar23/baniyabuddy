@@ -2,6 +2,7 @@ import 'package:baniyabuddy/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'constants/app_constants.dart';
 import 'logic/Blocs/Authentication/bloc/auth_bloc.dart';
@@ -13,10 +14,20 @@ import 'presentation/screens/main_screen.dart';
 import 'presentation/screens/sales_history/bloc/sales_history_bloc.dart';
 import 'presentation/screens/sales_history/bloc/sales_history_event.dart';
 import 'utils/app_methods.dart';
+import 'data/models/bill_item.model.dart';
+import 'data/models/invoice.model.dart';
+import 'utils/hive_adapter_names.dart';
+import 'utils/hive_adapter_typeids.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Hive.initFlutter();
+  Hive.registerAdapter(InvoiceAdapter());
+  Hive.registerAdapter(BillItemAdapter());
+  // opening box here so that it is easily available appwide right after start
+  Hive.openBox<int>("globalInvoiceNumberBox");
+  Hive.openBox<Invoice>("InvoiceBox");
   // await TimeMachine.initialize({'rootBundle': rootBundle});
   runApp(const MyApp());
 }
