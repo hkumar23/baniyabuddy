@@ -32,13 +32,13 @@ class InvoiceItem extends StatelessWidget {
     }
   ];
 
-  void showInvoiceDetails(BuildContext context) {
+  void showInvoice(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true, // Ensures the bottom sheet can expand fully
       enableDrag: true,
       builder: (BuildContext context) {
-        return InvoiceDetailsBottomsheet.bottomSheet(context, items);
+        return InvoiceBottomsheet.bottomSheet(context, items);
       },
     );
   }
@@ -46,7 +46,7 @@ class InvoiceItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => showInvoiceDetails(context),
+      onTap: () => showInvoice(context),
       child: Container(
         margin: const EdgeInsets.only(bottom: 5),
         padding: const EdgeInsets.symmetric(horizontal: 10),

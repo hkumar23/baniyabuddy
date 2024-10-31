@@ -60,4 +60,5 @@ class AppLanguage {
   static const String tax = "Tax";
   static const String discount = "Discount";
   static const String add = "Add";
+  static const String exit = "Exit";
 }

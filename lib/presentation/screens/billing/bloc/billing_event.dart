@@ -5,8 +5,8 @@ import '../../../../data/models/invoice.model.dart';
 abstract class BillingEvent {}
 
 class GenerateInvoiceEvent extends BillingEvent {
-  InvoiceDetails invoiceDetails;
-  GenerateInvoiceEvent({required this.invoiceDetails});
+  Invoice invoice;
+  GenerateInvoiceEvent({required this.invoice});
 }
 
 class UpdateInvoiceEvent extends BillingEvent {}

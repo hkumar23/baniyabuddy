@@ -154,13 +154,13 @@ class AppMethods {
               onPressed: () {
                 Navigator.of(context).pop(false);
               },
-              child: const Text("Cancel"),
+              child: const Text(AppLanguage.cancel),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(true);
               },
-              child: const Text("Exit"),
+              child: const Text(AppLanguage.exit),
             ),
           ],
         );

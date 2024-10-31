@@ -48,8 +48,8 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
     _formKey.currentState!.save();
     context.read<BillingBloc>().add(
           GenerateInvoiceEvent(
-            invoiceDetails: InvoiceDetails(
-              firebaseDocId: null,
+            invoice: Invoice(
+              docId: null,
               isSynced: false,
               invoiceNumber: null,
               invoiceDate: Timestamp.now().toDate(),

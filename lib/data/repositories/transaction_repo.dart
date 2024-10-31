@@ -1,14 +1,15 @@
-import 'package:baniyabuddy/constants/app_constants.dart';
-import 'package:baniyabuddy/constants/app_language.dart';
-import 'package:baniyabuddy/data/models/transaction.model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-final FirebaseAuth _auth = FirebaseAuth.instance;
+import '../../constants/app_constants.dart';
+import '../../constants/app_language.dart';
+import '../models/transaction.model.dart';
 
 class TransactionRepo {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   Future<void> addTransaction(TransactionDetails transactionDetails) async {
     Map<String, dynamic> data = transactionDetails.toJson();
     if (data[AppConstants.customerName] == "") {
