@@ -1,3 +1,4 @@
+import 'package:baniyabuddy/constants/app_constants.dart';
 import 'package:hive/hive.dart';
 
 import '../../utils/hive_adapter_typeids.dart';
@@ -11,17 +12,17 @@ part 'bill_item.model.g.dart';
 )
 class BillItem {
   @HiveField(0)
-  final String itemName;
+  final String? itemName;
   @HiveField(1)
-  final int quantity;
+  final int? quantity;
   @HiveField(2)
-  final double unitPrice;
+  final double? unitPrice;
   @HiveField(3)
   double? tax;
   @HiveField(4)
   double? discount;
   @HiveField(5)
-  final double totalPrice;
+  final double? totalPrice;
 
   BillItem({
     required this.itemName,
@@ -34,12 +35,23 @@ class BillItem {
 
   Map<String, dynamic> toJson() {
     return {
-      'itemName': itemName,
-      'quantity': quantity,
-      'unitPrice': unitPrice,
-      'tax': tax,
-      'discount': discount,
-      'totalPrice': totalPrice,
+      AppConstants.itemName: itemName,
+      AppConstants.quantity: quantity,
+      AppConstants.unitPrice: unitPrice,
+      AppConstants.tax: tax,
+      AppConstants.discount: discount,
+      AppConstants.totalPrice: totalPrice,
     };
+  }
+
+  factory BillItem.fromJson(Map<String, dynamic> json) {
+    return BillItem(
+      itemName: json[AppConstants.itemName] as String,
+      quantity: json[AppConstants.quantity] as int,
+      unitPrice: double.parse(json[AppConstants.unitPrice].toString()),
+      totalPrice: json[AppConstants.totalPrice] as double,
+      discount: double.parse(json[AppConstants.discount].toString()),
+      tax: double.parse(json[AppConstants.tax].toString()),
+    );
   }
 }

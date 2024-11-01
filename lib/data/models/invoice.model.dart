@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive/hive.dart';
 
 import '../../constants/app_constants.dart';
@@ -75,13 +76,16 @@ class Invoice {
     required this.billItems,
     required this.notes,
   });
-
-  factory Invoice.fromJson(Map json) {
+  factory Invoice.fromJson(Map<String, dynamic> json) {
+    final List<dynamic> items = json[AppConstants.billItems]
+        .map((item) => BillItem.fromJson(item))
+        .toList();
+    final billItems = items.cast<BillItem>();
     return Invoice(
       docId: json[AppConstants.docId],
       isSynced: json[AppConstants.isSynced],
       invoiceNumber: json[AppConstants.invoiceNumber],
-      invoiceDate: json[AppConstants.invoiceDate],
+      invoiceDate: json[AppConstants.invoiceDate].toDate(),
       paymentMethod: json[AppConstants.paymentMethod],
       clientName: json[AppConstants.clientName],
       clientAddress: json[AppConstants.clientAddress],
@@ -93,7 +97,7 @@ class Invoice {
       totalTaxAmount: json[AppConstants.totalTaxAmount],
       grandTotal: json[AppConstants.grandTotal],
       shippingCharges: json[AppConstants.shippingCharges],
-      billItems: json[AppConstants.billItems],
+      billItems: billItems,
       notes: json[AppConstants.notes],
     );
   }
@@ -115,7 +119,8 @@ class Invoice {
       AppConstants.totalTaxAmount: totalTaxAmount,
       AppConstants.grandTotal: grandTotal,
       AppConstants.shippingCharges: shippingCharges,
-      AppConstants.billItems: billItems?.map((item) => item.toJson()).toList(),
+      AppConstants.billItems:
+          billItems?.map((BillItem item) => item.toJson()).toList(),
       AppConstants.notes: notes,
     };
   }

@@ -30,7 +30,7 @@ class BillItemTile extends StatelessWidget {
           Expanded(
             flex: 4, // Item Name
             child: Text(
-              billItem.itemName,
+              billItem.itemName!,
               style: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
             ),
           ),

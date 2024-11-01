@@ -31,4 +31,12 @@ class AppConstants {
   static const String gstin = "gstin";
   static const String isSynced = "isSynced";
   static const String globalInvoiceNumber = "globalInvoiceNumber";
+  static const String globalInvoiceNumberBox = "globalInvoiceNumberBox";
+  static const String invoiceBox = "InvoiceBox";
+  static const String itemName = 'itemName';
+  static const String quantity = 'quantity';
+  static const String unitPrice = 'unitPrice';
+  static const String tax = 'tax';
+  static const String discount = 'discount';
+  static const String totalPrice = 'totalPrice';
 }

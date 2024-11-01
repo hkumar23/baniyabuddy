@@ -1,9 +1,15 @@
+import 'dart:async';
+
+import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:baniyabuddy/firebase_options.dart';
+import 'package:baniyabuddy/presentation/screens/billing/bloc/billing_event.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'data/repositories/invoice_repo.dart';
 import 'constants/app_constants.dart';
 import 'logic/Blocs/Authentication/bloc/auth_bloc.dart';
 import 'logic/Blocs/Authentication/bloc/auth_state.dart';
@@ -16,19 +22,26 @@ import 'presentation/screens/sales_history/bloc/sales_history_event.dart';
 import 'utils/app_methods.dart';
 import 'data/models/bill_item.model.dart';
 import 'data/models/invoice.model.dart';
-import 'utils/hive_adapter_names.dart';
-import 'utils/hive_adapter_typeids.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Hive.initFlutter();
+
   Hive.registerAdapter(InvoiceAdapter());
   Hive.registerAdapter(BillItemAdapter());
   // opening box here so that it is easily available appwide right after start
-  Hive.openBox<int>("globalInvoiceNumberBox");
-  Hive.openBox<Invoice>("InvoiceBox");
+  await Hive.openBox<int>(AppConstants.globalInvoiceNumberBox);
+  await Hive.openBox<Invoice>(AppConstants.invoiceBox);
   // await TimeMachine.initialize({'rootBundle': rootBundle});
+  try {
+    var currUser = FirebaseAuth.instance.currentUser;
+    if (await AppMethods.checkInternetConnection() && currUser != null) {
+      InvoiceRepo().uploadLocalInvoicesToFirebase();
+    }
+  } catch (err) {
+    debugPrint("Error: ${err.toString()}");
+  }
   runApp(const MyApp());
 }
 
@@ -88,6 +101,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           builder: (context, state) {
             if (state is LoggedInState) {
               // print("Main, User: ${state.user} ");
+              context
+                  .read<BillingBloc>()
+                  .add(FetchInvoiceFromFirebaseToLocalEvent());
               context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
               // return const Calculator();
               return const MainScreen();
