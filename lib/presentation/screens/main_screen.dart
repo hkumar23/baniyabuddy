@@ -1,4 +1,7 @@
+import 'package:baniyabuddy/presentation/screens/billing/bloc/billing_bloc.dart';
+import 'package:baniyabuddy/presentation/screens/billing/bloc/billing_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'billing/billing_screen.dart';
 import 'calculator/calculator.dart';
@@ -35,17 +38,24 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: CustomBottomNavBar(
-        selectedIndex: _selectedIndex,
-        onTapped: _onItemTapped,
-      ),
-      appBar: CustomAppBar(selectedIndex: _selectedIndex),
-      resizeToAvoidBottomInset: _selectedIndex == 0 ? false : null,
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _screens,
-      ),
-    );
+    return BlocBuilder<BillingBloc, BillingState>(builder: (context, state) {
+      if (state is BillingLoadingState) {
+        return const Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        );
+      }
+      return Scaffold(
+        bottomNavigationBar: CustomBottomNavBar(
+          selectedIndex: _selectedIndex,
+          onTapped: _onItemTapped,
+        ),
+        appBar: CustomAppBar(selectedIndex: _selectedIndex),
+        resizeToAvoidBottomInset: _selectedIndex == 0 ? false : null,
+        body: IndexedStack(
+          index: _selectedIndex,
+          children: _screens,
+        ),
+      );
+    });
   }
 }

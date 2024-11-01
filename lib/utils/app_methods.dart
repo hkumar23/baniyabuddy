@@ -128,7 +128,8 @@ class AppMethods {
   static Future<bool> checkInternetConnection() async {
     var connectivityResult = await Connectivity().checkConnectivity();
     if (connectivityResult == ConnectivityResult.mobile ||
-        connectivityResult == ConnectivityResult.wifi) {
+        connectivityResult == ConnectivityResult.wifi ||
+        connectivityResult == ConnectivityResult.ethernet) {
       return true;
     }
     return false;
@@ -170,6 +171,7 @@ class AppMethods {
       Navigator.of(context).pop();
     }
   }
+
   // static DateTime getPreviousDate(int n, String timePeriod) {
   //   LocalDate today = LocalDate.today();
   //   LocalDate targetDate = today;

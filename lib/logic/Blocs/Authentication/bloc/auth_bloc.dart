@@ -1,10 +1,14 @@
+import 'package:baniyabuddy/constants/app_constants.dart';
 import 'package:baniyabuddy/constants/app_language.dart';
+import 'package:baniyabuddy/data/models/invoice.model.dart';
+import 'package:baniyabuddy/data/repositories/invoice_repo.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_event.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
 import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hive/hive.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -109,15 +113,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _onLogoutEvent(event, emit) async {
-    for (final provider in _auth.currentUser!.providerData) {
-      if (provider.providerId == 'google.com') {
-        // It is a good practice to check before signout but if called directly won't give any error
-        _googleSignIn.signOut();
-        break;
+    InvoiceRepo invoiceRepo = InvoiceRepo();
+    try {
+      await invoiceRepo.uploadLocalInvoicesToFirebase();
+      for (final provider in _auth.currentUser!.providerData) {
+        if (provider.providerId == 'google.com') {
+          // It is a good practice to check before signout but if called directly won't give any error
+          _googleSignIn.signOut();
+          break;
+        }
       }
+      await _auth.signOut();
+      await invoiceRepo.deleteAllInvoice();
+      await Hive.box<Invoice>(AppConstants.invoiceBox).close();
+      emit(LoggedOutState());
+    } catch (err) {
+      emit(AuthErrorState(errorMessage: err.toString()));
     }
-    await _auth.signOut();
-    emit(LoggedOutState());
   }
 
   void _onVerifyCodeEvent(event, emit) {

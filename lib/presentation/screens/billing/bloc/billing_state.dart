@@ -19,3 +19,5 @@ class BillItemDeletedState extends BillingState {
 class InvoiceGeneratedState extends BillingState {}
 
 class InvoiceUpdatedState extends BillingState {}
+
+class LocalInvoicesFetchedState extends BillingState {}

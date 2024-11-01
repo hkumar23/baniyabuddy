@@ -19,3 +19,7 @@ class AddBillItemEvent extends BillingEvent {
     required this.billItemList,
   });
 }
+
+class UploadInvoicesToFirebaseEvent extends BillingEvent {}
+
+class FetchInvoiceFromFirebaseToLocalEvent extends BillingEvent {}
