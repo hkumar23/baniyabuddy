@@ -63,6 +63,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    Hive.box<Invoice>(AppConstants.invoiceBox).close();
+    Hive.box<Invoice>(AppConstants.globalInvoiceNumberBox).close();
+
     super.dispose();
   }
 
@@ -96,16 +99,15 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         // home: const SplashScreen(),
         home: BlocBuilder<AuthBloc, AuthState>(
           buildWhen: (oldState, newState) {
-            return oldState is InitialAuthState;
+            // print("Old State: $oldState");
+            if (oldState is InitialAuthState) return true;
+            return oldState is LoggedOutState;
           },
           builder: (context, state) {
+            // print("New State: $state");
             if (state is LoggedInState) {
-              // print("Main, User: ${state.user} ");
-              context
-                  .read<BillingBloc>()
-                  .add(FetchInvoiceFromFirebaseToLocalEvent());
+              // print("User LoggedIn Successfully!!");
               context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
-              // return const Calculator();
               return const MainScreen();
             } else if (state is LoggedOutState) {
               // return const SignInScreen();

@@ -13,7 +13,10 @@ class SettingsScreen extends StatelessWidget {
             onPressed: () {
               InvoiceRepo repo = InvoiceRepo();
               var invoices = repo.getAllInvoices();
-              for (var invoice in repo.getAllInvoices()) {
+              if (invoices.isEmpty) {
+                print("The Box is empty");
+              }
+              for (var invoice in invoices) {
                 print(invoice.toJson());
               }
             },
