@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
 import '../../constants/app_constants.dart';
@@ -100,8 +99,10 @@ class InvoiceRepo {
             .collection("invoices")
             .doc(docId)
             .set(invoiceData);
+        invoice.isSynced = true;
+        _invoiceBox.put(invoice.docId, invoice);
       }
-      print('All invoices synced to Firebase successfully!');
+      print('All invoices are updated on Firebase successfully!');
     } catch (e) {
       rethrow;
     }
@@ -109,6 +110,8 @@ class InvoiceRepo {
 
   Future<void> fetchInvoicesFromFirebaseToLocal() async {
     try {
+      // print("Before Fetching: ${_invoiceBox.values.toList().length}");
+
       QuerySnapshot snapshot = await _firestore
           .collection('users')
           .doc(_auth.currentUser!.uid)
@@ -118,11 +121,11 @@ class InvoiceRepo {
       for (var doc in snapshot.docs) {
         Map<String, dynamic> invoiceData = doc.data() as Map<String, dynamic>;
         // print(invoiceData);
-
         Invoice invoice = Invoice.fromJson(invoiceData);
         // // Store/Update the invoice in local storage with the custom docId
         await _invoiceBox.put(invoice.docId, invoice);
       }
+      // print("After Fetching: ${_invoiceBox.values.toList().length}");
     } catch (e) {
       rethrow;
     }

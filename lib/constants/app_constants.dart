@@ -39,4 +39,5 @@ class AppConstants {
   static const String tax = 'tax';
   static const String discount = 'discount';
   static const String totalPrice = 'totalPrice';
+  static const String invoiceIdPrefix = "INVBB#";
 }

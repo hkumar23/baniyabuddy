@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../data/models/invoice.model.dart';
+import '../../../data/repositories/invoice_repo.dart';
 import 'invoice_form_screen.dart';
 import '../../widgets/billing components/invoice_item.dart';
 
@@ -8,10 +10,11 @@ class BillingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Invoice> invoices = InvoiceRepo().getAllInvoices();
     return Stack(
       children: [
         SingleChildScrollView(
-          child: Column(children: _buildInvoiceList()),
+          child: Column(children: _buildInvoiceList(invoices)),
         ),
         Align(
           alignment: Alignment.bottomCenter,
@@ -66,12 +69,10 @@ class BillingScreen extends StatelessWidget {
   }
 }
 
-List<Widget> _buildInvoiceList(
-    // List<TransactionDetails> transactionsList,
-    ) {
+List<Widget> _buildInvoiceList(List<Invoice> invoices) {
   List<Widget> invoiceItems = [];
-  for (int i = 0; i < 10; i++) {
-    invoiceItems.add(InvoiceItem());
+  for (Invoice invoice in invoices) {
+    invoiceItems.add(InvoiceItem(invoice: invoice));
   }
   invoiceItems.add(const SizedBox(height: 80));
   return invoiceItems;

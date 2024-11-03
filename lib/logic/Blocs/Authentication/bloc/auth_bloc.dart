@@ -125,7 +125,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
       await _auth.signOut();
       await invoiceRepo.deleteAllInvoice();
-      await Hive.box<Invoice>(AppConstants.invoiceBox).close();
       emit(LoggedOutState());
     } catch (err) {
       emit(AuthErrorState(errorMessage: err.toString()));
