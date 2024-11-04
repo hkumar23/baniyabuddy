@@ -93,6 +93,17 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
         ),
         body: BlocConsumer<BillingBloc, BillingState>(
           listener: (context, state) {
+            if (state is InvoiceGeneratedState) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    "Invoice Generated and saved in Download !!",
+                    style: theme.textTheme.labelLarge,
+                  ),
+                  backgroundColor: theme.colorScheme.primaryContainer,
+                ),
+              );
+            }
             if (state is BillingErrorState) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -106,6 +117,9 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
             }
           },
           builder: (context, state) {
+            if (state is BillingLoadingState) {
+              return const Center(child: CircularProgressIndicator());
+            }
             return Stack(
               children: [
                 SingleChildScrollView(

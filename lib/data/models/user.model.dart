@@ -8,7 +8,7 @@ class User {
   String? gstin;
 
   User({
-    this.name = "Customer",
+    this.name = "Shop Owner",
     this.address = "ABC, 123, State,pincode, Country",
     this.email = "customer@test.com",
     this.phone = "9999999999",

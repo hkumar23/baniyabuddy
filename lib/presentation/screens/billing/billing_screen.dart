@@ -13,9 +13,14 @@ class BillingScreen extends StatelessWidget {
     List<Invoice> invoices = InvoiceRepo().getAllInvoices();
     return Stack(
       children: [
-        SingleChildScrollView(
-          child: Column(children: _buildInvoiceList(invoices)),
-        ),
+        if (invoices.isEmpty)
+          const Center(
+            child: Text("No invoice generated till now"),
+          ),
+        if (invoices.isNotEmpty)
+          SingleChildScrollView(
+            child: Column(children: _buildInvoiceList(invoices)),
+          ),
         Align(
           alignment: Alignment.bottomCenter,
           child: GestureDetector(
