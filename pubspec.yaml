@@ -50,6 +50,11 @@ dependencies:
   material_design_icons_flutter: ^7.0.7296
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  pdf: ^3.11.1
+  printing: ^5.13.4
+  permission_handler: ^11.3.1
+  path_provider: ^2.1.5
+  device_info_plus: ^9.1.2
 
 flutter_launcher_icons:
   android: true
@@ -106,6 +111,12 @@ flutter:
     - assets/images/christmas-stars.png
   #   - images/a_dot_ham.jpeg
 
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Regular.ttf
+          weight: 700 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

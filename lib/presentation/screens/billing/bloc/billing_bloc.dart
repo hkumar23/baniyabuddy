@@ -1,8 +1,9 @@
-import 'package:baniyabuddy/constants/app_constants.dart';
+import '../../../widgets/billing%20components/generate_pdf.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
+import '../../../../constants/app_constants.dart';
 import '../../../../data/models/bill_item.model.dart';
 import '../../../../data/models/invoice.model.dart';
 import '../../../../data/repositories/invoice_repo.dart';
@@ -15,7 +16,20 @@ class BillingBloc extends Bloc<BillingEvent, BillingState> {
     on<GenerateInvoiceEvent>(_onGenerateInvoiceEvent);
     on<FetchInvoiceFromFirebaseToLocalEvent>(
         _onFetchInvoiceFromFirebaseToLocalEvent);
+    on<GeneratePdfEvent>(_onGeneratePdfEvent);
   }
+  void _onGeneratePdfEvent(
+      GeneratePdfEvent event, Emitter<BillingState> emit) async {
+    emit(BillingLoadingState());
+    try {
+      await GeneratePdf.start(event.invoice);
+      emit(PdfGeneratedState());
+    } catch (err) {
+      debugPrint("Billing Bloc Exception: $err");
+      emit(BillingErrorState(errorMessage: "Something went wrong!!"));
+    }
+  }
+
   void _onFetchInvoiceFromFirebaseToLocalEvent(
       FetchInvoiceFromFirebaseToLocalEvent event,
       Emitter<BillingState> emit) async {
@@ -60,11 +74,13 @@ class BillingBloc extends Bloc<BillingEvent, BillingState> {
         double.parse(grandTotal.toStringAsFixed(2)); //Updating Invoice Object
     try {
       await invoiceRepo.addInvoice(invoice);
+      await GeneratePdf.start(invoice);
       emit(InvoiceGeneratedState());
     } catch (err) {
+      debugPrint("Billing Bloc Exception: $err");
       emit(BillingErrorState(errorMessage: "Something went wrong!!"));
     }
-    print(invoice.toJson());
+    // print(invoice.toJson());
   }
 
   double calcSubtotal(List<BillItem> billItems) {

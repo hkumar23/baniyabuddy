@@ -44,13 +44,25 @@ class InvoiceItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  invoice.clientName,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineSmall!
-                      .copyWith(fontWeight: FontWeight.bold),
-                  // textAlign: TextAlign.left,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      invoice.clientName,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall!
+                          .copyWith(fontWeight: FontWeight.bold),
+                      // textAlign: TextAlign.left,
+                    ),
+                    Icon(
+                      Icons.info_outline,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.6),
+                    ),
+                  ],
                 ),
                 // Wrap(
                 //   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -89,7 +101,7 @@ class InvoiceItem extends StatelessWidget {
                           ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(right: 8),
+                      padding: const EdgeInsets.only(right: 4),
                       child: Text(
                         DateFormat('dd-MM-yyyy').format(invoice.invoiceDate!),
                         style: Theme.of(context).textTheme.labelLarge!.copyWith(
