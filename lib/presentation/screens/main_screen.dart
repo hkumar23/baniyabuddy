@@ -19,10 +19,10 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 2;
+  int _selectedIndex = 1;
 
   final List<Widget> _screens = [
-    const SalesHistory(),
+    // const SalesHistory(),
     const BillingScreen(),
     const Calculator(),
     const GeminiChatScreen(),

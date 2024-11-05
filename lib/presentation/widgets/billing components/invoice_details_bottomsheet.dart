@@ -21,7 +21,8 @@ abstract class InvoiceBottomsheet {
           listener: (context, state) {
             if (state is PdfGeneratedState) {
               CustomSnackbar.success(
-                  context: context, text: "Pdf Downloaded !!");
+                  context: context,
+                  text: "Pdf Generated and saved in Download !!");
               Navigator.of(context).pop();
             }
           },
@@ -360,7 +361,7 @@ abstract class InvoiceBottomsheet {
                               color: theme.colorScheme.onPrimaryContainer,
                             ),
                             Text(
-                              "Download Pdf",
+                              "Generate Pdf",
                               style: theme.textTheme.labelLarge!.copyWith(
                                 color: theme.colorScheme.onPrimaryContainer,
                                 fontWeight: FontWeight.bold,
