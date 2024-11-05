@@ -55,6 +55,11 @@ abstract class GeneratePdf {
     );
   }
 
+  static Future<Uint8List> _loadAssetImage(String path) async {
+    final data = await rootBundle.load(path);
+    return data.buffer.asUint8List();
+  }
+
   static Future<pw.Font> _loadFont() async {
     final ByteData data =
         await rootBundle.load('assets/fonts/Roboto-Regular.ttf');
@@ -64,6 +69,8 @@ abstract class GeneratePdf {
   static Future<void> _createPage(doc, Invoice invoice) async {
     final font = await _loadFont();
     final defaultTextStyle = pw.TextStyle(font: font);
+    final imageData =
+        await _loadAssetImage("assets/logo/baniya_buddy_logo.png");
     final List<List<dynamic>> tableData = [
       // Header Row
       [
@@ -95,13 +102,23 @@ abstract class GeneratePdf {
           crossAxisAlignment: pw.CrossAxisAlignment.start,
           children: [
             // Invoice Header
-            pw.Text(
-              'Invoice',
-              style: defaultTextStyle.copyWith(
-                fontSize: 36,
-                fontWeight: pw.FontWeight.bold,
-              ),
-            ),
+            pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.Text(
+                    'Invoice',
+                    style: defaultTextStyle.copyWith(
+                      fontSize: 36,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+                  pw.Image(
+                    pw.MemoryImage(imageData),
+                    width: 50,
+                    height: 50,
+                  ),
+                ]),
             pw.SizedBox(height: 10),
 
             // Invoice Details
