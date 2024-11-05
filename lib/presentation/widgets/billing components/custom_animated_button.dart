@@ -48,7 +48,7 @@ class _CustomAnimatedButtonState extends State<CustomAnimatedButton> {
     final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.all(8),
-      height: 40,
+      height: 45,
       width: 150,
       alignment: Alignment.center,
       decoration: BoxDecoration(
@@ -65,12 +65,19 @@ class _CustomAnimatedButtonState extends State<CustomAnimatedButton> {
         'Generate Invoice',
         style: theme.textTheme.titleMedium!.copyWith(
           color: theme.colorScheme.onTertiary,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );
     // return AnimatedContainer(
+    //   // constraints: const BoxConstraints(
+    //   //   maxWidth: 150,
+    //   //   minWidth: 130,
+    //   //   minHeight: 45,
+    //   //   maxHeight: 60,
+    //   // ),
     //   height: 45,
-    //   width: 130,
+    //   width: 140,
     //   alignment: Alignment.center,
     //   duration: duration,
     //   curve: Curves.easeInOut,
@@ -103,9 +110,10 @@ class _CustomAnimatedButtonState extends State<CustomAnimatedButton> {
     //       //   onPressed: () {},
     //       //   child:
     //       Text(
-    //     'Generate Pdf',
+    //     'Generate Invoice',
     //     style: theme.textTheme.titleMedium!.copyWith(
     //       color: theme.colorScheme.onTertiary,
+    //       fontWeight: FontWeight.w600,
     //     ),
     //   ),
     //   // ),

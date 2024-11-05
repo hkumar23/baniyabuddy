@@ -1,3 +1,5 @@
+import 'package:baniyabuddy/presentation/screens/main_screen.dart';
+import 'package:baniyabuddy/utils/custom_snackbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -94,25 +96,20 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
         body: BlocConsumer<BillingBloc, BillingState>(
           listener: (context, state) {
             if (state is InvoiceGeneratedState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    "Invoice Generated and saved in Download !!",
-                    style: theme.textTheme.labelLarge,
-                  ),
-                  backgroundColor: theme.colorScheme.primaryContainer,
+              CustomSnackbar.success(
+                context: context,
+                text: "Invoice Generated and saved in Download !!",
+              );
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const MainScreen(),
                 ),
               );
             }
             if (state is BillingErrorState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    state.errorMessage,
-                    style: theme.textTheme.labelLarge,
-                  ),
-                  backgroundColor: theme.colorScheme.errorContainer,
-                ),
+              CustomSnackbar.error(
+                context: context,
+                text: state.errorMessage,
               );
             }
           },
