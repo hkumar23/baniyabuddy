@@ -100,8 +100,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         home: BlocBuilder<AuthBloc, AuthState>(
           buildWhen: (oldState, newState) {
             // print("Old State: $oldState");
-            if (oldState is InitialAuthState) return true;
-            return oldState is LoggedOutState;
+            // if (oldState is LoggedOutState) return true;
+            return oldState is InitialAuthState;
           },
           builder: (context, state) {
             // print("New State: $state");
