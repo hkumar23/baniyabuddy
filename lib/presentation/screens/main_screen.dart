@@ -1,12 +1,11 @@
-import 'package:baniyabuddy/presentation/screens/billing/bloc/billing_bloc.dart';
-import 'package:baniyabuddy/presentation/screens/billing/bloc/billing_state.dart';
+import 'billing/bloc/billing_bloc.dart';
+import 'billing/bloc/billing_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'billing/billing_screen.dart';
 import 'calculator/calculator.dart';
 import 'gemini_chat_screen.dart';
-import 'sales_history/sales_history_screen.dart';
 import 'settings_screen.dart';
 import '../widgets/custom_appbar.dart';
 import '../widgets/custom_bottom_nav_bar.dart';

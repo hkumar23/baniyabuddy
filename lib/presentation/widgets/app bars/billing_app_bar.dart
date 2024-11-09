@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../constants/app_language.dart';
+import '../../../constants/app_language.dart';
 
 class BillingAppBar extends StatelessWidget {
   const BillingAppBar({
@@ -20,4 +20,3 @@ class BillingAppBar extends StatelessWidget {
     );
   }
 }
-
