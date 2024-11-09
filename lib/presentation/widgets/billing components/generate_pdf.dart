@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
@@ -11,7 +10,7 @@ import 'package:printing/printing.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../../constants/app_constants.dart';
-import '../../../../data/models/user.model.dart';
+import '../../../data/models/business.model.dart';
 import '../../../data/models/invoice.model.dart';
 
 abstract class GeneratePdf {
@@ -253,23 +252,23 @@ abstract class GeneratePdf {
                 style: defaultTextStyle.copyWith(
                     fontSize: 20, fontWeight: pw.FontWeight.bold)),
             pw.Text(
-              User().name!,
+              Business().name!,
               style: defaultTextStyle,
             ),
             pw.Text(
-              'Address: ${User().address}',
+              'Address: ${Business().address}',
               style: defaultTextStyle,
             ),
             pw.Text(
-              'Email: ${User().email}',
+              'Email: ${Business().email}',
               style: defaultTextStyle,
             ),
             pw.Text(
-              'Phone: ${User().phone}',
+              'Phone: ${Business().phone}',
               style: defaultTextStyle,
             ),
             pw.Text(
-              'GSTIN: ${User().gstin}',
+              'GSTIN: ${Business().gstin}',
               style: defaultTextStyle,
             ),
           ],

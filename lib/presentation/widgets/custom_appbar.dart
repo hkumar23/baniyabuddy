@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'calc%20components/app%20bars/calculator_app_bar.dart';
-import 'calc components/app bars/billing_app_bar.dart';
+import 'app bars/settings_app_bar.dart';
+import 'app bars/calculator_app_bar.dart';
+import 'app bars/billing_app_bar.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -15,11 +16,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     if (selectedIndex == 1) {
-      return CalculatorAppBar();
+      return const CalculatorAppBar();
     } else if (selectedIndex == 0) {
-      return BillingAppBar();
+      return const BillingAppBar();
+    } else if (selectedIndex == 3) {
+      return const SettingsAppBar();
     }
     return const SizedBox.shrink();
   }
 }
-

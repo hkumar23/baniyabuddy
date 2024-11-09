@@ -4,7 +4,7 @@ import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:flutter/material.dart';
 
 class CalculatorAppBar extends StatelessWidget {
-  CalculatorAppBar({
+  const CalculatorAppBar({
     super.key,
   });
 
@@ -23,17 +23,7 @@ class CalculatorAppBar extends StatelessWidget {
         },
         icon: const Icon(Icons.history_rounded),
       ),
-      actions: [
-        IconButton(
-          onPressed: () {
-            AppMethods.logoutWithDialog(context);
-          },
-          icon: const Icon(
-            Icons.logout,
-            // color: Colors.red,
-          ),
-        ),
-      ],
+
       forceMaterialTransparency: true,
       title: Row(
         mainAxisSize: MainAxisSize.min,

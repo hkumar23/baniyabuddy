@@ -1,13 +1,13 @@
 import '../../constants/app_constants.dart';
 
-class User {
+class Business {
   String? name;
   String? address;
   String? email;
   String? phone;
   String? gstin;
 
-  User({
+  Business({
     this.name = "Shop Owner",
     this.address = "ABC, 123, State,pincode, Country",
     this.email = "customer@test.com",
@@ -25,8 +25,8 @@ class User {
     };
   }
 
-  factory User.fromJson(Map json) {
-    return User(
+  factory Business.fromJson(Map json) {
+    return Business(
       name: json[AppConstants.name],
       address: json[AppConstants.address],
       email: json[AppConstants.email],
