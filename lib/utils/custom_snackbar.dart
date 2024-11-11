@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 abstract class CustomSnackbar {
   static dynamic success({required context, required String text}) {
-    return ScaffoldMessenger.of(context).showSnackBar(
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
           text,
@@ -16,7 +17,8 @@ abstract class CustomSnackbar {
   }
 
   static dynamic error({required context, required String text}) {
-    return ScaffoldMessenger.of(context).showSnackBar(
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
           text,

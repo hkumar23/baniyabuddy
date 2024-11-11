@@ -19,7 +19,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       return const CalculatorAppBar();
     } else if (selectedIndex == 0) {
       return const BillingAppBar();
-    } else if (selectedIndex == 3) {
+    } else if (selectedIndex == 4) {
       return const SettingsAppBar();
     }
     return const SizedBox.shrink();

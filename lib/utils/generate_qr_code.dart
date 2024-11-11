@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-class GenerateQr extends StatelessWidget {
-  GenerateQr({
+class GenerateQrCode extends StatelessWidget {
+  GenerateQrCode({
     super.key,
     required this.upiId,
     required this.businessName,

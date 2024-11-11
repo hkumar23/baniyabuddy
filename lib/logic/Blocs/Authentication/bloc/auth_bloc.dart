@@ -1,14 +1,12 @@
-import 'package:baniyabuddy/constants/app_constants.dart';
-import 'package:baniyabuddy/constants/app_language.dart';
-import 'package:baniyabuddy/data/models/invoice.model.dart';
-import 'package:baniyabuddy/data/repositories/invoice_repo.dart';
-import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_event.dart';
-import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
-import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:hive/hive.dart';
+
+import '../../../../constants/app_language.dart';
+import '../../../../data/repositories/invoice_repo.dart';
+import '../../../../logic/Blocs/Authentication/bloc/auth_event.dart';
+import '../../../../logic/Blocs/Authentication/bloc/auth_state.dart';
+import '../../../../utils/app_methods.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -29,7 +27,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignUpWithEmailEvent>(_onSignUpWithEmailEvent);
     on<SignInWithEmailEvent>(_onSignInWithEmailEvent);
     on<SignInWithGoogleEvent>(_onSignInWithGoogleEvent);
+    on<SyncDataWithFirebaseEvent>(_onSyncDataWithFirebaseEvent);
   }
+
+  void _onSyncDataWithFirebaseEvent(event, emit) async {
+    emit(AuthLoadingState());
+    final invoiceRepo = InvoiceRepo();
+    try {
+      bool isConnected = await AppMethods.checkInternetConnection();
+      if (!isConnected) {
+        throw "You are not connected to the Internet";
+      }
+      await invoiceRepo.uploadLocalInvoicesToFirebase();
+      await invoiceRepo.fetchInvoicesFromFirebaseToLocal();
+      emit(DataSyncedWithFirebaseState());
+    } catch (err) {
+      emit(AuthErrorState(errorMessage: err.toString()));
+    }
+  }
+
   void _onSignInWithGoogleEvent(event, emit) async {
     emit(AuthLoadingState());
     try {

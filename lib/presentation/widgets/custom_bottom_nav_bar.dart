@@ -12,18 +12,18 @@ class CustomBottomNavBar extends StatelessWidget {
   final Function onTapped;
   final List<IconData> icons = [
     // Icons.history,
-    // MdiIcons.cashRegister,
     // Icons.description,
     // MdiIcons.currencyInr,
-    MdiIcons.fileDocument,
+    Icons.receipt_long,
     Icons.calculate,
+    MdiIcons.clipboardTextClock,
     MdiIcons.star,
     Icons.settings,
   ];
   final List<String> labels = [
-    // AppLanguage.salesHistory,
     AppLanguage.billing,
     AppLanguage.calculator,
+    AppLanguage.salesHistory,
     AppLanguage.gemini,
     AppLanguage.settings,
   ];
@@ -72,7 +72,7 @@ class CustomBottomNavBar extends StatelessWidget {
         ),
         child: Row(
           children: [
-            if (index != 2)
+            if (index != 3)
               Icon(
                 icons[index],
                 color: isSelected
