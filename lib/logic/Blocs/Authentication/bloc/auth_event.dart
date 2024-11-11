@@ -9,6 +9,8 @@ class LoginEvent extends AuthEvent {
 
 class LogoutEvent extends AuthEvent {}
 
+class SyncDataWithFirebaseEvent extends AuthEvent {}
+
 class SendCodeEvent extends AuthEvent {
   final String phoneNumber;
   SendCodeEvent({required this.phoneNumber});
