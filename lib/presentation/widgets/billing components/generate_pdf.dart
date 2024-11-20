@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -68,8 +69,10 @@ abstract class GeneratePdf {
   static Future<void> _createPage(doc, Invoice invoice) async {
     final font = await _loadFont();
     final defaultTextStyle = pw.TextStyle(font: font);
-    final imageData =
+    final logoImageData =
         await _loadAssetImage("assets/logo/baniya_buddy_logo.png");
+    final googlePlayImageData =
+        await _loadAssetImage("assets/images/get_it_on_google_play.png");
     final List<List<dynamic>> tableData = [
       // Header Row
       [
@@ -105,69 +108,124 @@ abstract class GeneratePdf {
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
-                  pw.Text(
-                    'Invoice',
-                    style: defaultTextStyle.copyWith(
-                      fontSize: 36,
-                      fontWeight: pw.FontWeight.bold,
-                    ),
-                  ),
-                  pw.Image(
-                    pw.MemoryImage(imageData),
-                    width: 50,
-                    height: 50,
+                  pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
+                        pw.Text(
+                          'Invoice',
+                          style: defaultTextStyle.copyWith(
+                            fontSize: 36,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                        pw.SizedBox(height: 10),
+                        // User Information
+                        // pw.Text('Contact us',
+                        //     style: defaultTextStyle.copyWith(
+                        //         fontSize: 20, fontWeight: pw.FontWeight.bold)),
+                        pw.Text(
+                          Business().name!,
+                          style: defaultTextStyle.copyWith(
+                            fontSize: 20,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                        pw.Text(
+                          'Address: ${Business().address}',
+                          style: defaultTextStyle,
+                        ),
+                        pw.Text(
+                          'Email: ${Business().email}',
+                          style: defaultTextStyle,
+                        ),
+                        pw.Text(
+                          'Phone: ${Business().phone}',
+                          style: defaultTextStyle,
+                        ),
+                        pw.Text(
+                          'GSTIN: ${Business().gstin}',
+                          style: defaultTextStyle,
+                        ),
+                        pw.SizedBox(height: 10),
+
+                        // Client Details
+                        pw.Text(
+                          'Bill To',
+                          style: defaultTextStyle.copyWith(
+                            fontSize: 20,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                        pw.Text(
+                          'Name: ${invoice.clientName}',
+                          style: defaultTextStyle,
+                        ),
+                        if (invoice.clientAddress != null)
+                          pw.Text(
+                            'Address: ${invoice.clientAddress}',
+                            style: defaultTextStyle,
+                          ),
+                        if (invoice.clientEmail != null)
+                          pw.Text(
+                            'Email: ${invoice.clientEmail}',
+                            style: defaultTextStyle,
+                          ),
+                        if (invoice.clientPhone != null)
+                          pw.Text(
+                            'Phone: ${invoice.clientPhone}',
+                            style: defaultTextStyle,
+                          ),
+                      ]),
+                  pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: [
+                      pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.end,
+                        children: [
+                          pw.SizedBox(width: 50),
+                          pw.Column(
+                            children: [
+                              pw.Image(
+                                pw.MemoryImage(logoImageData),
+                                width: 50,
+                                height: 50,
+                              ),
+                              pw.Text(
+                                AppLanguage.appName,
+                                style: defaultTextStyle.copyWith(
+                                  fontSize: 15,
+                                  fontWeight: pw.FontWeight.bold,
+                                ),
+                              ),
+                              pw.Image(
+                                pw.MemoryImage(googlePlayImageData),
+                                // width: 100,
+                                height: 22,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+
+                      pw.SizedBox(height: 20),
+                      // Invoice Details
+                      pw.Text(
+                        'Invoice ID: ${AppConstants.invoiceIdPrefix}${invoice.invoiceNumber}',
+                        style: defaultTextStyle,
+                      ),
+                      pw.Text(
+                        'Invoice Date: ${DateFormat('dd-MM-yyyy').format(invoice.invoiceDate!)}',
+                        style: defaultTextStyle,
+                      ),
+                      pw.Text(
+                        'Payment Method: ${invoice.paymentMethod ?? AppConstants.notMentioned}',
+                        style: defaultTextStyle,
+                      ),
+                    ],
                   ),
                 ]),
             pw.SizedBox(height: 10),
 
-            // Invoice Details
-            pw.Text(
-              'Invoice ID: ${AppConstants.invoiceIdPrefix}${invoice.invoiceNumber}',
-              style: defaultTextStyle,
-            ),
-            pw.Text(
-              'Invoice Date: ${DateFormat('dd-MM-yyyy').format(invoice.invoiceDate!)}',
-              style: defaultTextStyle,
-            ),
-            pw.Text(
-              'Payment Method: ${invoice.paymentMethod ?? AppConstants.notMentioned}',
-              style: defaultTextStyle,
-            ),
-            pw.SizedBox(height: 10),
-
-            // Client Details
-            pw.Text(
-              'Client Details',
-              style: defaultTextStyle.copyWith(
-                fontSize: 20,
-                fontWeight: pw.FontWeight.bold,
-              ),
-            ),
-            pw.Text(
-              'Name: ${invoice.clientName}',
-              style: defaultTextStyle,
-            ),
-            if (invoice.clientAddress != null)
-              pw.Text(
-                'Address: ${invoice.clientAddress}',
-                style: defaultTextStyle,
-              ),
-            if (invoice.clientEmail != null)
-              pw.Text(
-                'Email: ${invoice.clientEmail}',
-                style: defaultTextStyle,
-              ),
-            if (invoice.clientPhone != null)
-              pw.Text(
-                'Phone: ${invoice.clientPhone}',
-                style: defaultTextStyle,
-              ),
-            pw.SizedBox(height: 10),
-
-            // Billing Items
-            // pw.Text('Items',
-            //     style: defaultTextStyle.copyWith(
-            //         fontSize: 20, fontWeight: pw.FontWeight.bold,)),
             pw.TableHelper.fromTextArray(
               context: context,
               data: tableData,
@@ -225,9 +283,14 @@ abstract class GeneratePdf {
                 'Shipping Charges: ₹${invoice.shippingCharges}',
                 style: defaultTextStyle,
               ),
+
+            pw.Divider(endIndent: 300),
             pw.Text(
               'Grand Total: ₹${invoice.grandTotal}',
-              style: defaultTextStyle,
+              style: defaultTextStyle.copyWith(
+                fontSize: 15,
+                fontWeight: pw.FontWeight.bold,
+              ),
             ),
             pw.SizedBox(height: 10),
 
@@ -245,32 +308,7 @@ abstract class GeneratePdf {
                 invoice.notes!,
                 style: defaultTextStyle,
               ),
-            if (invoice.notes != null) pw.SizedBox(height: 10),
-
-            // Footer (Placeholder Information)
-            pw.Text('Contact us',
-                style: defaultTextStyle.copyWith(
-                    fontSize: 20, fontWeight: pw.FontWeight.bold)),
-            pw.Text(
-              Business().name!,
-              style: defaultTextStyle,
-            ),
-            pw.Text(
-              'Address: ${Business().address}',
-              style: defaultTextStyle,
-            ),
-            pw.Text(
-              'Email: ${Business().email}',
-              style: defaultTextStyle,
-            ),
-            pw.Text(
-              'Phone: ${Business().phone}',
-              style: defaultTextStyle,
-            ),
-            pw.Text(
-              'GSTIN: ${Business().gstin}',
-              style: defaultTextStyle,
-            ),
+            // if (invoice.notes != null) pw.SizedBox(height: 10),
           ],
         ),
       ),
