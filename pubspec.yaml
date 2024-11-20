@@ -110,6 +110,7 @@ flutter:
     - assets/images/phone_auth_icons_2.png
     - assets/images/google_logo.png
     - assets/images/christmas-stars.png
+    - assets/images/get_it_on_google_play.png
   #   - images/a_dot_ham.jpeg
 
   fonts:
