@@ -1,16 +1,16 @@
-import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_bloc.dart';
-import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_event.dart';
-import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
-import 'package:baniyabuddy/presentation/screens/billing/bloc/billing_bloc.dart';
-import 'package:baniyabuddy/presentation/widgets/settings_component/generate_qr_bottomsheet.dart';
-import 'package:baniyabuddy/presentation/widgets/settings_component/save_upi_bottomsheet.dart';
-import 'package:baniyabuddy/utils/app_methods.dart';
-import 'package:baniyabuddy/utils/custom_snackbar.dart';
-import 'package:baniyabuddy/utils/generate_qr_code.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../logic/Blocs/Authentication/bloc/auth_bloc.dart';
+import '../../../logic/Blocs/Authentication/bloc/auth_event.dart';
+import '../../../logic/Blocs/Authentication/bloc/auth_state.dart';
+import '../../widgets/settings_component/business_info_dialog.dart';
+import '../../widgets/settings_component/generate_qr_bottomsheet.dart';
+import '../../widgets/settings_component/save_upi_bottomsheet.dart';
+import '../../../utils/app_methods.dart';
+import '../../../utils/custom_snackbar.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -99,10 +99,12 @@ class SettingsScreen extends StatelessWidget {
                     size: 20,
                   ),
                   onTap: () {
-                    showDialog(
+                    showModalBottomSheet(
+                        isScrollControlled: true,
                         context: context,
                         builder: (context) {
-                          return const AlertDialog();
+                          return BusinessInfoDialog();
+                          // return Container();
                         });
                   },
                 ),

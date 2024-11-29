@@ -41,7 +41,7 @@ class _GenerateQrBottomSheetState extends State<GenerateQrBottomSheet> {
         width: double.maxFinite,
         alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(
-          horizontal: 40,
+          horizontal: 20,
           vertical: 20,
         ),
         child: Form(

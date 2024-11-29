@@ -96,8 +96,10 @@ class SignInWithEmailScreen extends StatelessWidget {
                       child: TextFormField(
                         controller: emailController,
                         validator: (value) {
-                          if (value!.isEmpty || !value.contains('@')) {
-                            return 'Invalid Email';
+                          if (value == null ||
+                              value.isEmpty ||
+                              !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                            return 'Please enter a valid email';
                           }
                           return null;
                         },
