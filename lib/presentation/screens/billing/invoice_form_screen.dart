@@ -1,9 +1,9 @@
-import 'package:baniyabuddy/presentation/screens/main_screen.dart';
-import 'package:baniyabuddy/utils/custom_snackbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../main_screen.dart';
+import '../../../utils/custom_snackbar.dart';
 import 'bloc/billing_state.dart';
 import 'bloc/billing_event.dart';
 import 'bloc/billing_bloc.dart';
@@ -27,15 +27,13 @@ class InvoiceFormScreen extends StatefulWidget {
 class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _clientNameController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _extraDiscountController =
-      TextEditingController();
-  final TextEditingController _shippingChargesController =
-      TextEditingController();
-  final TextEditingController _notesController = TextEditingController();
+  final _clientNameController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _extraDiscountController = TextEditingController();
+  final _shippingChargesController = TextEditingController();
+  final _notesController = TextEditingController();
 
   List<BillItem> billItems = [];
   String paymentMethod = AppLanguage.notSelected;
