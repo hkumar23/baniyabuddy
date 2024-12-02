@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BusinessInfoDialog extends StatefulWidget {
-  const BusinessInfoDialog({super.key});
+import '../../../data/models/business.model.dart';
+import '../../screens/settings/bloc/settings_bloc.dart';
+import '../../screens/settings/bloc/settings_event.dart';
+
+class BusinessInfoBottomSheet extends StatefulWidget {
+  const BusinessInfoBottomSheet({super.key});
 
   @override
-  State<BusinessInfoDialog> createState() => _BusinessInfoDialogState();
+  State<BusinessInfoBottomSheet> createState() =>
+      _BusinessInfoBottomSheetState();
 }
 
-class _BusinessInfoDialogState extends State<BusinessInfoDialog> {
+class _BusinessInfoBottomSheetState extends State<BusinessInfoBottomSheet> {
   final _formKey = GlobalKey<FormState>();
 
   final _businessNameController = TextEditingController();
-
   final _addressController = TextEditingController();
-
   final _emailController = TextEditingController();
-
   final _phoneController = TextEditingController();
-
   final _gstinController = TextEditingController();
 
   bool validateGSTNumber(String gstNumber) {
@@ -28,8 +30,15 @@ class _BusinessInfoDialogState extends State<BusinessInfoDialog> {
 
   void _onSubmit(BuildContext context) {
     if (!_formKey.currentState!.validate()) return;
-    // _formKey.currentState!.save();
-    print("On Submit");
+
+    final business = Business(
+      address: _addressController.text.trim(),
+      email: _emailController.text.trim(),
+      gstin: _gstinController.text.trim(),
+      name: _businessNameController.text.trim(),
+      phone: _phoneController.text.trim(),
+    );
+    context.read<SettingsBloc>().add(SaveBusinessInfoEvent(business: business));
     Navigator.of(context).pop();
   }
 
@@ -60,7 +69,7 @@ class _BusinessInfoDialogState extends State<BusinessInfoDialog> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  "Enter your business details",
+                  "Add / Update your business details",
                   style: textTheme.headlineMedium,
                 ),
                 TextFormField(

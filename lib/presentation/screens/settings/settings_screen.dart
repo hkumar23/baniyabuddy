@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../logic/Blocs/Authentication/bloc/auth_bloc.dart';
 import '../../../logic/Blocs/Authentication/bloc/auth_event.dart';
 import '../../../logic/Blocs/Authentication/bloc/auth_state.dart';
-import '../../widgets/settings_component/business_info_dialog.dart';
+import '../../widgets/settings_component/business_info_bottomsheet.dart';
 import '../../widgets/settings_component/generate_qr_bottomsheet.dart';
 import '../../widgets/settings_component/save_upi_bottomsheet.dart';
 import '../../../utils/app_methods.dart';
@@ -103,7 +103,7 @@ class SettingsScreen extends StatelessWidget {
                         isScrollControlled: true,
                         context: context,
                         builder: (context) {
-                          return BusinessInfoDialog();
+                          return const BusinessInfoBottomSheet();
                           // return Container();
                         });
                   },

@@ -41,4 +41,6 @@ class AppConstants {
   static const String totalPrice = 'totalPrice';
   static const String invoiceIdPrefix = "BBINV";
   static const String notMentioned = "Not Mentioned";
+  static const String businessBox = "BusinessBox";
+  static const String business = "business";
 }

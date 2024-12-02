@@ -1,3 +1,4 @@
+import 'package:baniyabuddy/data/repositories/business_repo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -33,11 +34,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _onSyncDataWithFirebaseEvent(event, emit) async {
     emit(AuthLoadingState());
     final invoiceRepo = InvoiceRepo();
+    final businessRepo = BusinessRepo();
     try {
       bool isConnected = await AppMethods.checkInternetConnection();
       if (!isConnected) {
         throw "You are not connected to the Internet";
       }
+      await businessRepo.uploadBusinessInfoToFirebase();
+      await businessRepo.fetchBusinessInfoFromFirebase();
+
       await invoiceRepo.uploadLocalInvoicesToFirebase();
       await invoiceRepo.fetchInvoicesFromFirebaseToLocal();
       emit(DataSyncedWithFirebaseState());
@@ -130,8 +135,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void _onLogoutEvent(event, emit) async {
     InvoiceRepo invoiceRepo = InvoiceRepo();
+    BusinessRepo businessRepo = BusinessRepo();
     try {
       await invoiceRepo.uploadLocalInvoicesToFirebase();
+      await businessRepo.uploadBusinessInfoToFirebase();
       for (final provider in _auth.currentUser!.providerData) {
         if (provider.providerId == 'google.com') {
           // It is a good practice to check before signout but if called directly won't give any error
@@ -140,7 +147,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       }
       await _auth.signOut();
-      await invoiceRepo.deleteAllInvoice();
+      await invoiceRepo.deleteAllInvoiceFromLocal();
+      await businessRepo.deleteBusinessInfoFromLocal();
+
       emit(LoggedOutState());
     } catch (err) {
       emit(AuthErrorState(errorMessage: err.toString()));

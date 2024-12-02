@@ -1,6 +1,6 @@
-import 'package:baniyabuddy/constants/app_constants.dart';
 import 'package:hive/hive.dart';
 
+import '../../constants/app_constants.dart';
 import '../../utils/hive_adapter_typeids.dart';
 import '../../utils/hive_adapter_names.dart';
 

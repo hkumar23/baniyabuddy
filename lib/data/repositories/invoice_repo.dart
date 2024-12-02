@@ -66,7 +66,7 @@ class InvoiceRepo {
     await _invoiceBox.delete(id);
   }
 
-  Future<void> deleteAllInvoice() async {
+  Future<void> deleteAllInvoiceFromLocal() async {
     await _invoiceBox.clear();
   }
 
@@ -104,7 +104,7 @@ class InvoiceRepo {
         invoice.isSynced = true;
         _invoiceBox.put(invoice.docId, invoice);
       }
-      await _firestore.collection('users').doc(_auth.currentUser!.uid).set({
+      await _firestore.collection('users').doc(_auth.currentUser!.uid).update({
         AppConstants.globalInvoiceNumber: globalInvoiceNumber,
       });
       print('All invoices are updated on Firebase successfully!');
