@@ -7,6 +7,10 @@ import 'package:baniyabuddy/presentation/screens/billing/bloc/billing_event.dart
 import 'package:baniyabuddy/presentation/screens/main_screen.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_bloc.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_event.dart';
+import 'package:baniyabuddy/presentation/screens/settings/bloc/settings_bloc.dart';
+import 'package:baniyabuddy/presentation/screens/settings/bloc/settings_event.dart';
+import 'package:baniyabuddy/utils/custom_snackbar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,11 +39,9 @@ class SignInWithEmailScreen extends StatelessWidget {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthErrorState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.errorMessage),
-                backgroundColor: Theme.of(context).colorScheme.error,
-              ),
+            CustomSnackbar.error(
+              context: context,
+              text: state.errorMessage,
             );
           } else if (state is LoggedInState) {
             // print("Logged in state");
@@ -47,6 +49,9 @@ class SignInWithEmailScreen extends StatelessWidget {
                 .read<BillingBloc>()
                 .add(FetchInvoiceFromFirebaseToLocalEvent());
             context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
+            context
+                .read<SettingsBloc>()
+                .add(FetchBusinessInfoFromFirebaseEvent());
             Navigator.of(context).popUntil((route) => route.isFirst);
             Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => const MainScreen(),

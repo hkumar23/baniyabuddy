@@ -1,14 +1,15 @@
 import 'dart:async';
 
-import 'package:baniyabuddy/constants/app_language.dart';
-import 'package:baniyabuddy/firebase_options.dart';
-import 'package:baniyabuddy/presentation/screens/billing/bloc/billing_event.dart';
+import 'package:baniyabuddy/data/repositories/business_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../data/models/business.model.dart';
+import '../firebase_options.dart';
+import '../presentation/screens/settings/bloc/settings_bloc.dart';
 import 'data/repositories/invoice_repo.dart';
 import 'constants/app_constants.dart';
 import 'logic/Blocs/Authentication/bloc/auth_bloc.dart';
@@ -30,18 +31,13 @@ Future<void> main() async {
 
   Hive.registerAdapter(InvoiceAdapter());
   Hive.registerAdapter(BillItemAdapter());
+  Hive.registerAdapter(BusinessAdapter());
+
   // opening box here so that it is easily available appwide right after start
   await Hive.openBox<int>(AppConstants.globalInvoiceNumberBox);
   await Hive.openBox<Invoice>(AppConstants.invoiceBox);
+  await Hive.openBox<Business>(AppConstants.businessBox);
   // await TimeMachine.initialize({'rootBundle': rootBundle});
-  try {
-    var currUser = FirebaseAuth.instance.currentUser;
-    if (await AppMethods.checkInternetConnection() && currUser != null) {
-      InvoiceRepo().uploadLocalInvoicesToFirebase();
-    }
-  } catch (err) {
-    debugPrint("Error: ${err.toString()}");
-  }
   runApp(const MyApp());
 }
 
@@ -64,15 +60,25 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     Hive.box<Invoice>(AppConstants.invoiceBox).close();
-    Hive.box<Invoice>(AppConstants.globalInvoiceNumberBox).close();
+    Hive.box<int>(AppConstants.globalInvoiceNumberBox).close();
+    Hive.box<Business>(AppConstants.businessBox).close();
 
     super.dispose();
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
     // if (state == AppLifecycleState.resumed || state==AppLifecycleState.) {
     //   print(state);
+    try {
+      var currUser = FirebaseAuth.instance.currentUser;
+      if (await AppMethods.checkInternetConnection() && currUser != null) {
+        InvoiceRepo().uploadLocalInvoicesToFirebase();
+        BusinessRepo().uploadBusinessInfoToFirebase();
+      }
+    } catch (err) {
+      debugPrint("Error: ${err.toString()}");
+    }
     AppMethods.logUserActivity();
     // }
   }
@@ -85,6 +91,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         BlocProvider<AuthBloc>(create: (context) => AuthBloc()),
         BlocProvider<CalculatorBloc>(create: (context) => CalculatorBloc()),
         BlocProvider<SalesHistoryBloc>(create: (context) => SalesHistoryBloc()),
+        BlocProvider<SettingsBloc>(create: (context) => SettingsBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

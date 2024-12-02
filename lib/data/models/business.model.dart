@@ -1,10 +1,25 @@
-import '../../constants/app_constants.dart';
+import 'package:hive/hive.dart';
 
+import '../../constants/app_constants.dart';
+import '../../utils/hive_adapter_typeids.dart';
+import '../../utils/hive_adapter_names.dart';
+
+part 'business.model.g.dart';
+
+@HiveType(
+  typeId: HiveAdapterTypeids.business,
+  adapterName: HiveAdapterNames.business,
+)
 class Business {
+  @HiveField(0)
   String? name;
+  @HiveField(1)
   String? address;
+  @HiveField(2)
   String? email;
+  @HiveField(3)
   String? phone;
+  @HiveField(4)
   String? gstin;
 
   Business({
