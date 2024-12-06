@@ -9,4 +9,9 @@ class SaveBusinessInfoEvent extends SettingsEvent {
 
 class FetchBusinessInfoFromFirebaseEvent extends SettingsEvent {}
 
-class SaveUpiIdEvent extends SettingsEvent {}
+class SaveUpiIdEvent extends SettingsEvent {
+  final String upiId;
+  SaveUpiIdEvent({required this.upiId});
+}
+
+class SyncDataWithFirebaseEvent extends SettingsEvent {}

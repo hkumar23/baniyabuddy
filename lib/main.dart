@@ -37,6 +37,7 @@ Future<void> main() async {
   await Hive.openBox<int>(AppConstants.globalInvoiceNumberBox);
   await Hive.openBox<Invoice>(AppConstants.invoiceBox);
   await Hive.openBox<Business>(AppConstants.businessBox);
+  await Hive.openBox<String>(AppConstants.upiIdBox);
   // await TimeMachine.initialize({'rootBundle': rootBundle});
   runApp(const MyApp());
 }
@@ -62,6 +63,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     Hive.box<Invoice>(AppConstants.invoiceBox).close();
     Hive.box<int>(AppConstants.globalInvoiceNumberBox).close();
     Hive.box<Business>(AppConstants.businessBox).close();
+    Hive.box<String>(AppConstants.upiIdBox).close();
 
     super.dispose();
   }

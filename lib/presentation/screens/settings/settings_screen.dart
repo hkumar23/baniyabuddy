@@ -1,11 +1,11 @@
+import 'package:baniyabuddy/presentation/screens/settings/bloc/settings_bloc.dart';
+import 'package:baniyabuddy/presentation/screens/settings/bloc/settings_state.dart';
+import 'package:baniyabuddy/presentation/screens/settings/bloc/settings_event.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../logic/Blocs/Authentication/bloc/auth_bloc.dart';
-import '../../../logic/Blocs/Authentication/bloc/auth_event.dart';
-import '../../../logic/Blocs/Authentication/bloc/auth_state.dart';
 import '../../widgets/settings_component/business_info_bottomsheet.dart';
 import '../../widgets/settings_component/generate_qr_bottomsheet.dart';
 import '../../widgets/settings_component/save_upi_bottomsheet.dart';
@@ -19,9 +19,9 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final auth = FirebaseAuth.instance.currentUser;
     final theme = Theme.of(context);
-    return BlocConsumer<AuthBloc, AuthState>(
+    return BlocConsumer<SettingsBloc, SettingsState>(
       listener: (context, state) {
-        if (state is AuthErrorState) {
+        if (state is SettingsErrorState) {
           CustomSnackbar.error(
             context: context,
             text: state.errorMessage,
@@ -33,8 +33,17 @@ class SettingsScreen extends StatelessWidget {
             text: "Data Synced Successfully !!",
           );
         }
+        if (state is BusinessInfoSavedState) {
+          CustomSnackbar.success(
+            context: context,
+            text: "Business Details saved successfully !!",
+          );
+        }
       },
       builder: (context, state) {
+        if (state is SettingsLoadingState) {
+          return const Center(child: CircularProgressIndicator());
+        }
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: SingleChildScrollView(
@@ -139,10 +148,12 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 ListTile(
                   onTap: () {
-                    context.read<AuthBloc>().add(SyncDataWithFirebaseEvent());
+                    context
+                        .read<SettingsBloc>()
+                        .add(SyncDataWithFirebaseEvent());
                   },
                   title: const Text('Sync Data'),
-                  trailing: state is AuthLoadingState
+                  trailing: state is SyncDataLoadingState
                       ? const CupertinoActivityIndicator()
                       : const Icon(
                           Icons.sync,

@@ -1,3 +1,4 @@
+import 'package:baniyabuddy/data/repositories/business_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -46,6 +47,14 @@ class _BusinessInfoBottomSheetState extends State<BusinessInfoBottomSheet> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final business = BusinessRepo().getBusinessInfo();
+    if (business != null) {
+      _addressController.text = business.address.toString();
+      _businessNameController.text = business.name.toString();
+      _emailController.text = business.email.toString();
+      _phoneController.text = business.phone.toString();
+      _gstinController.text = business.gstin.toString();
+    }
     return Padding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,

@@ -29,5 +29,3 @@ class AuthErrorState extends AuthState {
   final String errorMessage;
   AuthErrorState({required this.errorMessage});
 }
-
-class DataSyncedWithFirebaseState extends AuthState {}
