@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../screens/settings/bloc/settings_bloc.dart';
+import '../../screens/settings/bloc/settings_event.dart';
 
 class SaveUpiBottomsheet extends StatefulWidget {
   const SaveUpiBottomsheet({super.key});
@@ -13,8 +17,13 @@ class _SaveUpiBottomsheetState extends State<SaveUpiBottomsheet> {
 
   void _onSubmit(context) {
     FocusScope.of(context).unfocus();
-
     if (!_formKey.currentState!.validate()) return;
+    BlocProvider.of<SettingsBloc>(context).add(
+      SaveUpiIdEvent(
+        upiId: _upiController.text.trim(),
+      ),
+    );
+    Navigator.of(context).pop();
   }
 
   @override

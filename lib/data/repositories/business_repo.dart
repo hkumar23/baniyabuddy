@@ -62,4 +62,8 @@ class BusinessRepo {
   Future<void> deleteBusinessInfoFromLocal() async {
     await _businessBox.clear();
   }
+
+  Business? getBusinessInfo() {
+    return _businessBox.get(0);
+  }
 }

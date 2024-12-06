@@ -1,6 +1,11 @@
 import 'package:baniyabuddy/constants/app_constants.dart';
 import 'package:baniyabuddy/data/models/business.model.dart';
+import 'package:baniyabuddy/data/repositories/invoice_repo.dart';
+import 'package:baniyabuddy/data/repositories/user_repo.dart';
+import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -13,7 +18,29 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<SaveBusinessInfoEvent>(_onSaveBusinessInfoEvent);
     on<FetchBusinessInfoFromFirebaseEvent>(
         _onFetchBusinessInfoFromFirebaseEvent);
+    on<SyncDataWithFirebaseEvent>(_onSyncDataWithFirebaseEvent);
+    on<SaveUpiIdEvent>(_onSaveUpiIdEvent);
   }
+  void _onSyncDataWithFirebaseEvent(event, emit) async {
+    emit(SyncDataLoadingState());
+    final invoiceRepo = InvoiceRepo();
+    final businessRepo = BusinessRepo();
+    try {
+      bool isConnected = await AppMethods.checkInternetConnection();
+      if (!isConnected) {
+        throw "You are not connected to the Internet";
+      }
+      await businessRepo.uploadBusinessInfoToFirebase();
+      await businessRepo.fetchBusinessInfoFromFirebase();
+
+      await invoiceRepo.uploadLocalInvoicesToFirebase();
+      await invoiceRepo.fetchInvoicesFromFirebaseToLocal();
+      emit(DataSyncedWithFirebaseState());
+    } catch (err) {
+      emit(SettingsErrorState(errorMessage: err.toString()));
+    }
+  }
+
   void _onFetchBusinessInfoFromFirebaseEvent(event, emit) async {
     emit(SettingsLoadingState);
     try {
@@ -32,8 +59,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     }
   }
 
-  void _onSaveBusinessInfoEvent(
-      SaveBusinessInfoEvent event, Emitter<SettingsState> emit) async {
+  void _onSaveBusinessInfoEvent(event, emit) async {
     // print(event.business.toJson());
     emit(SettingsLoadingState());
     try {
@@ -45,6 +71,21 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       debugPrint(err.toString());
       emit(SettingsErrorState(
         errorMessage: "Something went wrong while saving Business details ..!",
+      ));
+    }
+  }
+
+  _onSaveUpiIdEvent(event, emit) async {
+    emit(SettingsLoadingState());
+    try {
+      // TODO: Save UPI ID
+      print(event.upiId);
+      // UserRepo().saveUpiId(event.upiId);
+      emit(UpiIdSavedState());
+    } catch (err) {
+      debugPrint(err.toString());
+      emit(SettingsErrorState(
+        errorMessage: "Something went wrong while saving UPI ID ..!",
       ));
     }
   }

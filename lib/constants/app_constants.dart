@@ -43,4 +43,5 @@ class AppConstants {
   static const String notMentioned = "Not Mentioned";
   static const String businessBox = "BusinessBox";
   static const String business = "business";
+  static const String upiIdBox = "UpiIdBox";
 }
