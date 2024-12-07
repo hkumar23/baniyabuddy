@@ -2,6 +2,12 @@ import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:baniyabuddy/data/models/transaction.model.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_bloc.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_event.dart';
+import 'package:baniyabuddy/presentation/screens/billing/bloc/billing_bloc.dart';
+import 'package:baniyabuddy/presentation/screens/billing/bloc/billing_event.dart';
+import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_bloc.dart';
+import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_event.dart';
+import 'package:baniyabuddy/presentation/screens/settings/bloc/settings_bloc.dart';
+import 'package:baniyabuddy/presentation/screens/settings/bloc/settings_event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +16,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:math_expressions/math_expressions.dart';
 
 class AppMethods {
+  static void resetAppData(BuildContext context) {
+    // print("Resetting App Data");
+    context.read<BillingBloc>().add(FetchInvoiceFromFirebaseToLocalEvent());
+    context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
+    context.read<SettingsBloc>().add(FetchBusinessInfoFromFirebaseEvent());
+    context.read<SettingsBloc>().add(FetchUserFromFirebaseEvent());
+  }
+
   static bool isOperator(String value) {
     return ['+', '-', '*', '/', '%', 'a', '=', 'd'].contains(value);
   }

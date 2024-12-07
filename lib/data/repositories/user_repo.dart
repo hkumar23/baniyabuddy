@@ -73,4 +73,12 @@ class UserRepo {
       rethrow;
     }
   }
+
+  String? getUpiId() {
+    return _upiIdBox.get(0);
+  }
+
+  Future<void> deleteUpiIdFromLocal() async {
+    await _upiIdBox.clear();
+  }
 }

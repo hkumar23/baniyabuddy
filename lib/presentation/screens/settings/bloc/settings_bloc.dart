@@ -1,17 +1,15 @@
-import 'package:baniyabuddy/constants/app_constants.dart';
-import 'package:baniyabuddy/data/models/business.model.dart';
-import 'package:baniyabuddy/data/repositories/invoice_repo.dart';
-import 'package:baniyabuddy/data/repositories/user_repo.dart';
-import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
+import '../../../../constants/app_constants.dart';
+import '../../../../data/models/business.model.dart';
+import '../../../../data/repositories/invoice_repo.dart';
+import '../../../../data/repositories/user_repo.dart';
+import '../../../../utils/app_methods.dart';
+import '../../../../data/repositories/business_repo.dart';
 import 'settings_event.dart';
 import 'settings_state.dart';
-import '../../../../data/repositories/business_repo.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   SettingsBloc() : super(InitialSettingsState()) {
@@ -20,7 +18,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         _onFetchBusinessInfoFromFirebaseEvent);
     on<SyncDataWithFirebaseEvent>(_onSyncDataWithFirebaseEvent);
     on<SaveUpiIdEvent>(_onSaveUpiIdEvent);
+    on<FetchUserFromFirebaseEvent>(_onFetchUserFromFirebaseEvent);
   }
+
   void _onSyncDataWithFirebaseEvent(event, emit) async {
     emit(SyncDataLoadingState());
     final invoiceRepo = InvoiceRepo();
@@ -47,7 +47,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }
 
   void _onFetchBusinessInfoFromFirebaseEvent(event, emit) async {
-    emit(SettingsLoadingState);
+    // emit(SettingsLoadingState);
     try {
       if (!Hive.isBoxOpen(AppConstants.businessBox)) {
         await Hive.openBox<Business>(AppConstants.businessBox);
@@ -61,6 +61,22 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           errorMessage: "Error in fetching business info from firebase..!",
         ),
       );
+    }
+  }
+
+  void _onFetchUserFromFirebaseEvent(event, emit) async {
+    // emit(SettingsLoadingState());
+    try {
+      if (!Hive.isBoxOpen(AppConstants.upiIdBox)) {
+        await Hive.openBox<String>(AppConstants.invoiceBox);
+      }
+      await UserRepo().fetchUserFromFirebase();
+      emit(UserFetchedState());
+    } catch (err) {
+      debugPrint(err.toString());
+      emit(SettingsErrorState(
+        errorMessage: "Error in fetching user info from firebase..!",
+      ));
     }
   }
 

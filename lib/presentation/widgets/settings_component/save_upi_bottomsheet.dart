@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 
+import '../../../constants/app_constants.dart';
 import '../../screens/settings/bloc/settings_bloc.dart';
 import '../../screens/settings/bloc/settings_event.dart';
 
@@ -14,6 +16,13 @@ class SaveUpiBottomsheet extends StatefulWidget {
 class _SaveUpiBottomsheetState extends State<SaveUpiBottomsheet> {
   final _formKey = GlobalKey<FormState>();
   final _upiController = TextEditingController();
+  final _userUpiId = Hive.box<String>(AppConstants.upiIdBox).get(0);
+
+  @override
+  void initState() {
+    super.initState();
+    _upiController.text = _userUpiId ?? "";
+  }
 
   void _onSubmit(context) {
     FocusScope.of(context).unfocus();
@@ -46,7 +55,7 @@ class _SaveUpiBottomsheetState extends State<SaveUpiBottomsheet> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Save your UPI ID",
+                "Add / Update your UPI ID",
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               Row(

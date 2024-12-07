@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:baniyabuddy/data/repositories/business_repo.dart';
-import 'package:baniyabuddy/data/repositories/user_repo.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '../data/models/business.model.dart';
-import '../firebase_options.dart';
-import '../presentation/screens/settings/bloc/settings_bloc.dart';
+import 'data/repositories/business_repo.dart';
+import 'data/repositories/user_repo.dart';
+import 'data/models/business.model.dart';
+import 'firebase_options.dart';
+import 'presentation/screens/settings/bloc/settings_bloc.dart';
 import 'data/repositories/invoice_repo.dart';
 import 'constants/app_constants.dart';
 import 'logic/Blocs/Authentication/bloc/auth_bloc.dart';

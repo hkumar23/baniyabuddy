@@ -22,6 +22,7 @@ class _BusinessInfoBottomSheetState extends State<BusinessInfoBottomSheet> {
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
   final _gstinController = TextEditingController();
+  final _business = BusinessRepo().getBusinessInfo();
 
   bool validateGSTNumber(String gstNumber) {
     const gstRegEx =
@@ -44,17 +45,22 @@ class _BusinessInfoBottomSheetState extends State<BusinessInfoBottomSheet> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    if (_business != null) {
+      _addressController.text = _business.address.toString();
+      _businessNameController.text = _business.name.toString();
+      _emailController.text = _business.email.toString();
+      _phoneController.text = _business.phone.toString();
+      _gstinController.text = _business.gstin.toString();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    final business = BusinessRepo().getBusinessInfo();
-    if (business != null) {
-      _addressController.text = business.address.toString();
-      _businessNameController.text = business.name.toString();
-      _emailController.text = business.email.toString();
-      _phoneController.text = business.phone.toString();
-      _gstinController.text = business.gstin.toString();
-    }
+
     return Padding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,

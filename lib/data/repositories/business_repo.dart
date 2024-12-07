@@ -48,12 +48,11 @@ class BusinessRepo {
           .collection('users')
           .doc(_auth.currentUser!.uid)
           .get();
-      final businessInfo = docSnap.data();
-      if (businessInfo != null && businessInfo.isNotEmpty) {
-        final json = businessInfo[AppConstants.business];
-        if (json != null) {
-          final business = Business.fromJson(json);
-          await _businessBox.put(0, business);
+      final userDetails = docSnap.data();
+      if (userDetails != null && userDetails.isNotEmpty) {
+        final businessInfo = userDetails[AppConstants.business];
+        if (businessInfo != null) {
+          await _businessBox.put(0, Business.fromJson(businessInfo));
         }
       }
     } catch (err) {
