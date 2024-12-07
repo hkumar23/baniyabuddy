@@ -39,6 +39,12 @@ class SettingsScreen extends StatelessWidget {
             text: "Business Details saved successfully !!",
           );
         }
+        if (state is UpiIdSavedState) {
+          CustomSnackbar.success(
+            context: context,
+            text: "UPI ID saved successfully !!",
+          );
+        }
       },
       builder: (context, state) {
         if (state is SettingsLoadingState) {

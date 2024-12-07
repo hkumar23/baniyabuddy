@@ -20,6 +20,8 @@ class BusinessRepo {
         _firestore.collection('users').doc(_auth.currentUser!.uid).update({
           "business": business.toJson(),
         });
+      } else {
+        throw AppConstants.savedLocally;
       }
     } catch (err) {
       rethrow;
