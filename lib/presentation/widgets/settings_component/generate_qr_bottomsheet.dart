@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
+import '../../../constants/app_constants.dart';
+import '../../../data/models/business.model.dart';
+import '../../../utils/custom_snackbar.dart';
 import '../../../utils/generate_qr_code.dart';
 
 class GenerateQrBottomSheet extends StatefulWidget {
@@ -12,19 +16,29 @@ class GenerateQrBottomSheet extends StatefulWidget {
 class _GenerateQrBottomSheetState extends State<GenerateQrBottomSheet> {
   final _formKey = GlobalKey<FormState>();
   final _amountController = TextEditingController();
+  final _userUpiId = Hive.box<String>(AppConstants.upiIdBox).get(0);
+  final _business = Hive.box<Business>(AppConstants.businessBox).get(0);
 
   void _onSubmit(context) {
     FocusScope.of(context).unfocus();
-
+    final businessName = _business == null ? "" : _business.name ?? "";
     if (!_formKey.currentState!.validate()) return;
     _formKey.currentState!.save();
 
     Navigator.of(context).pop();
+    if (_userUpiId == null || _userUpiId.isEmpty) {
+      CustomSnackbar.error(
+        context: context,
+        text: "Please save UPI ID first",
+      );
+      return;
+    }
     showDialog(
       context: context,
       builder: (context) => GenerateQrCode(
-        upiId: "9873541772@ptsbi",
-        businessName: "Codeworks Infinity",
+        // upiId: "9873541772@ptsbi",
+        upiId: _userUpiId,
+        businessName: businessName,
         amount: _amountController.text,
       ),
     );

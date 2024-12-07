@@ -15,3 +15,10 @@ class SaveUpiIdEvent extends SettingsEvent {
 }
 
 class SyncDataWithFirebaseEvent extends SettingsEvent {}
+
+class FetchUserFromFirebaseEvent extends SettingsEvent {}
+
+// class GenerateQrEvent extends SettingsEvent {
+//   final String amount;
+//   GenerateQrEvent({required this.amount});
+// }

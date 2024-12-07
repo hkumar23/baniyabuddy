@@ -1,19 +1,14 @@
-import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_bloc.dart';
-import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_event.dart';
-import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
-import 'package:baniyabuddy/presentation/screens/authentication/email/sign_up_with_email.dart';
-import 'package:baniyabuddy/presentation/screens/billing/bloc/billing_bloc.dart';
-import 'package:baniyabuddy/presentation/screens/billing/bloc/billing_event.dart';
-import 'package:baniyabuddy/presentation/screens/main_screen.dart';
-import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_bloc.dart';
-import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_event.dart';
-import 'package:baniyabuddy/presentation/screens/settings/bloc/settings_bloc.dart';
-import 'package:baniyabuddy/presentation/screens/settings/bloc/settings_event.dart';
-import 'package:baniyabuddy/utils/custom_snackbar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../logic/Blocs/Authentication/bloc/auth_bloc.dart';
+import '../../../../logic/Blocs/Authentication/bloc/auth_event.dart';
+import '../../../../logic/Blocs/Authentication/bloc/auth_state.dart';
+import 'sign_up_with_email.dart';
+import '../../main_screen.dart';
+import '../../../../utils/app_methods.dart';
+import '../../../../utils/custom_snackbar.dart';
 
 class SignInWithEmailScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -45,13 +40,7 @@ class SignInWithEmailScreen extends StatelessWidget {
             );
           } else if (state is LoggedInState) {
             // print("Logged in state");
-            context
-                .read<BillingBloc>()
-                .add(FetchInvoiceFromFirebaseToLocalEvent());
-            context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
-            context
-                .read<SettingsBloc>()
-                .add(FetchBusinessInfoFromFirebaseEvent());
+            AppMethods.resetAppData(context);
             Navigator.of(context).popUntil((route) => route.isFirst);
             Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => const MainScreen(),
