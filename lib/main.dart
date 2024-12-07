@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:baniyabuddy/data/repositories/business_repo.dart';
+import 'package:baniyabuddy/data/repositories/user_repo.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,52 @@ import 'presentation/screens/sales_history/bloc/sales_history_event.dart';
 import 'utils/app_methods.dart';
 import 'data/models/bill_item.model.dart';
 import 'data/models/invoice.model.dart';
+
+class ConnectivityService {
+  final Connectivity _connectivity = Connectivity();
+  StreamSubscription<ConnectivityResult>? _subscription;
+
+  // Start Monitoring
+  void startMonitoring() {
+    _subscription =
+        _connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
+      if (result != ConnectivityResult.none) {
+        // print("Internet Connected: $result");
+        // Call your sync function or handle online status
+        onInternetAvailable();
+      } else {
+        // print("No Internet Connection");
+        // Handle offline status if needed
+        onInternetUnavailable();
+      }
+    });
+  }
+
+  // Stop Monitoring
+  void stopMonitoring() {
+    _subscription?.cancel();
+  }
+
+  // Example actions for connectivity changes
+  Future<void> onInternetAvailable() async {
+    // Trigger data sync or other actions when internet is available
+    try {
+      var currUser = FirebaseAuth.instance.currentUser;
+      if (currUser != null) {
+        InvoiceRepo().uploadLocalInvoicesToFirebase();
+        BusinessRepo().uploadBusinessInfoToFirebase();
+        UserRepo().uploadUserToFirebase();
+      }
+    } catch (err) {
+      debugPrint("Error: ${err.toString()}");
+    }
+  }
+
+  void onInternetUnavailable() {
+    // Notify user or perform actions for offline mode
+    // print("No internet. Saving data locally.");
+  }
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,10 +99,12 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   // This widget is the root of your application.
+  final connectivityService = ConnectivityService();
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    connectivityService.startMonitoring();
   }
 
   @override
@@ -64,7 +114,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     Hive.box<int>(AppConstants.globalInvoiceNumberBox).close();
     Hive.box<Business>(AppConstants.businessBox).close();
     Hive.box<String>(AppConstants.upiIdBox).close();
-
+    connectivityService.stopMonitoring();
     super.dispose();
   }
 
@@ -72,15 +122,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     // if (state == AppLifecycleState.resumed || state==AppLifecycleState.) {
     //   print(state);
-    try {
-      var currUser = FirebaseAuth.instance.currentUser;
-      if (await AppMethods.checkInternetConnection() && currUser != null) {
-        InvoiceRepo().uploadLocalInvoicesToFirebase();
-        BusinessRepo().uploadBusinessInfoToFirebase();
-      }
-    } catch (err) {
-      debugPrint("Error: ${err.toString()}");
-    }
     AppMethods.logUserActivity();
     // }
   }

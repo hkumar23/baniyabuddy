@@ -7,7 +7,7 @@ import 'package:hive/hive.dart';
 class UserRepo {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final upiIdBox = Hive.box<String>(AppConstants.upiIdBox);
+  final _upiIdBox = Hive.box<String>(AppConstants.upiIdBox);
 
   Future<User?> getUser(String id) async {
     return null;
@@ -26,14 +26,48 @@ class UserRepo {
 
   Future<void> saveUpiId(String upiId) async {
     try {
-      await upiIdBox.put(0, upiId);
+      await _upiIdBox.put(0, upiId);
       final isConnected = await AppMethods.checkInternetConnection();
 
       if (isConnected) {
         _firestore
             .collection('users')
             .doc(_auth.currentUser!.uid)
-            .update({"upiId": upiId});
+            .update({AppConstants.upiId: upiId});
+      } else {
+        throw AppConstants.savedLocally;
+      }
+    } catch (err) {
+      rethrow;
+    }
+  }
+
+  Future<void> uploadUserToFirebase() async {
+    try {
+      final upiId = _upiIdBox.get(0);
+      if (upiId != null) {
+        await _firestore
+            .collection('users')
+            .doc(_auth.currentUser!.uid)
+            .update({AppConstants.upiId: upiId});
+      }
+    } catch (err) {
+      rethrow;
+    }
+  }
+
+  Future<void> fetchUserFromFirebase() async {
+    try {
+      final docSnap = await _firestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .get();
+      final userDetails = docSnap.data();
+      if (userDetails != null && userDetails.isNotEmpty) {
+        final upiId = userDetails[AppConstants.upiId];
+        if (upiId != null) {
+          await _upiIdBox.put(0, upiId);
+        }
       }
     } catch (err) {
       rethrow;

@@ -25,6 +25,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     emit(SyncDataLoadingState());
     final invoiceRepo = InvoiceRepo();
     final businessRepo = BusinessRepo();
+    final userRepo = UserRepo();
+
     try {
       bool isConnected = await AppMethods.checkInternetConnection();
       if (!isConnected) {
@@ -32,6 +34,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       }
       await businessRepo.uploadBusinessInfoToFirebase();
       await businessRepo.fetchBusinessInfoFromFirebase();
+
+      await userRepo.uploadUserToFirebase();
+      await userRepo.fetchUserFromFirebase();
 
       await invoiceRepo.uploadLocalInvoicesToFirebase();
       await invoiceRepo.fetchInvoicesFromFirebaseToLocal();
@@ -70,7 +75,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     } catch (err) {
       debugPrint(err.toString());
       emit(SettingsErrorState(
-        errorMessage: "Something went wrong while saving Business details ..!",
+        errorMessage: err.toString() == AppConstants.savedLocally
+            ? AppConstants.savedLocally
+            : "Something went wrong while saving Business details ..!",
       ));
     }
   }
@@ -78,14 +85,14 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   _onSaveUpiIdEvent(event, emit) async {
     emit(SettingsLoadingState());
     try {
-      // TODO: Save UPI ID
-      print(event.upiId);
-      // UserRepo().saveUpiId(event.upiId);
+      await UserRepo().saveUpiId(event.upiId);
       emit(UpiIdSavedState());
     } catch (err) {
       debugPrint(err.toString());
       emit(SettingsErrorState(
-        errorMessage: "Something went wrong while saving UPI ID ..!",
+        errorMessage: err.toString() == AppConstants.savedLocally
+            ? AppConstants.savedLocally
+            : "Something went wrong while saving UPI ID ..!",
       ));
     }
   }

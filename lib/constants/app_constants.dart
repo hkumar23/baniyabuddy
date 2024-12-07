@@ -44,4 +44,7 @@ class AppConstants {
   static const String businessBox = "BusinessBox";
   static const String business = "business";
   static const String upiIdBox = "UpiIdBox";
+  static const String savedLocally =
+      "Saved locally. Connect to the internet to sync";
+  static const String upiId = "upiId";
 }
