@@ -17,7 +17,10 @@ class BusinessRepo {
       bool isConnected = await AppMethods.checkInternetConnection();
       await _businessBox.put(0, business);
       if (isConnected) {
-        _firestore.collection('users').doc(_auth.currentUser!.uid).update({
+        await _firestore
+            .collection('users')
+            .doc(_auth.currentUser!.uid)
+            .update({
           "business": business.toJson(),
         });
       } else {
