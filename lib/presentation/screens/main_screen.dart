@@ -25,7 +25,7 @@ class _MainScreenState extends State<MainScreen> {
     const BillingScreen(),
     const Calculator(),
     const SalesHistory(),
-    const GeminiChatScreen(),
+    // const GeminiChatScreen(),
     const SettingsScreen(),
   ];
 
