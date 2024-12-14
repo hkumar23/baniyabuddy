@@ -47,4 +47,7 @@ class AppConstants {
   static const String savedLocally =
       "Saved locally. Connect to the internet to sync";
   static const String upiId = "upiId";
+  static const String uid = "uid";
+  static const String userName = "userName";
+  static const String photoUrl = "photoUrl";
 }

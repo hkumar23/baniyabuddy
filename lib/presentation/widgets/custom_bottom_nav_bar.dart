@@ -17,14 +17,14 @@ class CustomBottomNavBar extends StatelessWidget {
     Icons.receipt_long,
     Icons.calculate,
     MdiIcons.clipboardTextClock,
-    MdiIcons.star,
+    // MdiIcons.star,
     Icons.settings,
   ];
   final List<String> labels = [
     AppLanguage.billing,
     AppLanguage.calculator,
     AppLanguage.salesHistory,
-    AppLanguage.gemini,
+    // AppLanguage.gemini,
     AppLanguage.settings,
   ];
 
@@ -72,22 +72,24 @@ class CustomBottomNavBar extends StatelessWidget {
         ),
         child: Row(
           children: [
-            if (index != 3)
-              Icon(
-                icons[index],
-                color: isSelected
-                    ? Theme.of(context).colorScheme.primary
-                    : Colors.white54,
-                size: deviceWidth * 0.08,
-              )
-            else
-              Image.asset(
-                "assets/images/christmas-stars.png",
-                height: deviceWidth * 0.08,
-                color: isSelected
-                    ? Theme.of(context).colorScheme.primary
-                    : Colors.white54,
-              ),
+            // This is for gemini screen
+            // if (index == 3)
+            // Image.asset(
+            //     "assets/images/christmas-stars.png",
+            //     height: deviceWidth * 0.08,
+            //     color: isSelected
+            //         ? Theme.of(context).colorScheme.primary
+            //         : Colors.white54,
+            //   ),
+            // else
+            Icon(
+              icons[index],
+              color: isSelected
+                  ? Theme.of(context).colorScheme.primary
+                  : Colors.white54,
+              size: deviceWidth * 0.08,
+            ),
+
             if (isSelected) const SizedBox(width: 5),
             if (isSelected)
               Text(

@@ -1,11 +1,17 @@
-import 'package:baniyabuddy/constants/app_language.dart';
-import 'package:baniyabuddy/data/models/transaction.model.dart';
+import 'package:baniyabuddy/data/repositories/user_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../data/models/business.model.dart';
+import '../../../constants/app_language.dart';
+import '../../../data/models/transaction.model.dart';
+import '../../../data/repositories/business_repo.dart';
+import '../../../utils/generate_qr_code.dart';
+
 class SalesHistoryBottomSheet extends StatelessWidget {
-  const SalesHistoryBottomSheet({super.key, required this.transactionDetails});
+  SalesHistoryBottomSheet({super.key, required this.transactionDetails});
   final TransactionDetails transactionDetails;
+  final Business? businessInfo = BusinessRepo().getBusinessInfo();
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +185,50 @@ class SalesHistoryBottomSheet extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FilledButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => GenerateQrCode(
+                                // upiId: "9873541772@ptsbi",
+                                upiId: UserRepo().getUpiId().toString(),
+                                businessName: businessInfo?.name ?? '',
+                                amount:
+                                    transactionDetails.totalAmount.toString(),
+                              ),
+                            );
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.qr_code,
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
+                              const SizedBox(width: 5),
+                              Text(
+                                "Show Qr Code",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelLarge!
+                                    .copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimary,
+                                    ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
                   ]),
             ));
     // );

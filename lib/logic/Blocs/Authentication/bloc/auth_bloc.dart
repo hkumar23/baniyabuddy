@@ -60,7 +60,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             .get();
         if (res.exists) {
           final userData = res.data();
-          // To handle the old accounts, since they don't have email and uid in user collection
+          // To handle the old accounts, since they don't have email and uid in users collection
           if (userData!['userName'] == null) {
             await _firestore
                 .collection('users')
@@ -69,6 +69,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               'email': userCredential.user!.email,
               'uid': userCredential.user!.uid,
               'userName': userCredential.user!.displayName,
+              'photoUrl': userCredential.user!.photoURL,
             });
           }
         } else {
@@ -80,6 +81,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             'email': userCredential.user!.email,
             'uid': userCredential.user!.uid,
             'userName': userCredential.user!.displayName,
+            'photoUrl': userCredential.user!.photoURL,
           });
         }
         emit(LoggedInState(userCredential.user!));
@@ -119,6 +121,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             'email': userCredential.user!.email,
             'uid': userCredential.user!.uid,
             'userName': userCredential.user!.displayName,
+            'photoUrl': userCredential.user!.photoURL,
           });
         }
         emit(LoggedInState(userCredential.user!));
@@ -148,6 +151,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           'email': userCredential.user!.email,
           'uid': userCredential.user!.uid,
           'userName': userCredential.user!.displayName,
+          'photoUrl': userCredential.user!.photoURL,
         });
         emit(SignUpWithEmailSuccessState(userCredential.user!));
       } else {
