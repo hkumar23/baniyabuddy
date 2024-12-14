@@ -8,6 +8,7 @@ import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_histor
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_event.dart';
 import 'package:baniyabuddy/presentation/screens/settings/bloc/settings_bloc.dart';
 import 'package:baniyabuddy/presentation/screens/settings/bloc/settings_event.dart';
+import 'package:baniyabuddy/presentation/screens/settings/bloc/settings_state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -70,6 +71,7 @@ class AppMethods {
           actions: [
             OutlinedButton(
               onPressed: () {
+                Navigator.of(context).pop();
                 context.read<AuthBloc>().add(LogoutEvent());
               },
               child: const Text(AppLanguage.yes),

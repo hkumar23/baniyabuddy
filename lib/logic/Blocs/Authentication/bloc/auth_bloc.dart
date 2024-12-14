@@ -1,8 +1,9 @@
-import 'package:baniyabuddy/data/repositories/user_repo.dart';
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../../../../data/repositories/user_repo.dart';
 import '../../../../data/repositories/business_repo.dart';
 import '../../../../constants/app_language.dart';
 import '../../../../data/repositories/invoice_repo.dart';
@@ -14,6 +15,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ["profile", "email"]);
   String? _verificationId;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   AuthBloc() : super(InitialAuthState()) {
     User? currentUser = _auth.currentUser;
@@ -52,6 +54,34 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           await FirebaseAuth.instance.signInWithCredential(credential);
       // print(userCredential.toString());
       if (userCredential.user != null) {
+        final res = await _firestore
+            .collection('users')
+            .doc(userCredential.user!.uid)
+            .get();
+        if (res.exists) {
+          final userData = res.data();
+          // To handle the old accounts, since they don't have email and uid in user collection
+          if (userData!['userName'] == null) {
+            await _firestore
+                .collection('users')
+                .doc(userCredential.user!.uid)
+                .update({
+              'email': userCredential.user!.email,
+              'uid': userCredential.user!.uid,
+              'userName': userCredential.user!.displayName,
+            });
+          }
+        } else {
+          // To handle new accounts
+          await _firestore
+              .collection('users')
+              .doc(userCredential.user!.uid)
+              .set({
+            'email': userCredential.user!.email,
+            'uid': userCredential.user!.uid,
+            'userName': userCredential.user!.displayName,
+          });
+        }
         emit(LoggedInState(userCredential.user!));
       } else {
         emit(AuthErrorState(
@@ -76,6 +106,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         password: event.password,
       );
       if (userCredential.user != null) {
+        final res = await _firestore
+            .collection('users')
+            .doc(userCredential.user!.uid)
+            .get();
+        final userData = res.data();
+        if (userData!['userName'] == null) {
+          await _firestore
+              .collection('users')
+              .doc(userCredential.user!.uid)
+              .update({
+            'email': userCredential.user!.email,
+            'uid': userCredential.user!.uid,
+            'userName': userCredential.user!.displayName,
+          });
+        }
         emit(LoggedInState(userCredential.user!));
       } else {
         emit(AuthErrorState(errorMessage: "User not found"));
@@ -99,6 +144,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         password: event.password,
       );
       if (userCredential.user != null) {
+        await _firestore.collection('users').doc(userCredential.user!.uid).set({
+          'email': userCredential.user!.email,
+          'uid': userCredential.user!.uid,
+          'userName': userCredential.user!.displayName,
+        });
         emit(SignUpWithEmailSuccessState(userCredential.user!));
       } else {
         emit(AuthErrorState(errorMessage: "User not created"));

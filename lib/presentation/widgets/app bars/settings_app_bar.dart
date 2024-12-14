@@ -8,7 +8,7 @@ class SettingsAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text('Settings'),
+      title: const Text(''),
       centerTitle: true,
     );
   }
