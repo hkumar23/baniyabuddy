@@ -11,18 +11,18 @@ class CalculatorAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: IconButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) {
-                return const SalesHistory();
-              },
-            ),
-          );
-        },
-        icon: const Icon(Icons.history_rounded),
-      ),
+      // leading: IconButton(
+      //   onPressed: () {
+      //     Navigator.of(context).push(
+      //       MaterialPageRoute(
+      //         builder: (context) {
+      //           return const SalesHistory();
+      //         },
+      //       ),
+      //     );
+      //   },
+      //   icon: const Icon(Icons.history_rounded),
+      // ),
 
       forceMaterialTransparency: true,
       title: Row(
