@@ -1,20 +1,21 @@
-import 'package:baniyabuddy/constants/app_language.dart';
-import 'package:baniyabuddy/data/models/transaction.model.dart';
-import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_bloc.dart';
-import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_event.dart';
-import 'package:baniyabuddy/presentation/screens/billing/bloc/billing_bloc.dart';
-import 'package:baniyabuddy/presentation/screens/billing/bloc/billing_event.dart';
-import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_bloc.dart';
-import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_event.dart';
-import 'package:baniyabuddy/presentation/screens/settings/bloc/settings_bloc.dart';
-import 'package:baniyabuddy/presentation/screens/settings/bloc/settings_event.dart';
-import 'package:baniyabuddy/presentation/screens/settings/bloc/settings_state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:math_expressions/math_expressions.dart';
+
+import '../constants/app_constants.dart';
+import '../constants/app_language.dart';
+import '../data/models/transaction.model.dart';
+import '../logic/Blocs/Authentication/bloc/auth_bloc.dart';
+import '../logic/Blocs/Authentication/bloc/auth_event.dart';
+import '../presentation/screens/billing/bloc/billing_bloc.dart';
+import '../presentation/screens/billing/bloc/billing_event.dart';
+import '../presentation/screens/sales_history/bloc/sales_history_bloc.dart';
+import '../presentation/screens/sales_history/bloc/sales_history_event.dart';
+import '../presentation/screens/settings/bloc/settings_bloc.dart';
+import '../presentation/screens/settings/bloc/settings_event.dart';
 
 class AppMethods {
   static void resetAppData(BuildContext context) {
@@ -113,11 +114,12 @@ class AppMethods {
   //           .collection("transactions")
   //           .get();
   //       for (var transaction in newResponse.docs) {
+  //         if (transaction.data().isEmpty) continue;
   //         final data = transaction.data();
   //         final transactionRef = transaction.reference;
-  //         if (data[AppConstants.paymentMethod] == AppLanguage.udhaar) {
+  //         if (data[AppConstants.paymentMethod] == AppLanguage.amountDue) {
   //           await transactionRef
-  //               .update({AppConstants.paymentMethod: AppLanguage.amountDue});
+  //               .update({AppConstants.paymentMethod: AppLanguage.unpaid});
   //         }
   //       }
   //     }
