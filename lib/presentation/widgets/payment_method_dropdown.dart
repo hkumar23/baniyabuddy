@@ -31,8 +31,8 @@ class _PaymentMethodDropdownState extends State<PaymentMethodDropdown> {
           child: Text(AppLanguage.upi),
         ),
         DropdownMenuItem(
-          value: AppLanguage.amountDue,
-          child: Text(AppLanguage.amountDue),
+          value: AppLanguage.unpaid,
+          child: Text(AppLanguage.unpaid),
         ),
         DropdownMenuItem(
           value: AppLanguage.netBanking,
