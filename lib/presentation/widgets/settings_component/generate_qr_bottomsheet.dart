@@ -1,3 +1,6 @@
+import 'package:baniyabuddy/data/models/user_model.dart';
+import 'package:baniyabuddy/data/repositories/user_repo.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -16,17 +19,20 @@ class GenerateQrBottomSheet extends StatefulWidget {
 class _GenerateQrBottomSheetState extends State<GenerateQrBottomSheet> {
   final _formKey = GlobalKey<FormState>();
   final _amountController = TextEditingController();
-  final _userUpiId = Hive.box<String>(AppConstants.upiIdBox).get(0);
-  final _business = Hive.box<Business>(AppConstants.businessBox).get(0);
+  // final upiId = Hive.box<String>(AppConstants.upiIdBox).get(0);
+  // final _business = Hive.box<Business>(AppConstants.businessBox).get(0);
+  final _user = UserRepo().getUser()!;
 
   void _onSubmit(context) {
+    final business = _user.business;
+    final upiId = _user.upiId;
     FocusScope.of(context).unfocus();
-    final businessName = _business == null ? "" : _business.name ?? "";
+    final businessName = business == null ? "" : business.name ?? "";
     if (!_formKey.currentState!.validate()) return;
     _formKey.currentState!.save();
 
     Navigator.of(context).pop();
-    if (_userUpiId == null || _userUpiId.isEmpty) {
+    if (upiId == null || upiId.isEmpty) {
       CustomSnackbar.error(
         context: context,
         text: "Please save UPI ID first",
@@ -37,7 +43,7 @@ class _GenerateQrBottomSheetState extends State<GenerateQrBottomSheet> {
       context: context,
       builder: (context) => GenerateQrCode(
         // upiId: "9873541772@ptsbi",
-        upiId: _userUpiId,
+        upiId: upiId,
         businessName: businessName,
         amount: _amountController.text,
       ),

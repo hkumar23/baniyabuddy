@@ -1,10 +1,11 @@
+import 'package:baniyabuddy/constants/app_constants.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../../data/repositories/user_repo.dart';
-import '../../../../data/repositories/business_repo.dart';
+// import '../../../../data/repositories/business_repo.dart';
 import '../../../../constants/app_language.dart';
 import '../../../../data/repositories/invoice_repo.dart';
 import '../../../../logic/Blocs/Authentication/bloc/auth_event.dart';
@@ -61,28 +62,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (res.exists) {
           final userData = res.data();
           // To handle the old accounts, since they don't have email and uid in users collection
-          if (userData!['userName'] == null) {
+          if (userData![AppConstants.globalInvoiceNumber] == null) {
             await _firestore
                 .collection('users')
                 .doc(userCredential.user!.uid)
                 .update({
-              'email': userCredential.user!.email,
-              'uid': userCredential.user!.uid,
-              'userName': userCredential.user!.displayName,
-              'photoUrl': userCredential.user!.photoURL,
+              AppConstants.email: userCredential.user!.email,
+              AppConstants.uid: userCredential.user!.uid,
+              AppConstants.fullName: userCredential.user!.displayName,
+              AppConstants.imageUrl: userCredential.user!.photoURL,
+              AppConstants.globalInvoiceNumber: 0,
             });
           }
         } else {
           // To handle new accounts
-          await _firestore
-              .collection('users')
-              .doc(userCredential.user!.uid)
-              .set({
-            'email': userCredential.user!.email,
-            'uid': userCredential.user!.uid,
-            'userName': userCredential.user!.displayName,
-            'photoUrl': userCredential.user!.photoURL,
-          });
+          UserRepo().createUser(userCredential.user!.uid);
         }
         emit(LoggedInState(userCredential.user!));
       } else {
@@ -113,15 +107,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             .doc(userCredential.user!.uid)
             .get();
         final userData = res.data();
-        if (userData!['userName'] == null) {
+        if (userData![AppConstants.globalInvoiceNumber] == null) {
           await _firestore
               .collection('users')
               .doc(userCredential.user!.uid)
               .update({
-            'email': userCredential.user!.email,
-            'uid': userCredential.user!.uid,
-            'userName': userCredential.user!.displayName,
-            'photoUrl': userCredential.user!.photoURL,
+            AppConstants.email: userCredential.user!.email,
+            AppConstants.uid: userCredential.user!.uid,
+            AppConstants.fullName: userCredential.user!.displayName,
+            AppConstants.imageUrl: userCredential.user!.photoURL,
+            AppConstants.globalInvoiceNumber: 0,
           });
         }
         emit(LoggedInState(userCredential.user!));
@@ -147,12 +142,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         password: event.password,
       );
       if (userCredential.user != null) {
-        await _firestore.collection('users').doc(userCredential.user!.uid).set({
-          'email': userCredential.user!.email,
-          'uid': userCredential.user!.uid,
-          'userName': userCredential.user!.displayName,
-          'photoUrl': userCredential.user!.photoURL,
-        });
+        // await _firestore.collection('users').doc(userCredential.user!.uid).set({
+        //   'email': userCredential.user!.email,
+        //   'uid': userCredential.user!.uid,
+        //   'userName': userCredential.user!.displayName,
+        //   'photoUrl': userCredential.user!.photoURL,
+        // });
+
+        await UserRepo().createUser(userCredential.user!.uid);
         emit(SignUpWithEmailSuccessState(userCredential.user!));
       } else {
         emit(AuthErrorState(errorMessage: "User not created"));
@@ -169,12 +166,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void _onLogoutEvent(event, emit) async {
     InvoiceRepo invoiceRepo = InvoiceRepo();
-    BusinessRepo businessRepo = BusinessRepo();
+    // BusinessRepo businessRepo = BusinessRepo();
     UserRepo userRepo = UserRepo();
     emit(AuthLoadingState());
     try {
       await invoiceRepo.uploadLocalInvoicesToFirebase();
-      await businessRepo.uploadBusinessInfoToFirebase();
+      // await businessRepo.uploadBusinessInfoToFirebase();
       await userRepo.uploadUserToFirebase();
 
       for (final provider in _auth.currentUser!.providerData) {
@@ -185,9 +182,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       }
       await _auth.signOut();
-      await userRepo.deleteUpiIdFromLocal();
+      await userRepo.deleteUserFromLocal();
       await invoiceRepo.deleteAllInvoiceFromLocal();
-      await businessRepo.deleteBusinessInfoFromLocal();
+      // await businessRepo.deleteBusinessInfoFromLocal();
 
       emit(LoggedOutState());
     } catch (err) {

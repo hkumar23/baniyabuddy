@@ -31,6 +31,7 @@ class BillingBloc extends Bloc<BillingEvent, BillingState> {
   }
 
   void _onFetchInvoiceFromFirebaseToLocalEvent(event, emit) async {
+    //FIXME: Check if this is needed
     emit(BillingLoadingState());
     try {
       if (!Hive.isBoxOpen(AppConstants.invoiceBox)) {

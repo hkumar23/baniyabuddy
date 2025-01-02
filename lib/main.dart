@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'data/repositories/business_repo.dart';
+import 'data/models/user_model.dart';
+// import 'data/repositories/business_repo.dart';
 import 'data/repositories/user_repo.dart';
 import 'data/models/business.model.dart';
 import 'firebase_options.dart';
@@ -58,7 +59,7 @@ class ConnectivityService {
       var currUser = FirebaseAuth.instance.currentUser;
       if (currUser != null) {
         InvoiceRepo().uploadLocalInvoicesToFirebase();
-        BusinessRepo().uploadBusinessInfoToFirebase();
+        // BusinessRepo().uploadBusinessInfoToFirebase();
         UserRepo().uploadUserToFirebase();
       }
     } catch (err) {
@@ -80,13 +81,14 @@ Future<void> main() async {
   Hive.registerAdapter(InvoiceAdapter());
   Hive.registerAdapter(BillItemAdapter());
   Hive.registerAdapter(BusinessAdapter());
+  Hive.registerAdapter(UserAdapter());
 
   // opening box here so that it is easily available appwide right after start
-  await Hive.openBox<int>(AppConstants.globalInvoiceNumberBox);
+  // await Hive.openBox<int>(AppConstants.globalInvoiceNumberBox);
   await Hive.openBox<Invoice>(AppConstants.invoiceBox);
-  await Hive.openBox<Business>(AppConstants.businessBox);
-  await Hive.openBox<String>(AppConstants.upiIdBox);
-  // await TimeMachine.initialize({'rootBundle': rootBundle});
+  // await Hive.openBox<Business>(AppConstants.businessBox);
+  // await Hive.openBox<String>(AppConstants.upiIdBox);
+  await Hive.openBox<UserModel>(AppConstants.userBox);
   runApp(const MyApp());
 }
 
@@ -110,10 +112,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+
     Hive.box<Invoice>(AppConstants.invoiceBox).close();
-    Hive.box<int>(AppConstants.globalInvoiceNumberBox).close();
-    Hive.box<Business>(AppConstants.businessBox).close();
-    Hive.box<String>(AppConstants.upiIdBox).close();
+    // Hive.box<int>(AppConstants.globalInvoiceNumberBox).close();
+    // Hive.box<Business>(AppConstants.businessBox).close();
+    // Hive.box<String>(AppConstants.upiIdBox).close();
+    Hive.box<UserModel>(AppConstants.userBox).close();
+
     connectivityService.stopMonitoring();
     super.dispose();
   }

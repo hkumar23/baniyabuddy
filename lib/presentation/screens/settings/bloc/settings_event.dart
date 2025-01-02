@@ -7,7 +7,7 @@ class SaveBusinessInfoEvent extends SettingsEvent {
   SaveBusinessInfoEvent({required this.business});
 }
 
-class FetchBusinessInfoFromFirebaseEvent extends SettingsEvent {}
+// class FetchBusinessInfoFromFirebaseEvent extends SettingsEvent {}
 
 class SaveUpiIdEvent extends SettingsEvent {
   final String upiId;

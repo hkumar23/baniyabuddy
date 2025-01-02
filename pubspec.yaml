@@ -111,6 +111,7 @@ flutter:
     - assets/images/google_logo.png
     - assets/images/christmas-stars.png
     - assets/images/get_it_on_google_play.png
+    - assets/images/profile_image.jpg
   #   - images/a_dot_ham.jpeg
 
   fonts:

@@ -1,3 +1,4 @@
+import 'package:baniyabuddy/data/repositories/user_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
@@ -16,12 +17,13 @@ class SaveUpiBottomsheet extends StatefulWidget {
 class _SaveUpiBottomsheetState extends State<SaveUpiBottomsheet> {
   final _formKey = GlobalKey<FormState>();
   final _upiController = TextEditingController();
-  final _userUpiId = Hive.box<String>(AppConstants.upiIdBox).get(0);
+  final _user = UserRepo().getUser();
 
   @override
   void initState() {
     super.initState();
-    _upiController.text = _userUpiId ?? "";
+    final upiId = _user != null ? _user.upiId ?? "" : "";
+    _upiController.text = upiId;
   }
 
   void _onSubmit(context) {

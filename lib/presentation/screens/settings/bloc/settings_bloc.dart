@@ -2,20 +2,19 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
+import '../../../../data/models/user_model.dart';
 import '../../../../constants/app_constants.dart';
-import '../../../../data/models/business.model.dart';
 import '../../../../data/repositories/invoice_repo.dart';
 import '../../../../data/repositories/user_repo.dart';
 import '../../../../utils/app_methods.dart';
-import '../../../../data/repositories/business_repo.dart';
 import 'settings_event.dart';
 import 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   SettingsBloc() : super(InitialSettingsState()) {
     on<SaveBusinessInfoEvent>(_onSaveBusinessInfoEvent);
-    on<FetchBusinessInfoFromFirebaseEvent>(
-        _onFetchBusinessInfoFromFirebaseEvent);
+    // on<FetchBusinessInfoFromFirebaseEvent>(
+    //     _onFetchBusinessInfoFromFirebaseEvent);
     on<SyncDataWithFirebaseEvent>(_onSyncDataWithFirebaseEvent);
     on<SaveUpiIdEvent>(_onSaveUpiIdEvent);
     on<FetchUserFromFirebaseEvent>(_onFetchUserFromFirebaseEvent);
@@ -24,7 +23,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   void _onSyncDataWithFirebaseEvent(event, emit) async {
     emit(SyncDataLoadingState());
     final invoiceRepo = InvoiceRepo();
-    final businessRepo = BusinessRepo();
+    // final businessRepo = BusinessRepo();
     final userRepo = UserRepo();
 
     try {
@@ -32,8 +31,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       if (!isConnected) {
         throw "You are not connected to the Internet";
       }
-      await businessRepo.uploadBusinessInfoToFirebase();
-      await businessRepo.fetchBusinessInfoFromFirebase();
+      // await businessRepo.uploadBusinessInfoToFirebase();
+      // await businessRepo.fetchBusinessInfoFromFirebase();
 
       await userRepo.uploadUserToFirebase();
       await userRepo.fetchUserFromFirebase();
@@ -46,29 +45,30 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     }
   }
 
-  void _onFetchBusinessInfoFromFirebaseEvent(event, emit) async {
-    // emit(SettingsLoadingState);
-    try {
-      if (!Hive.isBoxOpen(AppConstants.businessBox)) {
-        await Hive.openBox<Business>(AppConstants.businessBox);
-      }
-      await BusinessRepo().fetchBusinessInfoFromFirebase();
-      emit(BusinessInfoFetchedState());
-    } catch (err) {
-      debugPrint(err.toString());
-      emit(
-        SettingsErrorState(
-          errorMessage: "Error in fetching business info from firebase..!",
-        ),
-      );
-    }
-  }
+  // void _onFetchBusinessInfoFromFirebaseEvent(event, emit) async {
+  //   // emit(SettingsLoadingState);
+  //   try {
+  //     if (!Hive.isBoxOpen(AppConstants.businessBox)) {
+  //       await Hive.openBox<Business>(AppConstants.businessBox);
+  //     }
+  //     await BusinessRepo().fetchBusinessInfoFromFirebase();
+  //     emit(BusinessInfoFetchedState());
+  //   } catch (err) {
+  //     debugPrint(err.toString());
+  //     emit(
+  //       SettingsErrorState(
+  //         errorMessage: "Error in fetching business info from firebase..!",
+  //       ),
+  //     );
+  //   }
+  // }
 
   void _onFetchUserFromFirebaseEvent(event, emit) async {
+    //FIXME: Check if this is needed
     // emit(SettingsLoadingState());
     try {
-      if (!Hive.isBoxOpen(AppConstants.upiIdBox)) {
-        await Hive.openBox<String>(AppConstants.invoiceBox);
+      if (!Hive.isBoxOpen(AppConstants.userBox)) {
+        await Hive.openBox<UserModel>(AppConstants.userBox);
       }
       await UserRepo().fetchUserFromFirebase();
       emit(UserFetchedState());
@@ -84,8 +84,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     // print(event.business.toJson());
     emit(SettingsLoadingState());
     try {
-      final businessRepo = BusinessRepo();
-      await businessRepo.saveBusinessInfo(event.business);
+      final UserRepo userRepo = UserRepo();
+      await userRepo.updateBusinessInfo(event.business);
+      // await businessRepo.saveBusinessInfo(event.business);
       // print("Details saved");
       emit(BusinessInfoSavedState());
     } catch (err) {
