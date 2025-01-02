@@ -1,3 +1,4 @@
+import 'package:baniyabuddy/data/repositories/user_repo.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_bloc.dart';
 import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,6 +22,9 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final auth = FirebaseAuth.instance.currentUser;
     final theme = Theme.of(context);
+    final userRepo = UserRepo();
+    final profileImage = userRepo.getProfileImage();
+
     return BlocConsumer<SettingsBloc, SettingsState>(
       listener: (context, state) {
         if (state is SettingsErrorState) {
@@ -76,10 +80,10 @@ class SettingsScreen extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 40,
-                          backgroundImage: auth?.photoURL == null
-                              ? const NetworkImage(
-                                  'https://i.pinimg.com/736x/c4/c2/34/c4c23420aa097fcb949a3011eddeab3b.jpg')
-                              : NetworkImage(auth!.photoURL!),
+                          backgroundImage: profileImage == null
+                              ? Image.asset("assets/images/profile_image.jpg")
+                                  .image
+                              : NetworkImage(profileImage),
                         ),
                         const SizedBox(width: 15),
                         Column(
@@ -104,8 +108,20 @@ class SettingsScreen extends StatelessWidget {
                                 showAdaptiveDialog(
                                     context: context,
                                     builder: (context) {
-                                      // TODO: Add Edit Profile Dialog
-                                      return const AlertDialog();
+                                      // IMPLEMENT THIS: Add the edit profile feature
+                                      return AlertDialog(
+                                        title: const Text("Edit Profile"),
+                                        content: const Text(
+                                            "This feature is not available yet !!"),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text("OK"),
+                                          ),
+                                        ],
+                                      );
                                     });
                               },
                               child: Container(

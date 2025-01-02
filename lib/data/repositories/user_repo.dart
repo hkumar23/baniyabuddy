@@ -1,16 +1,20 @@
-import 'package:baniyabuddy/constants/app_constants.dart';
-import 'package:baniyabuddy/utils/app_methods.dart';
+import 'package:baniyabuddy/data/models/business.model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive/hive.dart';
 
+import '../../constants/app_constants.dart';
+import '../models/user_model.dart';
+import '../../../utils/app_methods.dart';
+
 class UserRepo {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final _upiIdBox = Hive.box<String>(AppConstants.upiIdBox);
+  // final _upiIdBox = Hive.box<String>(AppConstants.upiIdBox);
+  final _userBox = Hive.box<UserModel>(AppConstants.userBox);
 
-  Future<User?> getUser(String id) async {
-    return null;
+  UserModel? getUser() {
+    return _userBox.get(_auth.currentUser!.uid);
   }
 
   Future<List<User>> getAllUsers() async {
@@ -18,15 +22,99 @@ class UserRepo {
     return users;
   }
 
-  Future<void> createUser(User user) async {}
+  Future<void> createUser(String uid) async {
+    try {
+      UserModel user = UserModel(
+        uid: uid,
+        email: _auth.currentUser!.email!,
+        fullName: _auth.currentUser!.displayName,
+        imageUrl: _auth.currentUser!.photoURL,
+        globalInvoiceNumber: 0,
+      );
+      await _userBox.put(uid, user);
+      await _firestore.collection('users').doc(uid).set(user.toJson());
+    } catch (err) {
+      rethrow;
+    }
+  }
 
-  Future<void> updateUser(User user) async {}
+  Future<void> deleteUserFromLocal() async {
+    await _userBox.clear();
+  }
 
-  Future<void> deleteUser(String id) async {}
+  String? getProfileImage() {
+    final UserModel? user = _userBox.get(_auth.currentUser!.uid);
+    if (user == null) return null;
+    return user.imageUrl;
+  }
+
+  Future<void> uploadUserToFirebase() async {
+    try {
+      bool isConnected = await AppMethods.checkInternetConnection();
+      if (!isConnected) throw "You are not connected to the Internet";
+
+      final UserModel? user = _userBox.get(_auth.currentUser!.uid);
+      if (user != null) {
+        await _firestore
+            .collection('users')
+            .doc(_auth.currentUser!.uid)
+            .update(user.toJson());
+      }
+    } catch (err) {
+      rethrow;
+    }
+  }
+
+  Future<void> fetchUserFromFirebase() async {
+    try {
+      bool isConnected = await AppMethods.checkInternetConnection();
+      if (!isConnected) throw "You are not connected to the Internet";
+
+      final docSnap = await _firestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .get();
+      final userDetails = docSnap.data();
+
+      UserModel user = UserModel.fromJson(userDetails!);
+      await _userBox.put(_auth.currentUser!.uid, user);
+    } catch (err) {
+      rethrow;
+    }
+  }
+
+  Future<void> updateBusinessInfo(Business business) async {
+    try {
+      UserModel user = getUser()!;
+      user.business = business;
+      _userBox.put(_auth.currentUser!.uid, user);
+
+      final bool isConnected = await AppMethods.checkInternetConnection();
+
+      if (isConnected) {
+        _firestore
+            .collection('users')
+            .doc(_auth.currentUser!.uid)
+            .update({AppConstants.business: business.toJson()});
+      } else {
+        throw AppConstants.savedLocally;
+      }
+    } catch (err) {
+      rethrow;
+    }
+  }
+
+  Business? getBusinessInfo() {
+    final UserModel? user = _userBox.get(_auth.currentUser!.uid);
+    return user?.business;
+  }
 
   Future<void> saveUpiId(String upiId) async {
     try {
-      await _upiIdBox.put(0, upiId);
+      UserModel user = getUser()!;
+      user.upiId = upiId;
+      await _userBox.put(_auth.currentUser!.uid, user);
+
       final isConnected = await AppMethods.checkInternetConnection();
 
       if (isConnected) {
@@ -42,43 +130,28 @@ class UserRepo {
     }
   }
 
-  Future<void> uploadUserToFirebase() async {
-    try {
-      final upiId = _upiIdBox.get(0);
-      if (upiId != null) {
-        await _firestore
-            .collection('users')
-            .doc(_auth.currentUser!.uid)
-            .update({AppConstants.upiId: upiId});
-      }
-    } catch (err) {
-      rethrow;
-    }
-  }
-
-  Future<void> fetchUserFromFirebase() async {
-    try {
-      final docSnap = await _firestore
-          .collection('users')
-          .doc(_auth.currentUser!.uid)
-          .get();
-      final userDetails = docSnap.data();
-      if (userDetails != null && userDetails.isNotEmpty) {
-        final upiId = userDetails[AppConstants.upiId];
-        if (upiId != null) {
-          await _upiIdBox.put(0, upiId);
-        }
-      }
-    } catch (err) {
-      rethrow;
-    }
-  }
-
   String? getUpiId() {
-    return _upiIdBox.get(0);
+    final UserModel user = _userBox.get(_auth.currentUser!.uid)!;
+    return user.uid;
   }
 
-  Future<void> deleteUpiIdFromLocal() async {
-    await _upiIdBox.clear();
+  Future<int> getNextInvoiceNumber() async {
+    try {
+      final user = getUser()!;
+      user.globalInvoiceNumber++;
+      await _userBox.put(_auth.currentUser!.uid, user);
+      return user.globalInvoiceNumber;
+    } catch (err) {
+      rethrow;
+    }
+  }
+
+  int getGlobalInvoiceNumber() {
+    try {
+      final UserModel user = _userBox.get(_auth.currentUser!.uid)!;
+      return user.globalInvoiceNumber;
+    } catch (err) {
+      rethrow;
+    }
   }
 }

@@ -1,7 +1,7 @@
-import 'package:baniyabuddy/data/repositories/business_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../data/repositories/user_repo.dart';
 import '../../../data/models/business.model.dart';
 import '../../screens/settings/bloc/settings_bloc.dart';
 import '../../screens/settings/bloc/settings_event.dart';
@@ -22,7 +22,8 @@ class _BusinessInfoBottomSheetState extends State<BusinessInfoBottomSheet> {
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
   final _gstinController = TextEditingController();
-  final _business = BusinessRepo().getBusinessInfo();
+  // final _business = BusinessRepo().getBusinessInfo();
+  final _business = UserRepo().getBusinessInfo();
 
   bool validateGSTNumber(String gstNumber) {
     const gstRegEx =

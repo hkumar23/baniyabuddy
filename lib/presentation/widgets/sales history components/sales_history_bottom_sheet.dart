@@ -11,7 +11,7 @@ import '../../../utils/generate_qr_code.dart';
 class SalesHistoryBottomSheet extends StatelessWidget {
   SalesHistoryBottomSheet({super.key, required this.transactionDetails});
   final TransactionDetails transactionDetails;
-  final Business? businessInfo = BusinessRepo().getBusinessInfo();
+  final Business? businessInfo = UserRepo().getBusinessInfo();
 
   @override
   Widget build(BuildContext context) {

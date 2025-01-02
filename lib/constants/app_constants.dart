@@ -31,7 +31,7 @@ class AppConstants {
   static const String gstin = "gstin";
   static const String isSynced = "isSynced";
   static const String globalInvoiceNumber = "globalInvoiceNumber";
-  static const String globalInvoiceNumberBox = "globalInvoiceNumberBox";
+  // static const String globalInvoiceNumberBox = "globalInvoiceNumberBox";
   static const String invoiceBox = "InvoiceBox";
   static const String itemName = 'itemName';
   static const String quantity = 'quantity';
@@ -41,13 +41,14 @@ class AppConstants {
   static const String totalPrice = 'totalPrice';
   static const String invoiceIdPrefix = "BBINV";
   static const String notMentioned = "Not Mentioned";
-  static const String businessBox = "BusinessBox";
+  // static const String businessBox = "BusinessBox";
   static const String business = "business";
-  static const String upiIdBox = "UpiIdBox";
+  // static const String upiIdBox = "UpiIdBox";
   static const String savedLocally =
       "Saved locally. Connect to the internet to sync";
   static const String upiId = "upiId";
   static const String uid = "uid";
-  static const String userName = "userName";
-  static const String photoUrl = "photoUrl";
+  static const String fullName = "fullName";
+  static const String imageUrl = "imageUrl";
+  static const String userBox = "userBox";
 }

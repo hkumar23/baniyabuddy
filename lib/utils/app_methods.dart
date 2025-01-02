@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:math_expressions/math_expressions.dart';
 
-import '../constants/app_constants.dart';
+// import '../constants/app_constants.dart';
 import '../constants/app_language.dart';
 import '../data/models/transaction.model.dart';
 import '../logic/Blocs/Authentication/bloc/auth_bloc.dart';
@@ -22,8 +22,8 @@ class AppMethods {
     // print("Resetting App Data");
     context.read<BillingBloc>().add(FetchInvoiceFromFirebaseToLocalEvent());
     context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
-    context.read<SettingsBloc>().add(FetchBusinessInfoFromFirebaseEvent());
     context.read<SettingsBloc>().add(FetchUserFromFirebaseEvent());
+    // context.read<SettingsBloc>().add(FetchBusinessInfoFromFirebaseEvent());
   }
 
   static bool isOperator(String value) {
