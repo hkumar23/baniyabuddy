@@ -50,8 +50,12 @@ class BillItem {
       quantity: json[AppConstants.quantity] as int,
       unitPrice: double.parse(json[AppConstants.unitPrice].toString()),
       totalPrice: json[AppConstants.totalPrice] as double,
-      discount: double.parse(json[AppConstants.discount].toString()),
-      tax: double.parse(json[AppConstants.tax].toString()),
+      discount: json[AppConstants.discount] == null
+          ? 0
+          : double.parse(json[AppConstants.discount].toString()),
+      tax: json[AppConstants.tax] == null
+          ? 0
+          : double.parse(json[AppConstants.tax].toString()),
     );
   }
 }
