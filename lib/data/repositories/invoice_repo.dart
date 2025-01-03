@@ -90,7 +90,8 @@ class InvoiceRepo {
   Future<void> uploadLocalInvoicesToFirebase() async {
     try {
       List<Invoice> invoices = getAllInvoices();
-      int? globalInvoiceNumber = _userRepo.getGlobalInvoiceNumber();
+      // print(invoices);
+      // int? globalInvoiceNumber = _userRepo.getGlobalInvoiceNumber();
 
       for (Invoice invoice in invoices) {
         if (invoice.isSynced) continue;
@@ -106,9 +107,9 @@ class InvoiceRepo {
         invoice.isSynced = true;
         _invoiceBox.put(invoice.docId, invoice);
       }
-      await _firestore.collection('users').doc(_auth.currentUser!.uid).update({
-        AppConstants.globalInvoiceNumber: globalInvoiceNumber,
-      });
+      // await _firestore.collection('users').doc(_auth.currentUser!.uid).update({
+      //   AppConstants.globalInvoiceNumber: globalInvoiceNumber,
+      // });
       print('All invoices are updated on Firebase successfully!');
     } catch (e) {
       rethrow;
@@ -126,11 +127,12 @@ class InvoiceRepo {
           .doc(_auth.currentUser!.uid)
           .collection('invoices')
           .get();
-
+      // print(snapshot.docs.length);
       for (var doc in snapshot.docs) {
         Map<String, dynamic> invoiceData = doc.data() as Map<String, dynamic>;
         // print(invoiceData);
         Invoice invoice = Invoice.fromJson(invoiceData);
+        // print(invoice);
         // // Store/Update the invoice in local storage with the custom docId
         await _invoiceBox.put(invoice.docId, invoice);
       }
@@ -145,6 +147,7 @@ class InvoiceRepo {
       // await _invoiceNumberBox.put(
       //     AppConstants.globalInvoiceNumber, globalInvoiceNum ?? 0);
     } catch (e) {
+      // print(e);
       rethrow;
     }
   }

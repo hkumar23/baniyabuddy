@@ -48,8 +48,8 @@ class AddBillitemDialog extends StatelessWidget {
       quantity: qty,
       unitPrice: unitPrice,
       totalPrice: totalPrice,
-      discount: discount,
-      tax: tax,
+      discount: discount ?? 0,
+      tax: tax ?? 0,
     ));
 
     Navigator.of(context).pop(); // Close the dialog

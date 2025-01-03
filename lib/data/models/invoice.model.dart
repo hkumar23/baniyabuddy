@@ -76,10 +76,12 @@ class Invoice {
     required this.notes,
   });
   factory Invoice.fromJson(Map<String, dynamic> json) {
-    final List<dynamic> items = json[AppConstants.billItems]
+    // print(json[AppConstants.billItems]);
+    final List<BillItem> billItems = json[AppConstants.billItems]
         .map((item) => BillItem.fromJson(item))
-        .toList();
-    final billItems = items.cast<BillItem>();
+        .toList()
+        .cast<BillItem>();
+    // print(billItems);
     return Invoice(
       docId: json[AppConstants.docId],
       isSynced: json[AppConstants.isSynced],

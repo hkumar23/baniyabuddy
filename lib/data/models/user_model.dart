@@ -48,7 +48,7 @@ class UserModel {
       imageUrl: json[AppConstants.imageUrl],
       upiId: json['upiId'],
       globalInvoiceNumber: json['globalInvoiceNumber'],
-      business: json['business'] ?? Business.fromJson(json['business']),
+      business: Business.fromJson(json['business']),
     );
   }
   Map<String, Object?> toJson() {

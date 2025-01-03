@@ -33,12 +33,12 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       }
       // await businessRepo.uploadBusinessInfoToFirebase();
       // await businessRepo.fetchBusinessInfoFromFirebase();
-
       await userRepo.uploadUserToFirebase();
       await userRepo.fetchUserFromFirebase();
 
       await invoiceRepo.uploadLocalInvoicesToFirebase();
       await invoiceRepo.fetchInvoicesFromFirebaseToLocal();
+      // print("Syncing data with firebase");
       emit(DataSyncedWithFirebaseState());
     } catch (err) {
       emit(SettingsErrorState(errorMessage: err.toString()));
