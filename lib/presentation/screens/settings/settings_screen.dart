@@ -1,11 +1,11 @@
-import 'package:baniyabuddy/data/repositories/user_repo.dart';
-import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_bloc.dart';
-import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../data/repositories/user_repo.dart';
+import '../../../logic/Blocs/Authentication/bloc/auth_bloc.dart';
+import '../../../logic/Blocs/Authentication/bloc/auth_state.dart';
 import 'bloc/settings_bloc.dart';
 import 'bloc/settings_state.dart';
 import 'bloc/settings_event.dart';
@@ -14,6 +14,7 @@ import '../../widgets/settings_component/generate_qr_bottomsheet.dart';
 import '../../widgets/settings_component/save_upi_bottomsheet.dart';
 import '../../../utils/app_methods.dart';
 import '../../../utils/custom_snackbar.dart';
+import '../../widgets/settings_component/edit_profile_bottomsheet.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -105,23 +106,12 @@ class SettingsScreen extends StatelessWidget {
                             const SizedBox(height: 8),
                             GestureDetector(
                               onTap: () {
-                                showAdaptiveDialog(
+                                // IMPLEMENT THIS: Add the edit profile feature
+                                showModalBottomSheet(
+                                    isScrollControlled: true,
                                     context: context,
                                     builder: (context) {
-                                      // IMPLEMENT THIS: Add the edit profile feature
-                                      return AlertDialog(
-                                        title: const Text("Edit Profile"),
-                                        content: const Text(
-                                            "This feature is not available yet !!"),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: const Text("OK"),
-                                          ),
-                                        ],
-                                      );
+                                      return const EditProfileBottomSheet();
                                     });
                               },
                               child: Container(
