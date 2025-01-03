@@ -112,6 +112,7 @@ flutter:
     - assets/images/christmas-stars.png
     - assets/images/get_it_on_google_play.png
     - assets/images/profile_image.jpg
+    - assets/images/underline-button.png
   #   - images/a_dot_ham.jpeg
 
   fonts:

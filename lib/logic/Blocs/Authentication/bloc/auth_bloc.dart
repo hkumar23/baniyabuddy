@@ -174,7 +174,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       // await businessRepo.uploadBusinessInfoToFirebase();
       await userRepo.uploadUserToFirebase();
 
-      for (final provider in _auth.currentUser!.providerData) {
+      for (UserInfo provider in _auth.currentUser!.providerData) {
         if (provider.providerId == 'google.com') {
           // It is a good practice to check before signout but if called directly won't give any error
           _googleSignIn.signOut();
