@@ -9,8 +9,9 @@ import '../../screens/settings/bloc/settings_state.dart';
 class EditProfileBottomSheet extends StatefulWidget {
   const EditProfileBottomSheet({
     super.key,
+    required this.passUploadedImageUrl,
   });
-
+  final Function passUploadedImageUrl;
   @override
   State<EditProfileBottomSheet> createState() => _EditProfileBottomSheetState();
 }
@@ -27,15 +28,12 @@ class _EditProfileBottomSheetState extends State<EditProfileBottomSheet> {
   }
 
   void _onSubmit() {
+    widget.passUploadedImageUrl("");
     BlocProvider.of<SettingsBloc>(context).add(UpdateNameAndImageEvent(
       fullName: _fullNameController.text,
       imageUrl: _profileImage,
     ));
     Navigator.of(context).pop();
-    // context.read<SettingsBloc>().add(UpdateNameAndImageEvent(
-    //       fullName: _fullNameController.text,
-    //       imageUrl: _profileImage,
-    //     ));
   }
 
   @override
@@ -44,20 +42,9 @@ class _EditProfileBottomSheetState extends State<EditProfileBottomSheet> {
 
     return BlocConsumer<SettingsBloc, SettingsState>(
       listener: (context, state) {
-        // print(state);
-        // if (state is SettingsErrorState) {
-        //   CustomTopSnackbar.error(
-        //     context,
-        //     state.errorMessage,
-        //   );
-        // }
         if (state is ImageUploadedState) {
+          widget.passUploadedImageUrl(state.imageUrl);
           _profileImage = state.imageUrl;
-          // print(state.imageUrl);
-          // CustomSnackbar.success(
-          //   context: context,
-          //   text: "Image uploaded successfully",
-          // );
         }
       },
       builder: (context, state) {

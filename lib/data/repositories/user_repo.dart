@@ -1,8 +1,9 @@
-import 'package:baniyabuddy/data/models/business.model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive/hive.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
+import '../../data/models/business.model.dart';
 import '../../constants/app_constants.dart';
 import '../models/user_model.dart';
 import '../../../utils/app_methods.dart';
@@ -54,6 +55,18 @@ class UserRepo {
             {AppConstants.fullName: fullName, AppConstants.imageUrl: imageUrl});
       } else {
         throw AppConstants.savedLocally;
+      }
+    } catch (err) {
+      rethrow;
+    }
+  }
+
+  Future<void> deleteImageFromFirebaseStorage(String imageUrl) async {
+    try {
+      if (!imageUrl.contains("googleusercontent")) {
+        String imagePath =
+            Uri.decodeFull(imageUrl.split('/o/')[1].split('?')[0]);
+        await FirebaseStorage.instance.ref(imagePath).delete();
       }
     } catch (err) {
       rethrow;

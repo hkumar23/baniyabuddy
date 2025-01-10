@@ -28,6 +28,7 @@ class SettingsScreen extends StatelessWidget {
     String? profileImage = userRepo.getProfileImage();
     String? fullName = userRepo.getUser()?.fullName;
     bool isBottomSheetOpened = false;
+
     void toggleBottomSheet(bool val) {
       isBottomSheetOpened = val;
     }
@@ -108,12 +109,22 @@ class SettingsScreen extends StatelessWidget {
                     GestureDetector(
                       onTap: () async {
                         toggleBottomSheet(true);
+                        String? uploadedImageUrl;
                         await showModalBottomSheet(
                             isScrollControlled: true,
                             context: context,
                             builder: (context) {
-                              return const EditProfileBottomSheet();
+                              return EditProfileBottomSheet(
+                                  passUploadedImageUrl: (String? imageUrl) {
+                                uploadedImageUrl = imageUrl;
+                              });
                             });
+                        // print("Uploaded Image: ${uploadedImageUrl.toString()}");
+                        if (uploadedImageUrl != null &&
+                            uploadedImageUrl!.isNotEmpty) {
+                          await userRepo.deleteImageFromFirebaseStorage(
+                              uploadedImageUrl!);
+                        }
                         toggleBottomSheet(false);
                       },
                       child: Row(
