@@ -41,14 +41,10 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       }
 
       final userRepo = UserRepo();
-      String? oldImageUrl = userRepo.getUser()!.imageUrl;
-      String? imagePath;
-      if (oldImageUrl != null && oldImageUrl.contains("googleusercontent")) {
-        imagePath =
-            Uri.decodeFull(event.oldImageUrl.split('/o/')[1].split('?')[0]);
-      }
-      if (imagePath != null) {
-        await FirebaseStorage.instance.ref(imagePath).delete();
+      final oldImageUrl = userRepo.getUser()!.imageUrl;
+
+      if (oldImageUrl != null) {
+        await userRepo.deleteImageFromFirebaseStorage(oldImageUrl);
       }
       await userRepo.updateNameAndImage(event.fullName, event.imageUrl);
       emit(NameAndImageUpdatedState());
