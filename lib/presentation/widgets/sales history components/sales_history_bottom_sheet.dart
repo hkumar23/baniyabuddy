@@ -186,49 +186,57 @@ class SalesHistoryBottomSheet extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        FilledButton(
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => GenerateQrCode(
-                                // upiId: "9873541772@ptsbi",
-                                upiId: UserRepo().getUpiId().toString(),
-                                businessName: businessInfo?.name ?? '',
-                                amount:
-                                    transactionDetails.totalAmount.toString(),
+                    if (transactionDetails.paymentMethod ==
+                            AppLanguage.unpaid ||
+                        transactionDetails.paymentMethod ==
+                            AppLanguage.notSelected)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FilledButton(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => GenerateQrCode(
+                                    // upiId: "9873541772@ptsbi",
+                                    upiId: UserRepo().getUpiId().toString(),
+                                    businessName: businessInfo?.name ?? '',
+                                    amount: transactionDetails.totalAmount
+                                        .toString(),
+                                  ),
+                                );
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.qr_code,
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    "Show Qr Code",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge!
+                                        .copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary,
+                                        ),
+                                  ),
+                                ],
                               ),
-                            );
-                          },
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.qr_code,
-                                color: Theme.of(context).colorScheme.onPrimary,
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                "Show Qr Code",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelLarge!
-                                    .copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimary,
-                                    ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
+                      ),
+                    // const SizedBox(height: 10),
                   ]),
             ));
     // );
