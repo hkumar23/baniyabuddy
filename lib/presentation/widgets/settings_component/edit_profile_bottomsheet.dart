@@ -1,5 +1,10 @@
-import 'package:baniyabuddy/data/repositories/user_repo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../data/repositories/user_repo.dart';
+import '../../screens/settings/bloc/settings_bloc.dart';
+import '../../screens/settings/bloc/settings_event.dart';
+import '../../screens/settings/bloc/settings_state.dart';
 
 class EditProfileBottomSheet extends StatefulWidget {
   const EditProfileBottomSheet({
@@ -11,90 +16,144 @@ class EditProfileBottomSheet extends StatefulWidget {
 }
 
 class _EditProfileBottomSheetState extends State<EditProfileBottomSheet> {
+  final _fullNameController = TextEditingController();
+  String? _profileImage;
+
+  @override
+  void initState() {
+    super.initState();
+    _fullNameController.text = UserRepo().getUser()!.fullName ?? "";
+    _profileImage = UserRepo().getProfileImage();
+  }
+
+  void _onSubmit() {
+    BlocProvider.of<SettingsBloc>(context).add(UpdateNameAndImageEvent(
+      fullName: _fullNameController.text,
+      imageUrl: _profileImage,
+    ));
+    Navigator.of(context).pop();
+    // context.read<SettingsBloc>().add(UpdateNameAndImageEvent(
+    //       fullName: _fullNameController.text,
+    //       imageUrl: _profileImage,
+    //     ));
+  }
+
   @override
   Widget build(BuildContext context) {
     final bottomViewInsets = MediaQuery.of(context).viewInsets.bottom;
-    return Padding(
-        padding: EdgeInsets.only(
-          bottom: bottomViewInsets + 20,
-          left: 30,
-          right: 30,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          // mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.only(top: 20),
-              alignment: Alignment.centerRight,
-              child: FilledButton(
-                onPressed: () {},
-                child: Text(
-                  "Update",
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        color: Theme.of(context).colorScheme.onPrimary,
-                        fontWeight: FontWeight.bold,
+
+    return BlocConsumer<SettingsBloc, SettingsState>(
+      listener: (context, state) {
+        // print(state);
+        // if (state is SettingsErrorState) {
+        //   CustomTopSnackbar.error(
+        //     context,
+        //     state.errorMessage,
+        //   );
+        // }
+        if (state is ImageUploadedState) {
+          _profileImage = state.imageUrl;
+          // print(state.imageUrl);
+          // CustomSnackbar.success(
+          //   context: context,
+          //   text: "Image uploaded successfully",
+          // );
+        }
+      },
+      builder: (context, state) {
+        return Padding(
+            padding: EdgeInsets.only(
+              bottom: bottomViewInsets + 20,
+              left: 30,
+              right: 30,
+            ),
+            child: state is SettingsLoadingState
+                ? const Center(child: CircularProgressIndicator())
+                : Column(
+                    mainAxisSize: MainAxisSize.min,
+                    // mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.only(top: 20),
+                        alignment: Alignment.centerRight,
+                        child: FilledButton(
+                          onPressed: _onSubmit,
+                          child: Text(
+                            "Update",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                        ),
                       ),
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {},
-              child: ProfileImageWidget(),
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Full Name",
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(top: 2),
-              color: Colors.transparent,
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: "Enter your full name",
-                  hintStyle: TextStyle(color: Colors.grey[500]),
-                  filled: true,
-                  fillColor: Theme.of(context)
-                      .colorScheme
-                      .inverseSurface
-                      .withOpacity(0.1),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(
-                      color: Colors.grey.shade400,
-                      width: 1.5,
-                    ),
-                  ),
-                ),
-                style: const TextStyle(fontSize: 16),
-              ),
-            ),
-          ],
-        ));
+                      GestureDetector(
+                        onTap: () {
+                          context.read<SettingsBloc>().add(UploadImageEvent());
+                        },
+                        child: ProfileImageWidget(profileImage: _profileImage),
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Full Name",
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(top: 2),
+                        color: Colors.transparent,
+                        child: TextField(
+                          controller: _fullNameController,
+                          decoration: InputDecoration(
+                            hintText: "Enter your full name",
+                            hintStyle: TextStyle(color: Colors.grey[500]),
+                            filled: true,
+                            fillColor: Theme.of(context)
+                                .colorScheme
+                                .inverseSurface
+                                .withOpacity(0.1),
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 10),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide.none,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(
+                                color: Colors.grey.shade400,
+                                width: 1.5,
+                              ),
+                            ),
+                          ),
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ],
+                  ));
+      },
+    );
   }
 }
 
 class ProfileImageWidget extends StatelessWidget {
-  ProfileImageWidget({
+  const ProfileImageWidget({
     super.key,
+    required this.profileImage,
   });
-
-  final profileImage = UserRepo().getProfileImage();
+  final profileImage;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

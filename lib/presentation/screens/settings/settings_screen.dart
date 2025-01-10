@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../utils/custom_top_snackbar.dart';
 import '../../../data/repositories/user_repo.dart';
 import '../../../logic/Blocs/Authentication/bloc/auth_bloc.dart';
 import '../../../logic/Blocs/Authentication/bloc/auth_state.dart';
@@ -24,15 +25,27 @@ class SettingsScreen extends StatelessWidget {
     final auth = FirebaseAuth.instance.currentUser;
     final theme = Theme.of(context);
     final userRepo = UserRepo();
-    final profileImage = userRepo.getProfileImage();
+    String? profileImage = userRepo.getProfileImage();
+    String? fullName = userRepo.getUser()?.fullName;
+    bool isBottomSheetOpened = false;
+    void toggleBottomSheet(bool val) {
+      isBottomSheetOpened = val;
+    }
 
     return BlocConsumer<SettingsBloc, SettingsState>(
       listener: (context, state) {
         if (state is SettingsErrorState) {
-          CustomSnackbar.error(
-            context: context,
-            text: state.errorMessage,
-          );
+          if (isBottomSheetOpened) {
+            CustomTopSnackbar.error(
+              context: context,
+              message: state.errorMessage,
+            );
+          } else {
+            CustomSnackbar.error(
+              context: context,
+              text: state.errorMessage,
+            );
+          }
         }
         if (state is DataSyncedWithFirebaseState) {
           CustomSnackbar.success(
@@ -51,6 +64,22 @@ class SettingsScreen extends StatelessWidget {
             context: context,
             text: "UPI ID saved successfully !!",
           );
+        }
+        if (state is NameAndImageUpdatedState) {
+          final user = UserRepo().getUser();
+          if (user == null) {
+            CustomSnackbar.error(
+              context: context,
+              text: "User not found",
+            );
+          } else {
+            profileImage = user.imageUrl;
+            fullName = user.fullName;
+            CustomTopSnackbar.success(
+              context,
+              "Profile updated successfully",
+            );
+          }
         }
       },
       builder: (context, state) {
@@ -76,45 +105,43 @@ class SettingsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 20),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          radius: 40,
-                          backgroundImage: profileImage == null
-                              ? Image.asset("assets/images/profile_image.jpg")
-                                  .image
-                              : NetworkImage(profileImage),
-                        ),
-                        const SizedBox(width: 15),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              auth?.displayName == null ||
-                                      auth?.displayName == ""
-                                  ? "Your Name"
-                                  : auth!.displayName!,
-                              style: theme.textTheme.headlineSmall!.copyWith(
-                                fontWeight: FontWeight.bold,
+                    GestureDetector(
+                      onTap: () async {
+                        toggleBottomSheet(true);
+                        await showModalBottomSheet(
+                            isScrollControlled: true,
+                            context: context,
+                            builder: (context) {
+                              return const EditProfileBottomSheet();
+                            });
+                        toggleBottomSheet(false);
+                      },
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CircleAvatar(
+                            radius: 40,
+                            backgroundImage: profileImage == null
+                                ? Image.asset("assets/images/profile_image.jpg")
+                                    .image
+                                : NetworkImage(profileImage!),
+                          ),
+                          const SizedBox(width: 15),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                fullName ?? "Your Name",
+                                style: theme.textTheme.headlineSmall!.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            Text(
-                              auth?.email as String,
-                              style: TextStyle(color: Colors.grey[600]),
-                            ),
-                            const SizedBox(height: 8),
-                            GestureDetector(
-                              onTap: () {
-                                // IMPLEMENT THIS: Add the edit profile feature
-                                showModalBottomSheet(
-                                    isScrollControlled: true,
-                                    context: context,
-                                    builder: (context) {
-                                      return const EditProfileBottomSheet();
-                                    });
-                              },
-                              child: Container(
+                              Text(
+                                auth?.email as String,
+                                style: TextStyle(color: Colors.grey[600]),
+                              ),
+                              const SizedBox(height: 8),
+                              Container(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 10,
                                   vertical: 5,
@@ -130,10 +157,10 @@ class SettingsScreen extends StatelessWidget {
                                   style: theme.textTheme.labelMedium,
                                 ),
                               ),
-                            )
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
 
                     const SizedBox(height: 20),

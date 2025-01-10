@@ -152,7 +152,18 @@ class SignInWithEmailScreen extends StatelessWidget {
                             ? CircularProgressIndicator(
                                 color: Theme.of(context).colorScheme.onPrimary,
                               )
-                            : const Text('Sign in'),
+                            : Text(
+                                'Sign in',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimary,
+                                    ),
+                              ),
                       ),
                     ),
                     Container(
