@@ -50,8 +50,7 @@ class _MainScreenState extends State<MainScreen> {
           onTapped: _onItemTapped,
         ),
         appBar: CustomAppBar(selectedIndex: _selectedIndex),
-        // resizeToAvoidBottomInset:
-        //     _selectedIndex == 1 || _selectedIndex == 4 ? true : null,
+        resizeToAvoidBottomInset: _selectedIndex != 2,
         body: IndexedStack(
           index: _selectedIndex,
           children: _screens,
