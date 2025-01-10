@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:baniyabuddy/constants/app_language.dart';
+import 'package:baniyabuddy/data/repositories/user_repo.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -73,6 +74,7 @@ abstract class GeneratePdf {
         await _loadAssetImage("assets/logo/baniya_buddy_logo.png");
     final googlePlayImageData =
         await _loadAssetImage("assets/images/get_it_on_google_play.png");
+    final Business? business = UserRepo().getUser()?.business;
     final List<List<dynamic>> tableData = [
       // Header Row
       [
@@ -123,29 +125,44 @@ abstract class GeneratePdf {
                         // pw.Text('Contact us',
                         //     style: defaultTextStyle.copyWith(
                         //         fontSize: 20, fontWeight: pw.FontWeight.bold)),
-                        pw.Text(
-                          Business().name!,
-                          style: defaultTextStyle.copyWith(
-                            fontSize: 20,
-                            fontWeight: pw.FontWeight.bold,
+                        if (business != null &&
+                            business.name != null &&
+                            business.name!.isNotEmpty)
+                          pw.Text(
+                            business.name!,
+                            style: defaultTextStyle.copyWith(
+                              fontSize: 20,
+                              fontWeight: pw.FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        pw.Text(
-                          'Address: ${Business().address}',
-                          style: defaultTextStyle,
-                        ),
-                        pw.Text(
-                          'Email: ${Business().email}',
-                          style: defaultTextStyle,
-                        ),
-                        pw.Text(
-                          'Phone: ${Business().phone}',
-                          style: defaultTextStyle,
-                        ),
-                        pw.Text(
-                          'GSTIN: ${Business().gstin}',
-                          style: defaultTextStyle,
-                        ),
+                        if (business != null &&
+                            business.address != null &&
+                            business.address!.isNotEmpty)
+                          pw.Text(
+                            'Address: ${business.address}',
+                            style: defaultTextStyle,
+                          ),
+                        if (business != null &&
+                            business.email != null &&
+                            business.email!.isNotEmpty)
+                          pw.Text(
+                            'Email: ${business.email}',
+                            style: defaultTextStyle,
+                          ),
+                        if (business != null &&
+                            business.phone != null &&
+                            business.phone!.isNotEmpty)
+                          pw.Text(
+                            'Phone: ${business.phone}',
+                            style: defaultTextStyle,
+                          ),
+                        if (business != null &&
+                            business.gstin != null &&
+                            business.gstin!.isNotEmpty)
+                          pw.Text(
+                            'GSTIN: ${business.gstin}',
+                            style: defaultTextStyle,
+                          ),
                         pw.SizedBox(height: 10),
 
                         // Client Details
