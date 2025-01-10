@@ -20,6 +20,13 @@ class DataSyncedWithFirebaseState extends SettingsState {}
 class UpiIdSavedState extends SettingsState {}
 
 class UserFetchedState extends SettingsState {}
+
+class ImageUploadedState extends SettingsState {
+  final String imageUrl;
+  ImageUploadedState({required this.imageUrl});
+}
+
+class NameAndImageUpdatedState extends SettingsState {}
 // class QrGeneratedState extends SettingsState {
 //   final String amount;
 //   final String businessName;

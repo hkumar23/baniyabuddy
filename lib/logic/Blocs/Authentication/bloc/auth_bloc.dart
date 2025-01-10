@@ -67,6 +67,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 .collection('users')
                 .doc(userCredential.user!.uid)
                 .update({
+              //FIXME: Before pushing to production, check if this is correct
               AppConstants.email: userCredential.user!.email,
               AppConstants.uid: userCredential.user!.uid,
               AppConstants.fullName: userCredential.user!.displayName,
@@ -76,7 +77,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           }
         } else {
           // To handle new accounts
-          UserRepo().createUser(userCredential.user!.uid);
+          await UserRepo().createUser(userCredential.user!.uid);
         }
         emit(LoggedInState(userCredential.user!));
       } else {

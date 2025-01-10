@@ -38,6 +38,28 @@ class UserRepo {
     }
   }
 
+  Future<void> updateNameAndImage(String fullName, String imageUrl) async {
+    try {
+      UserModel? user = getUser();
+      if (user == null) throw "User not found";
+
+      user.fullName = fullName.trim();
+      user.imageUrl = imageUrl.trim();
+      await _userBox.put(_auth.currentUser!.uid, user);
+
+      final bool isConnected = await AppMethods.checkInternetConnection();
+
+      if (isConnected) {
+        _firestore.collection('users').doc(_auth.currentUser!.uid).update(
+            {AppConstants.fullName: fullName, AppConstants.imageUrl: imageUrl});
+      } else {
+        throw AppConstants.savedLocally;
+      }
+    } catch (err) {
+      rethrow;
+    }
+  }
+
   Future<void> deleteUserFromLocal() async {
     await _userBox.clear();
   }

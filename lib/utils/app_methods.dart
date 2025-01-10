@@ -1,9 +1,15 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:math_expressions/math_expressions.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:path_provider/path_provider.dart';
 
 // import '../constants/app_constants.dart';
 import '../constants/app_language.dart';
@@ -24,6 +30,44 @@ class AppMethods {
     context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
     context.read<SettingsBloc>().add(FetchUserFromFirebaseEvent());
     // context.read<SettingsBloc>().add(FetchBusinessInfoFromFirebaseEvent());
+  }
+
+  static Future<XFile?> pickImage(ImageSource source) async {
+    try {
+      ImagePicker picker = ImagePicker();
+      final XFile? pickedXFile = await picker.pickImage(
+        source: source,
+      );
+      return pickedXFile;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  static Future<File?> cropImage(String path) async {
+    try {
+      final croppedFile = await ImageCropper().cropImage(
+          sourcePath: path,
+          aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+          // uiSettings: [
+          //   AndroidUiSettings(
+          //     toolbarTitle: 'Crop Image',
+          //     toolbarColor: Colors.blue,
+          //     toolbarWidgetColor:
+          //     initAspectRatio: CropAspectRatioPreset.square,
+          //     hideBottomControls: true,
+          //     aspectRatioPresets: [CropAspectRatioPreset.square],
+          //   )
+          // ],
+          compressFormat: ImageCompressFormat.jpg,
+          compressQuality: 60,
+          aspectRatioPresets: [CropAspectRatioPreset.square]);
+      if (croppedFile == null) return null;
+      return File(croppedFile.path);
+      // return null;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   static bool isOperator(String value) {
