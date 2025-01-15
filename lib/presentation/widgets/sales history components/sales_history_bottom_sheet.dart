@@ -202,7 +202,8 @@ class SalesHistoryBottomSheet extends StatelessWidget {
                                   context: context,
                                   builder: (context) => GenerateQrCode(
                                     // upiId: "9873541772@ptsbi",
-                                    upiId: UserRepo().getUpiId().toString(),
+                                    upiId:
+                                        UserRepo().getUpiId().toString().trim(),
                                     businessName: businessInfo?.name ?? '',
                                     amount: transactionDetails.totalAmount
                                         .toString(),

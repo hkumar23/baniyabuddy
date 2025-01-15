@@ -167,7 +167,7 @@ class UserRepo {
 
   String? getUpiId() {
     final UserModel user = _userBox.get(_auth.currentUser!.uid)!;
-    return user.uid;
+    return user.upiId;
   }
 
   Future<int> getNextInvoiceNumber() async {
