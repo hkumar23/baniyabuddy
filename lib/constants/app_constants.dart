@@ -51,4 +51,5 @@ class AppConstants {
   static const String fullName = "fullName";
   static const String imageUrl = "imageUrl";
   static const String userBox = "userBox";
+  static const String transactionBox = "transactionBox";
 }

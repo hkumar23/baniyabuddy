@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:baniyabuddy/data/models/transaction.model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -82,6 +84,7 @@ Future<void> main() async {
   Hive.registerAdapter(BillItemAdapter());
   Hive.registerAdapter(BusinessAdapter());
   Hive.registerAdapter(UserAdapter());
+  Hive.registerAdapter(TransactionAdapter());
 
   // opening box here so that it is easily available appwide right after start
   // await Hive.openBox<int>(AppConstants.globalInvoiceNumberBox);
@@ -89,6 +92,8 @@ Future<void> main() async {
   // await Hive.openBox<Business>(AppConstants.businessBox);
   // await Hive.openBox<String>(AppConstants.upiIdBox);
   await Hive.openBox<UserModel>(AppConstants.userBox);
+  await Hive.openBox<Transaction>(AppConstants.transactionBox);
+
   runApp(const MyApp());
 }
 
@@ -118,6 +123,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     // Hive.box<Business>(AppConstants.businessBox).close();
     // Hive.box<String>(AppConstants.upiIdBox).close();
     Hive.box<UserModel>(AppConstants.userBox).close();
+    Hive.box<Transaction>(AppConstants.transactionBox).close();
 
     connectivityService.stopMonitoring();
     super.dispose();

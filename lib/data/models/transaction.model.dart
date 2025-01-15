@@ -1,13 +1,31 @@
-import '../../constants/app_constants.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
+import '../../constants/app_constants.dart';
+import '../../utils/hive_adapter_names.dart';
+import '../../utils/hive_adapter_typeids.dart';
+
+part 'transaction.model.g.dart';
+
+@HiveType(
+  typeId: HiveAdapterTypeids.transaction,
+  adapterName: HiveAdapterNames.transaction,
+)
 class TransactionDetails {
+  @HiveField(0)
   final String docId;
+  @HiveField(1)
   final String customerName;
+  @HiveField(2)
   final String mobNumber;
+  @HiveField(3)
   final String notes;
+  @HiveField(4)
   final String paymentMethod;
+  @HiveField(5)
   final DateTime timeStamp;
+  @HiveField(6)
   final String? totalAmount;
+  @HiveField(7)
   final String? inputExpression;
   TransactionDetails({
     required this.docId,
