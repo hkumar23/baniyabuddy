@@ -46,7 +46,9 @@ class _RecordSaleDialogState extends State<RecordSaleDialog> {
     }
     _formKey.currentState!.save();
     final transactionDetails = TransactionDetails(
-      docId: "",
+      docId: null,
+      isSynced: false,
+      syncStatus: AppConstants.added,
       customerName: _customerNameController.text,
       mobNumber: _mobNumberController.text,
       notes: _notesController.text,

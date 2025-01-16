@@ -17,7 +17,7 @@ class TransactionAdapter extends TypeAdapter<TransactionDetails> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return TransactionDetails(
-      docId: fields[0] as String,
+      docId: fields[0] as String?,
       customerName: fields[1] as String,
       mobNumber: fields[2] as String,
       notes: fields[3] as String,
@@ -25,13 +25,15 @@ class TransactionAdapter extends TypeAdapter<TransactionDetails> {
       timeStamp: fields[5] as DateTime,
       totalAmount: fields[6] as String?,
       inputExpression: fields[7] as String?,
+      isSynced: fields[8] as bool,
+      syncStatus: fields[9] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, TransactionDetails obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.docId)
       ..writeByte(1)
@@ -47,7 +49,11 @@ class TransactionAdapter extends TypeAdapter<TransactionDetails> {
       ..writeByte(6)
       ..write(obj.totalAmount)
       ..writeByte(7)
-      ..write(obj.inputExpression);
+      ..write(obj.inputExpression)
+      ..writeByte(8)
+      ..write(obj.isSynced)
+      ..writeByte(9)
+      ..write(obj.syncStatus);
   }
 
   @override

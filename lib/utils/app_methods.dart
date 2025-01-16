@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:baniyabuddy/constants/app_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,9 +28,9 @@ class AppMethods {
   static void resetAppData(BuildContext context) {
     // print("Resetting App Data");
     context.read<BillingBloc>().add(FetchInvoiceFromFirebaseToLocalEvent());
-    context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
+    context.read<SalesHistoryBloc>().add(FetchTransactionsFromFirebaseEvent());
     context.read<SettingsBloc>().add(FetchUserFromFirebaseEvent());
-    // context.read<SettingsBloc>().add(FetchBusinessInfoFromFirebaseEvent());
+    context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
   }
 
   static Future<XFile?> pickImage(ImageSource source) async {
@@ -161,9 +162,10 @@ class AppMethods {
   //         if (transaction.data().isEmpty) continue;
   //         final data = transaction.data();
   //         final transactionRef = transaction.reference;
-  //         if (data[AppConstants.paymentMethod] == AppLanguage.amountDue) {
-  //           await transactionRef
-  //               .update({AppConstants.paymentMethod: AppLanguage.unpaid});
+  //         if (data[AppConstants.customerName] == "Unknown") {
+  //           await transactionRef.update({
+  //             AppConstants.customerName: "",
+  //           });
   //         }
   //       }
   //     }

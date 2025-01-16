@@ -12,7 +12,7 @@ part 'transaction.model.g.dart';
 )
 class TransactionDetails {
   @HiveField(0)
-  final String docId;
+  String? docId;
   @HiveField(1)
   final String customerName;
   @HiveField(2)
@@ -27,6 +27,11 @@ class TransactionDetails {
   final String? totalAmount;
   @HiveField(7)
   final String? inputExpression;
+  @HiveField(8)
+  bool isSynced;
+  @HiveField(9)
+  String? syncStatus;
+
   TransactionDetails({
     required this.docId,
     required this.customerName,
@@ -36,6 +41,8 @@ class TransactionDetails {
     required this.timeStamp,
     this.totalAmount,
     this.inputExpression,
+    required this.isSynced,
+    required this.syncStatus,
   });
 
   factory TransactionDetails.fromJson(Map json) {
@@ -49,6 +56,8 @@ class TransactionDetails {
           json[AppConstants.timeStamp].microsecondsSinceEpoch),
       totalAmount: json[AppConstants.totalAmount],
       inputExpression: json[AppConstants.inputExpression],
+      isSynced: json[AppConstants.isSynced] ?? false,
+      syncStatus: json[AppConstants.syncStatus],
     );
   }
 
@@ -62,6 +71,8 @@ class TransactionDetails {
       AppConstants.timeStamp: timeStamp,
       AppConstants.totalAmount: totalAmount,
       AppConstants.inputExpression: inputExpression,
+      AppConstants.isSynced: isSynced,
+      AppConstants.syncStatus: syncStatus,
     };
   }
 }

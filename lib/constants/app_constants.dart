@@ -44,12 +44,14 @@ class AppConstants {
   // static const String businessBox = "BusinessBox";
   static const String business = "business";
   // static const String upiIdBox = "UpiIdBox";
-  static const String savedLocally =
-      "Saved locally. Connect to the internet to sync";
   static const String upiId = "upiId";
   static const String uid = "uid";
   static const String fullName = "fullName";
   static const String imageUrl = "imageUrl";
   static const String userBox = "userBox";
   static const String transactionBox = "transactionBox";
+  static const String added = "added";
+  static const String updated = "updated";
+  static const String deleted = "deleted";
+  static const String syncStatus = "syncStatus";
 }

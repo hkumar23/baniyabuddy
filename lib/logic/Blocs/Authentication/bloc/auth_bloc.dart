@@ -1,4 +1,5 @@
 import 'package:baniyabuddy/constants/app_constants.dart';
+import 'package:baniyabuddy/data/repositories/transaction_repo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -167,13 +168,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void _onLogoutEvent(event, emit) async {
     InvoiceRepo invoiceRepo = InvoiceRepo();
-    // BusinessRepo businessRepo = BusinessRepo();
     UserRepo userRepo = UserRepo();
+    TransactionRepo transactionRepo = TransactionRepo();
+
     emit(AuthLoadingState());
     try {
       await invoiceRepo.uploadLocalInvoicesToFirebase();
-      // await businessRepo.uploadBusinessInfoToFirebase();
       await userRepo.uploadUserToFirebase();
+      await transactionRepo.uploadLocalTransactionsToFirebase();
 
       for (UserInfo provider in _auth.currentUser!.providerData) {
         if (provider.providerId == 'google.com') {
@@ -183,9 +185,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       }
       await _auth.signOut();
+
       await userRepo.deleteUserFromLocal();
       await invoiceRepo.deleteAllInvoiceFromLocal();
-      // await businessRepo.deleteBusinessInfoFromLocal();
+      await transactionRepo.deleteAllTransactionsFromLocal();
 
       emit(LoggedOutState());
     } catch (err) {

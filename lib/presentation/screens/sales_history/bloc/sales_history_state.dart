@@ -41,3 +41,5 @@ class TransactionsListFilteredState extends SalesHistoryState {
 class TransactionsDeletedState extends SalesHistoryState {}
 
 class TransactionDeletionLoadingState extends SalesHistoryState {}
+
+class LocalTransactionsFetchedState extends SalesHistoryState {}

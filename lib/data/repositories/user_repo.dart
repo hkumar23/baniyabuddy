@@ -1,3 +1,4 @@
+import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive/hive.dart';
@@ -54,7 +55,7 @@ class UserRepo {
         _firestore.collection('users').doc(_auth.currentUser!.uid).update(
             {AppConstants.fullName: fullName, AppConstants.imageUrl: imageUrl});
       } else {
-        throw AppConstants.savedLocally;
+        throw AppLanguage.savedLocally;
       }
     } catch (err) {
       rethrow;
@@ -132,7 +133,7 @@ class UserRepo {
             .doc(_auth.currentUser!.uid)
             .update({AppConstants.business: business.toJson()});
       } else {
-        throw AppConstants.savedLocally;
+        throw AppLanguage.savedLocally;
       }
     } catch (err) {
       rethrow;
@@ -158,7 +159,7 @@ class UserRepo {
             .doc(_auth.currentUser!.uid)
             .update({AppConstants.upiId: upiId});
       } else {
-        throw AppConstants.savedLocally;
+        throw AppLanguage.savedLocally;
       }
     } catch (err) {
       rethrow;

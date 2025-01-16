@@ -1,13 +1,11 @@
-import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../sales_history/bloc/sales_history_bloc.dart';
-import '../../sales_history/bloc/sales_history_event.dart';
 import '../../../../logic/Blocs/Authentication/bloc/auth_bloc.dart';
 import '../../../../logic/Blocs/Authentication/bloc/auth_event.dart';
 import '../../../../logic/Blocs/Authentication/bloc/auth_state.dart';
+import '../../../../utils/app_methods.dart';
 import 'sign_up_with_email.dart';
 import '../../main_screen.dart';
 // import '../../../../utils/app_methods.dart';

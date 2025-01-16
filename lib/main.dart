@@ -92,7 +92,7 @@ Future<void> main() async {
   // await Hive.openBox<Business>(AppConstants.businessBox);
   // await Hive.openBox<String>(AppConstants.upiIdBox);
   await Hive.openBox<UserModel>(AppConstants.userBox);
-  await Hive.openBox<Transaction>(AppConstants.transactionBox);
+  await Hive.openBox<TransactionDetails>(AppConstants.transactionBox);
 
   runApp(const MyApp());
 }
@@ -123,7 +123,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     // Hive.box<Business>(AppConstants.businessBox).close();
     // Hive.box<String>(AppConstants.upiIdBox).close();
     Hive.box<UserModel>(AppConstants.userBox).close();
-    Hive.box<Transaction>(AppConstants.transactionBox).close();
+    Hive.box<TransactionDetails>(AppConstants.transactionBox).close();
 
     connectivityService.stopMonitoring();
     super.dispose();

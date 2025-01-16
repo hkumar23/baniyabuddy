@@ -2,6 +2,8 @@ abstract class SalesHistoryEvent {}
 
 class FetchSalesHistoryEvent extends SalesHistoryEvent {}
 
+class FetchTransactionsFromFirebaseEvent extends SalesHistoryEvent {}
+
 class TimePeriodFilterEvent extends SalesHistoryEvent {
   final String timePeriodFilter;
   final String filter;

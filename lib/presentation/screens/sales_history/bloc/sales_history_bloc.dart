@@ -1,11 +1,14 @@
+import 'package:baniyabuddy/constants/app_constants.dart';
 import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:baniyabuddy/data/models/transaction.model.dart';
 import 'package:baniyabuddy/data/repositories/transaction_repo.dart';
+import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_event.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_event.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_state.dart';
 import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class SalesHistoryBloc extends Bloc<SalesHistoryEvent, SalesHistoryState> {
   List<TransactionDetails> globalTransactionsList = [];
@@ -19,6 +22,22 @@ class SalesHistoryBloc extends Bloc<SalesHistoryEvent, SalesHistoryState> {
     on<TimePeriodFilterEvent>(_onTimePeriodFilterEvent);
     on<SearchTransactionsListEvent>(_onSearchTransactionsListEvent);
     on<DeleteTransactionEvent>(_onDeteteTransactionEvent);
+    on<FetchTransactionsFromFirebaseEvent>(
+        _onFetchTransactionsFromFirebaseEvent);
+  }
+
+  void _onFetchTransactionsFromFirebaseEvent(event, emit) async {
+    emit(SalesHistoryLoadingState());
+    try {
+      if (!Hive.isBoxOpen(AppConstants.transactionBox)) {
+        await Hive.openBox<TransactionDetails>(AppConstants.transactionBox);
+      }
+      await TransactionRepo().fetchTransactionsFromFirebaseToLocal();
+
+      emit(LocalTransactionsFetchedState());
+    } catch (err) {
+      emit(SalesHistoryErrorState(errorMessage: err.toString()));
+    }
   }
 
   void _onfetchSalesHistoryEvent(event, emit) async {
@@ -28,7 +47,7 @@ class SalesHistoryBloc extends Bloc<SalesHistoryEvent, SalesHistoryState> {
     emit(SalesHistoryLoadingState());
 
     try {
-      globalTransactionsList = await transactionRepo.getTransactionsList();
+      globalTransactionsList = transactionRepo.getTransactionsList();
       // for (int i = 0; i < transactionsList.length; i++) {
       //   await transactionRepo.addTransaction(transactionsList[i]);
       // }

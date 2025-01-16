@@ -62,4 +62,6 @@ class AppLanguage {
   static const String add = "Add";
   static const String exit = "Exit";
   static const String unpaid = "Unpaid";
+  static const String savedLocally =
+      "Saved locally. Connect to the internet to sync";
 }

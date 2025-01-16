@@ -77,11 +77,11 @@ class SalesHistoryItem extends StatelessWidget {
       },
       builder: (context, state) {
         return Dismissible(
-          key: Key(transactionDetails.docId),
+          key: Key(transactionDetails.docId!),
           direction: DismissDirection.endToStart,
           onDismissed: (direction) {
             context.read<SalesHistoryBloc>().add(
-                  DeleteTransactionEvent(docId: transactionDetails.docId),
+                  DeleteTransactionEvent(docId: transactionDetails.docId!),
                 );
           },
           background: Container(
@@ -127,7 +127,9 @@ class SalesHistoryItem extends StatelessWidget {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Text(
-                            transactionDetails.customerName,
+                            transactionDetails.customerName == ""
+                                ? "Unknown"
+                                : transactionDetails.customerName,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleMedium!

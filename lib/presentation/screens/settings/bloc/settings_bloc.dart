@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:baniyabuddy/constants/app_language.dart';
+import 'package:baniyabuddy/data/repositories/transaction_repo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -86,16 +88,18 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   void _onSyncDataWithFirebaseEvent(event, emit) async {
     emit(SyncDataLoadingState());
     final invoiceRepo = InvoiceRepo();
-    // final businessRepo = BusinessRepo();
     final userRepo = UserRepo();
+    final transactionRepo = TransactionRepo();
 
     try {
       bool isConnected = await AppMethods.checkInternetConnection();
       if (!isConnected) {
         throw "You are not connected to the Internet";
       }
-      // await businessRepo.uploadBusinessInfoToFirebase();
-      // await businessRepo.fetchBusinessInfoFromFirebase();
+
+      await transactionRepo.uploadLocalTransactionsToFirebase();
+      await transactionRepo.fetchTransactionsFromFirebaseToLocal();
+
       await userRepo.uploadUserToFirebase();
       await userRepo.fetchUserFromFirebase();
 
@@ -155,8 +159,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     } catch (err) {
       debugPrint(err.toString());
       emit(SettingsErrorState(
-        errorMessage: err.toString() == AppConstants.savedLocally
-            ? AppConstants.savedLocally
+        errorMessage: err.toString() == AppLanguage.savedLocally
+            ? AppLanguage.savedLocally
             : "Something went wrong while saving Business details ..!",
       ));
     }
@@ -170,8 +174,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     } catch (err) {
       debugPrint(err.toString());
       emit(SettingsErrorState(
-        errorMessage: err.toString() == AppConstants.savedLocally
-            ? AppConstants.savedLocally
+        errorMessage: err.toString() == AppLanguage.savedLocally
+            ? AppLanguage.savedLocally
             : "Something went wrong while saving UPI ID ..!",
       ));
     }
