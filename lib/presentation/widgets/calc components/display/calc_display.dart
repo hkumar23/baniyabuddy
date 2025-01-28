@@ -3,6 +3,7 @@ import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_stat
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_bloc.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_event.dart';
 import 'package:baniyabuddy/presentation/widgets/calc%20components/display/i_o_display_item.dart';
+import 'package:baniyabuddy/utils/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,22 +18,15 @@ class CalcDisplay extends StatelessWidget {
       listener: (context, state) {
         if (state is TransactionSavedState) {
           context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
-          ScaffoldMessenger.of(context).removeCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: const Text(
-              "Sale recorded successfully! ",
-              style: TextStyle(fontWeight: FontWeight.w500),
-            ),
-            backgroundColor: Theme.of(context).colorScheme.primary,
-          ));
+          CustomSnackbar.success(
+            context: context,
+            text: state.message,
+          );
         } else if (state is CalcErrorState) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-              "Sale not recorded: ${state.errorMessage}",
-              style: const TextStyle(fontWeight: FontWeight.w500),
-            ),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ));
+          CustomSnackbar.error(
+            context: context,
+            text: "Sale not recorded: ${state.errorMessage}",
+          );
         }
       },
       builder: (context, state) {

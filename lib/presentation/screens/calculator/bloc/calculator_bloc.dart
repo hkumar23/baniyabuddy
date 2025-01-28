@@ -1,3 +1,5 @@
+import 'package:baniyabuddy/constants/app_constants.dart';
+import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:baniyabuddy/data/repositories/transaction_repo.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_event.dart';
 import 'package:baniyabuddy/presentation/screens/calculator/bloc/calculator_state.dart';
@@ -24,7 +26,12 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
       }
       TransactionRepo transactionRepo = TransactionRepo();
       await transactionRepo.addTransaction(event.transactionDetails);
-      emit(TransactionSavedState());
+      bool isConnected = await AppMethods.checkInternetConnection();
+      if (!isConnected) {
+        emit(TransactionSavedState(message: AppLanguage.savedLocally));
+      } else {
+        emit(TransactionSavedState(message: "Sale recorded successfully!"));
+      }
       return;
     } catch (err) {
       emit(CalcErrorState(errorMessage: err.toString()));

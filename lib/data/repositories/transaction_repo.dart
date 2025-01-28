@@ -29,22 +29,21 @@ class TransactionRepo {
       await _transactionBox.put(transaction.docId, transaction);
 
       bool isConnected = await AppMethods.checkInternetConnection();
-      if (!isConnected) {
-        throw AppLanguage.savedLocally;
+      if (isConnected) {
+        Map<String, dynamic> data = transaction.toJson();
+        // if (data[AppConstants.customerName] == "") {
+        //   data[AppConstants.customerName] = AppLanguage.unknown;
+        // }
+        // if (data['docId'] == "" && data.containsKey("docId")) {
+        //   data.remove("docId");
+        // }
+        await _firestore
+            .collection("users")
+            .doc(_auth.currentUser!.uid)
+            .collection("transactions")
+            .doc(transaction.docId)
+            .set(data);
       }
-      Map<String, dynamic> data = transaction.toJson();
-      // if (data[AppConstants.customerName] == "") {
-      //   data[AppConstants.customerName] = AppLanguage.unknown;
-      // }
-      // if (data['docId'] == "" && data.containsKey("docId")) {
-      //   data.remove("docId");
-      // }
-      await _firestore
-          .collection("users")
-          .doc(_auth.currentUser!.uid)
-          .collection("transactions")
-          .doc(transaction.docId)
-          .set(data);
     } catch (err) {
       debugPrint(err.toString());
       rethrow;

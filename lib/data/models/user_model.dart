@@ -46,9 +46,9 @@ class UserModel {
       email: json[AppConstants.email],
       fullName: json[AppConstants.fullName],
       imageUrl: json[AppConstants.imageUrl],
-      upiId: json['upiId'],
-      globalInvoiceNumber: json['globalInvoiceNumber'],
-      business: Business.fromJson(json['business']),
+      upiId: json[AppConstants.upiId],
+      globalInvoiceNumber: json[AppConstants.globalInvoiceNumber],
+      business: Business.fromJson(json[AppConstants.business]),
     );
   }
   Map<String, Object?> toJson() {
@@ -59,7 +59,7 @@ class UserModel {
       AppConstants.imageUrl: imageUrl,
       AppConstants.upiId: upiId,
       AppConstants.globalInvoiceNumber: globalInvoiceNumber,
-      AppConstants.business: business?.toJson(),
+      AppConstants.business: business == null ? {} : business?.toJson(),
     };
   }
 }

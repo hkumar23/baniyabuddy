@@ -115,7 +115,6 @@ class UserRepo {
           .doc(_auth.currentUser!.uid)
           .get();
       final userDetails = docSnap.data();
-      // print(userDetails);
       UserModel user = UserModel.fromJson(userDetails!);
       await _userBox.put(_auth.currentUser!.uid, user);
     } catch (err) {
