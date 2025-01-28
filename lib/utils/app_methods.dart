@@ -145,6 +145,19 @@ class AppMethods {
     // return "Testing";
   }
 
+  static Future<bool> doesImagePathExist(String imagePath) async {
+    try {
+      final ref = FirebaseStorage.instance.ref(imagePath);
+
+      await ref.getMetadata();
+      return true;
+    } catch (e) {
+      if (e is FirebaseException && e.code == 'object-not-found') {
+        return false;
+      }
+      rethrow;
+    }
+  }
   // static Future<void> modifyingAllUserData() async {
   //   try {
   //     // print("running");

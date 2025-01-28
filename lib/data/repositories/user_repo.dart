@@ -64,10 +64,14 @@ class UserRepo {
 
   Future<void> deleteImageFromFirebaseStorage(String imageUrl) async {
     try {
+      // print("Updating Name and image");
       if (!imageUrl.contains("googleusercontent")) {
         String imagePath =
             Uri.decodeFull(imageUrl.split('/o/')[1].split('?')[0]);
-        await FirebaseStorage.instance.ref(imagePath).delete();
+        final imageExist = await AppMethods.doesImagePathExist(imagePath);
+        if (imageExist) {
+          await FirebaseStorage.instance.ref(imagePath).delete();
+        }
       }
     } catch (err) {
       rethrow;
