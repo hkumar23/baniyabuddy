@@ -36,7 +36,7 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
   final _notesController = TextEditingController();
 
   List<BillItem> billItems = [];
-  String paymentMethod = AppLanguage.notSelected;
+  String? paymentMethod;
   void setPaymentMethod(String value) {
     setState(() {
       paymentMethod = value;
@@ -98,10 +98,11 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
                 context: context,
                 text: "Invoice Generated and saved in Download !!",
               );
-              Navigator.of(context).pushReplacement(
+              Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (context) => const MainScreen(),
                 ),
+                (route) => false,
               );
             }
             if (state is BillingErrorState) {
@@ -226,7 +227,7 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
                         Row(
                           children: [
                             Expanded(
-                              flex: 5,
+                              flex: 1,
                               child: TextFormField(
                                 controller: _extraDiscountController,
                                 keyboardType: TextInputType.number,
@@ -250,7 +251,7 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
                             ),
                             const SizedBox(width: 7),
                             Expanded(
-                              flex: 4,
+                              flex: 1,
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 10,

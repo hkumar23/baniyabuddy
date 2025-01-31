@@ -1,4 +1,6 @@
 import 'package:baniyabuddy/data/repositories/user_repo.dart';
+import 'package:baniyabuddy/utils/custom_snackbar.dart';
+import 'package:baniyabuddy/utils/custom_top_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -200,17 +202,24 @@ class SalesHistoryBottomSheet extends StatelessWidget {
                           children: [
                             FilledButton(
                               onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => GenerateQrCode(
-                                    // upiId: "9873541772@ptsbi",
-                                    upiId:
-                                        UserRepo().getUpiId().toString().trim(),
-                                    businessName: businessInfo?.name ?? '',
-                                    amount: transactionDetails.totalAmount
-                                        .toString(),
-                                  ),
-                                );
+                                String? upiId = UserRepo().getUpiId()?.trim();
+                                if (upiId == null || upiId == "") {
+                                  CustomTopSnackbar.error(
+                                      context: context,
+                                      message:
+                                          "You have not added UPI ID in settings");
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => GenerateQrCode(
+                                      // upiId: "9873541772@ptsbi",
+                                      upiId: upiId,
+                                      businessName: businessInfo?.name ?? '',
+                                      amount: transactionDetails.totalAmount
+                                          .toString(),
+                                    ),
+                                  );
+                                }
                               },
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,

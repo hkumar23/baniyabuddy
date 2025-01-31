@@ -1,11 +1,6 @@
-import 'package:baniyabuddy/data/models/user_model.dart';
-import 'package:baniyabuddy/data/repositories/user_repo.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 
-import '../../../constants/app_constants.dart';
-import '../../../data/models/business.model.dart';
+import '../../../data/repositories/user_repo.dart';
 import '../../../utils/custom_snackbar.dart';
 import '../../../utils/generate_qr_code.dart';
 

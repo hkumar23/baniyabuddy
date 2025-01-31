@@ -22,7 +22,7 @@ class _RecordSaleDialogState extends State<RecordSaleDialog> {
   final TextEditingController _mobNumberController = TextEditingController();
   final TextEditingController _notesController = TextEditingController();
 
-  String? paymentMethod = AppLanguage.notSelected;
+  String? paymentMethod;
 
   void setPaymentMethod(String value) {
     setState(() {
@@ -52,7 +52,8 @@ class _RecordSaleDialogState extends State<RecordSaleDialog> {
       customerName: _customerNameController.text,
       mobNumber: _mobNumberController.text,
       notes: _notesController.text,
-      paymentMethod: paymentMethod!,
+      paymentMethod:
+          paymentMethod == null ? AppLanguage.notSelected : paymentMethod!,
       timeStamp: DateTime.now(),
       totalAmount: context.read<CalculatorBloc>().state.output,
       inputExpression: context.read<CalculatorBloc>().state.inputExpression,

@@ -17,6 +17,7 @@ class _PaymentMethodDropdownState extends State<PaymentMethodDropdown> {
   @override
   Widget build(BuildContext context) {
     return DropdownButton(
+      hint: const Text("Select Payment Method"),
       isExpanded: true,
       underline: Container(),
       itemHeight: 50,
@@ -42,10 +43,10 @@ class _PaymentMethodDropdownState extends State<PaymentMethodDropdown> {
           value: AppLanguage.creditDebitCard,
           child: Text(AppLanguage.creditDebitCard),
         ),
-        DropdownMenuItem(
-          value: AppLanguage.notSelected,
-          child: Text(AppLanguage.notSelected),
-        ),
+        // DropdownMenuItem(
+        //   value: AppLanguage.notSelected,
+        //   child: Text(AppLanguage.notSelected),
+        // ),
       ],
       onChanged: (String? value) {
         widget.setPaymentMethod(value);

@@ -1,4 +1,5 @@
 import 'package:baniyabuddy/data/repositories/transaction_repo.dart';
+import 'package:baniyabuddy/presentation/widgets/settings_component/support_dev.button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -246,7 +247,7 @@ class SettingsScreen extends StatelessWidget {
                       onTap: () {
                         AppMethods.logoutWithDialog(context);
                       },
-                    )
+                    ),
                     // buildListTile('Privacy', onTap: () {}),
                   ],
                 ),
