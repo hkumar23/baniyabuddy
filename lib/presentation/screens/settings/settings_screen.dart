@@ -1,5 +1,4 @@
-import 'package:baniyabuddy/data/repositories/transaction_repo.dart';
-import 'package:baniyabuddy/presentation/widgets/settings_component/support_dev.button.dart';
+import 'package:baniyabuddy/presentation/widgets/settings_component/supoort_dev_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -103,155 +102,154 @@ class SettingsScreen extends StatelessWidget {
                 right: 16,
                 top: deviceSize.height * 0.05,
               ),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: () async {
-                        toggleBottomSheet(true);
-                        String? uploadedImageUrl;
-                        await showModalBottomSheet(
-                            isScrollControlled: true,
-                            context: context,
-                            builder: (context) {
-                              return EditProfileBottomSheet(
-                                  passUploadedImageUrl: (String? imageUrl) {
-                                uploadedImageUrl = imageUrl;
-                              });
+              // child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 20),
+                  GestureDetector(
+                    onTap: () async {
+                      toggleBottomSheet(true);
+                      String? uploadedImageUrl;
+                      await showModalBottomSheet(
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (context) {
+                            return EditProfileBottomSheet(
+                                passUploadedImageUrl: (String? imageUrl) {
+                              uploadedImageUrl = imageUrl;
                             });
-                        // print("Uploaded Image: ${uploadedImageUrl.toString()}");
-                        if (uploadedImageUrl != null &&
-                            uploadedImageUrl!.isNotEmpty) {
-                          await userRepo.deleteImageFromFirebaseStorage(
-                              uploadedImageUrl!);
-                        }
-                        toggleBottomSheet(false);
-                      },
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CircleAvatar(
-                            radius: 40,
-                            backgroundImage: profileImage == null
-                                ? Image.asset("assets/images/profile_image.jpg")
-                                    .image
-                                : NetworkImage(profileImage!),
-                          ),
-                          const SizedBox(width: 15),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                fullName ?? "Your Name",
-                                style: theme.textTheme.headlineSmall!.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                          });
+                      // print("Uploaded Image: ${uploadedImageUrl.toString()}");
+                      if (uploadedImageUrl != null &&
+                          uploadedImageUrl!.isNotEmpty) {
+                        await userRepo
+                            .deleteImageFromFirebaseStorage(uploadedImageUrl!);
+                      }
+                      toggleBottomSheet(false);
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CircleAvatar(
+                          radius: 40,
+                          backgroundImage: profileImage == null
+                              ? Image.asset("assets/images/profile_image.jpg")
+                                  .image
+                              : NetworkImage(profileImage!),
+                        ),
+                        const SizedBox(width: 15),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              fullName ?? "Your Name",
+                              style: theme.textTheme.headlineSmall!.copyWith(
+                                fontWeight: FontWeight.bold,
                               ),
-                              Text(
-                                auth?.email as String,
-                                style: TextStyle(color: Colors.grey[600]),
-                              ),
-                              const SizedBox(height: 8),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 10,
-                                  vertical: 5,
-                                ),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: theme.colorScheme.primary,
-                                  ),
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                child: Text(
-                                  "Edit Profile",
-                                  style: theme.textTheme.labelMedium,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
-                    ListTile(
-                      title: const Text('Business Info'),
-                      trailing: const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 20,
-                      ),
-                      onTap: () {
-                        showModalBottomSheet(
-                            isScrollControlled: true,
-                            context: context,
-                            builder: (context) {
-                              return const BusinessInfoBottomSheet();
-                              // return Container();
-                            });
-                      },
-                    ),
-                    ListTile(
-                      onTap: () {
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return const SaveUpiBottomsheet();
-                            });
-                      },
-                      title: const Text('UPI ID'),
-                      subtitle: const Text('For QR Code generation'),
-                      trailing: const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 20,
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text('Generate QR Code'),
-                      trailing: const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 20,
-                      ),
-                      onTap: () {
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return const GenerateQrBottomSheet();
-                            });
-                      },
-                    ),
-                    ListTile(
-                      onTap: () {
-                        context
-                            .read<SettingsBloc>()
-                            .add(SyncDataWithFirebaseEvent());
-                      },
-                      title: const Text('Sync Data'),
-                      trailing: state is SyncDataLoadingState
-                          ? const CupertinoActivityIndicator()
-                          : const Icon(
-                              Icons.sync,
-                              size: 20,
                             ),
+                            Text(
+                              auth?.email as String,
+                              style: TextStyle(color: Colors.grey[600]),
+                            ),
+                            const SizedBox(height: 8),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 5,
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: theme.colorScheme.primary,
+                                ),
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: Text(
+                                "Edit Profile",
+                                style: theme.textTheme.labelMedium,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    ListTile(
-                      title: const Text('Logout'),
-                      trailing: const Icon(
-                        Icons.logout,
-                        size: 20,
-                      ),
-                      iconColor: Colors.red,
-                      textColor: Colors.red,
-                      onTap: () {
-                        AppMethods.logoutWithDialog(context);
-                      },
+                  ),
+                  const SizedBox(height: 20),
+                  ListTile(
+                    title: const Text('Business Info'),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 20,
                     ),
-                    // buildListTile('Privacy', onTap: () {}),
-                  ],
-                ),
+                    onTap: () {
+                      showModalBottomSheet(
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (context) {
+                            return const BusinessInfoBottomSheet();
+                            // return Container();
+                          });
+                    },
+                  ),
+                  ListTile(
+                    onTap: () {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return const SaveUpiBottomsheet();
+                          });
+                    },
+                    title: const Text('UPI ID'),
+                    subtitle: const Text('For QR Code generation'),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 20,
+                    ),
+                  ),
+                  ListTile(
+                    title: const Text('Generate QR Code'),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 20,
+                    ),
+                    onTap: () {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return const GenerateQrBottomSheet();
+                          });
+                    },
+                  ),
+                  ListTile(
+                    onTap: () {
+                      context
+                          .read<SettingsBloc>()
+                          .add(SyncDataWithFirebaseEvent());
+                    },
+                    title: const Text('Sync Data'),
+                    trailing: state is SyncDataLoadingState
+                        ? const CupertinoActivityIndicator()
+                        : const Icon(
+                            Icons.sync,
+                            size: 20,
+                          ),
+                  ),
+                  ListTile(
+                    title: const Text('Logout'),
+                    trailing: const Icon(
+                      Icons.logout,
+                      size: 20,
+                    ),
+                    iconColor: Colors.red,
+                    textColor: Colors.red,
+                    onTap: () {
+                      AppMethods.logoutWithDialog(context);
+                    },
+                  ),
+                  const SupportDevButton(),
+                ],
               ),
+              // ),
             );
           },
         );

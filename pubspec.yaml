@@ -118,6 +118,7 @@ flutter:
     - assets/images/get_it_on_google_play.png
     - assets/images/profile_image.jpg
     - assets/images/underline-button.png
+    - assets/images/upi_apps_logo/payment-icons.png
   #   - images/a_dot_ham.jpeg
 
   fonts:
