@@ -54,6 +54,7 @@ class InvoiceRepo {
 
   // Delete an invoice by ID
   Future<void> deleteInvoice(String id) async {
+    // include a syncStatus field in invoice model, similar to transaction model
     try {
       bool isConnected = await AppMethods.checkInternetConnection();
       if (isConnected) {
@@ -110,10 +111,11 @@ class InvoiceRepo {
       // int? globalInvoiceNumber = _userRepo.getGlobalInvoiceNumber();
       for (Invoice invoice in invoices) {
         if (invoice.isSynced) continue;
+        print("Not Synced");
+        invoice.isSynced = true;
         Map<String, dynamic> invoiceData = invoice.toJson();
         String docId = invoice.docId!;
         // Set the invoice data in Firestore
-        invoice.isSynced = true;
         await _firestore
             .collection('users')
             .doc(_auth.currentUser!.uid)

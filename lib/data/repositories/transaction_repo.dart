@@ -26,26 +26,45 @@ class TransactionRepo {
   Future<void> addTransaction(TransactionDetails transaction) async {
     try {
       transaction.docId = generateTransactionId();
-      await _transactionBox.put(transaction.docId, transaction);
+      Map<String, dynamic> data = transaction.toJson();
+      transaction.syncStatus = AppConstants.added;
 
       bool isConnected = await AppMethods.checkInternetConnection();
       if (isConnected) {
-        Map<String, dynamic> data = transaction.toJson();
-        // if (data[AppConstants.customerName] == "") {
-        //   data[AppConstants.customerName] = AppLanguage.unknown;
-        // }
-        // if (data['docId'] == "" && data.containsKey("docId")) {
-        //   data.remove("docId");
-        // }
+        transaction.isSynced = true;
         await _firestore
             .collection("users")
             .doc(_auth.currentUser!.uid)
             .collection("transactions")
             .doc(transaction.docId)
             .set(data);
+      } else {
+        transaction.isSynced = false;
       }
+      await _transactionBox.put(transaction.docId, transaction);
     } catch (err) {
       debugPrint(err.toString());
+      rethrow;
+    }
+  }
+
+  Future<void> updateTransaction(TransactionDetails updatedTransaction) async {
+    try {
+      bool isConnected = await AppMethods.checkInternetConnection();
+      updatedTransaction.syncStatus = AppConstants.updated;
+      if (isConnected) {
+        updatedTransaction.isSynced = true;
+        await _firestore
+            .collection("users")
+            .doc(_auth.currentUser!.uid)
+            .collection("invoices")
+            .doc(updatedTransaction.docId)
+            .update(updatedTransaction.toJson());
+      } else {
+        updatedTransaction.isSynced = false;
+      }
+      await _transactionBox.put(updatedTransaction.docId, updatedTransaction);
+    } catch (err) {
       rethrow;
     }
   }
@@ -70,17 +89,18 @@ class TransactionRepo {
       transaction.syncStatus = AppConstants.deleted;
 
       bool isConnected = await AppMethods.checkInternetConnection();
-      if (!isConnected) {
-        throw AppLanguage.savedLocally;
+      if (isConnected) {
+        await _firestore
+            .collection("users")
+            .doc(_auth.currentUser!.uid)
+            .collection("transactions")
+            .doc(transactionId)
+            .delete();
+        await _transactionBox.delete(transactionId);
+      } else {
+        // throw AppLanguage.savedLocally;
+        await _transactionBox.put(transactionId, transaction);
       }
-
-      await _firestore
-          .collection("users")
-          .doc(_auth.currentUser!.uid)
-          .collection("transactions")
-          .doc(transactionId)
-          .delete();
-      await _transactionBox.delete(transactionId);
     } catch (err) {
       debugPrint(err.toString());
       rethrow;
@@ -91,9 +111,6 @@ class TransactionRepo {
   Future<void> uploadLocalTransactionsToFirebase() async {
     try {
       List<TransactionDetails> transactions = getTransactionsList();
-      // print(invoices);
-      // int? globalInvoiceNumber = _userRepo.getGlobalInvoiceNumber();
-      // print(transactions);
       for (TransactionDetails transaction in transactions) {
         if (transaction.isSynced) continue;
         String docId = transaction.docId!;
@@ -106,13 +123,13 @@ class TransactionRepo {
             .doc(docId);
         switch (transaction.syncStatus) {
           case AppConstants.added:
-            await docReference.set(transactionDetails);
             transaction.isSynced = true;
+            await docReference.set(transactionDetails);
             _transactionBox.put(docId, transaction);
             break;
           case AppConstants.updated:
-            await docReference.update(transactionDetails);
             transaction.isSynced = true;
+            await docReference.update(transactionDetails);
             _transactionBox.put(docId, transaction);
             break;
           case AppConstants.deleted:
@@ -121,7 +138,6 @@ class TransactionRepo {
             break;
         }
       }
-      // print('All invoices are updated on Firebase successfully!');
     } catch (e) {
       rethrow;
     }
@@ -140,7 +156,7 @@ class TransactionRepo {
         // print(transactionData);
         TransactionDetails transaction =
             TransactionDetails.fromJson(transactionData);
-        transaction.isSynced = true;
+        // transaction.isSynced = true;
         transaction.syncStatus = AppConstants.updated;
         transaction.docId = doc.id;
 
