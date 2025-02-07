@@ -1,3 +1,5 @@
+import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_bloc.dart';
+import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,24 +40,31 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BillingBloc, BillingState>(builder: (context, state) {
-      if (state is BillingLoadingState) {
-        return const Scaffold(
-          body: Center(child: CircularProgressIndicator()),
-        );
-      }
-      return Scaffold(
-        bottomNavigationBar: CustomBottomNavBar(
-          selectedIndex: _selectedIndex,
-          onTapped: _onItemTapped,
-        ),
-        appBar: CustomAppBar(selectedIndex: _selectedIndex),
-        resizeToAvoidBottomInset: _selectedIndex != 2,
-        body: IndexedStack(
-          index: _selectedIndex,
-          children: _screens,
-        ),
-      );
-    });
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (authContext, authState) {
+        return BlocBuilder<BillingBloc, BillingState>(
+            builder: (context, state) {
+          if (state is BillingLoadingState) {
+            return const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            );
+          }
+          return Scaffold(
+            bottomNavigationBar: authState is AuthLoadingState
+                ? null
+                : CustomBottomNavBar(
+                    selectedIndex: _selectedIndex,
+                    onTapped: _onItemTapped,
+                  ),
+            appBar: CustomAppBar(selectedIndex: _selectedIndex),
+            resizeToAvoidBottomInset: _selectedIndex != 2,
+            body: IndexedStack(
+              index: _selectedIndex,
+              children: _screens,
+            ),
+          );
+        });
+      },
+    );
   }
 }

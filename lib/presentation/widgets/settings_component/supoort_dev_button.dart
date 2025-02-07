@@ -16,7 +16,7 @@ class SupportDevButton extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Scan the QR code below with any payments app',
+                    'Scan the QR code below with any UPI payments app',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   const SizedBox(height: 10),
@@ -25,7 +25,8 @@ class SupportDevButton extends StatelessWidget {
                     height: 40,
                   ),
                   const SizedBox(height: 10),
-
+                  const Text("UPI ID: hkumar2way@oksbi"),
+                  const SizedBox(height: 5),
                   QrImageView(
                     backgroundColor: Colors.white,
                     data:
