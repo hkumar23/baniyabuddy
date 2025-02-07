@@ -5,7 +5,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'dart:math';
 
-import '../../constants/app_language.dart';
 import '../../utils/app_methods.dart';
 import '../../constants/app_constants.dart';
 import '../models/transaction.model.dart';
@@ -114,7 +113,6 @@ class TransactionRepo {
       for (TransactionDetails transaction in transactions) {
         if (transaction.isSynced) continue;
         String docId = transaction.docId!;
-        Map<String, dynamic> transactionDetails = transaction.toJson();
         // print(transactionDetails);
         final docReference = _firestore
             .collection('users')
@@ -124,12 +122,12 @@ class TransactionRepo {
         switch (transaction.syncStatus) {
           case AppConstants.added:
             transaction.isSynced = true;
-            await docReference.set(transactionDetails);
+            await docReference.set(transaction.toJson());
             _transactionBox.put(docId, transaction);
             break;
           case AppConstants.updated:
             transaction.isSynced = true;
-            await docReference.update(transactionDetails);
+            await docReference.update(transaction.toJson());
             _transactionBox.put(docId, transaction);
             break;
           case AppConstants.deleted:

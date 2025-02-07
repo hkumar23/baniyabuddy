@@ -2,7 +2,6 @@ import 'package:baniyabuddy/constants/app_constants.dart';
 import 'package:baniyabuddy/constants/app_language.dart';
 import 'package:baniyabuddy/data/models/transaction.model.dart';
 import 'package:baniyabuddy/data/repositories/transaction_repo.dart';
-import 'package:baniyabuddy/logic/Blocs/Authentication/bloc/auth_event.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_event.dart';
 import 'package:baniyabuddy/presentation/screens/sales_history/bloc/sales_history_state.dart';
 import 'package:baniyabuddy/utils/app_methods.dart';
