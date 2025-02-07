@@ -54,4 +54,5 @@ class AppConstants {
   static const String updated = "updated";
   static const String deleted = "deleted";
   static const String syncStatus = "syncStatus";
+  static const String supportDevUpi = "hkumar2way@oksbi";
 }

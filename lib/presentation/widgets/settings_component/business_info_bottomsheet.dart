@@ -49,11 +49,11 @@ class _BusinessInfoBottomSheetState extends State<BusinessInfoBottomSheet> {
   void initState() {
     super.initState();
     if (_business != null) {
-      _addressController.text = _business.address.toString();
-      _businessNameController.text = _business.name.toString();
-      _emailController.text = _business.email.toString();
-      _phoneController.text = _business.phone.toString();
-      _gstinController.text = _business.gstin.toString();
+      _addressController.text = _business.address ?? "";
+      _businessNameController.text = _business.name ?? "";
+      _emailController.text = _business.email ?? "";
+      _phoneController.text = _business.phone ?? "";
+      _gstinController.text = _business.gstin ?? "";
     }
   }
 

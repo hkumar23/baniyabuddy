@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
+import '../../../constants/app_constants.dart';
+import 'copyable_textfeild.dart';
+
 class SupportDevButton extends StatelessWidget {
   const SupportDevButton({super.key});
 
@@ -24,13 +27,13 @@ class SupportDevButton extends StatelessWidget {
                     "assets/images/upi_apps_logo/payment-icons.png",
                     height: 40,
                   ),
-                  const SizedBox(height: 10),
-                  const Text("UPI ID: hkumar2way@oksbi"),
                   const SizedBox(height: 5),
+                  const CopyableTextField(text: AppConstants.supportDevUpi),
+                  const SizedBox(height: 10),
                   QrImageView(
                     backgroundColor: Colors.white,
                     data:
-                        "upi://pay?pa=${"hkumar2way@oksbi"}&pn=${"Codeworks Infinity"}&cu=INR",
+                        "upi://pay?pa=${AppConstants.supportDevUpi}&pn=${"Codeworks Infinity"}&cu=INR",
                     version: QrVersions.auto,
                     size: 230,
                     gapless: false,
@@ -45,7 +48,10 @@ class SupportDevButton extends StatelessWidget {
                   ),
                   // ),
                   const SizedBox(height: 20),
-                  const Text('Thank you for your support!'),
+                  Text(
+                    'Thank you for your support!',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
                 ],
                 // ),
                 // actions: <Widget>[
