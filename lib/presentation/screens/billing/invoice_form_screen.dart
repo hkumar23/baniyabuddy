@@ -314,8 +314,26 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
                   child: BlocBuilder<BillingBloc, BillingState>(
                     builder: (context, state) {
                       return GestureDetector(
-                        onTap: () {
-                          onSubmit(context);
+                        onTap: () async {
+                          bool isGenerate = await showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: const Text(
+                                        "Generate Invoice or edit details ?"),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(false),
+                                        child: const Text("Edit"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(true),
+                                        child: const Text("Generate"),
+                                      ),
+                                    ],
+                                  ));
+                          if (isGenerate) onSubmit(context);
                         },
                         child: const Padding(
                           padding: EdgeInsets.only(bottom: 20),

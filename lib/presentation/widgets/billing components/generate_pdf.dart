@@ -44,8 +44,9 @@ abstract class GeneratePdf {
 
   static Future<void> _savePdfToLocal(path, doc, invoice) async {
     // Define the file name and save the PDF
+
     final file = File(
-        '$path/${AppConstants.invoiceIdPrefix}${invoice.invoiceNumber}.pdf');
+        '$path/${invoice.clientName.trim()} ${AppConstants.invoiceIdPrefix}${invoice.invoiceNumber}.pdf');
     await file.writeAsBytes(await doc.save());
     print('PDF saved to ${file.path}');
   }

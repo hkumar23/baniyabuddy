@@ -1,4 +1,5 @@
 import 'package:baniyabuddy/data/repositories/user_repo.dart';
+import 'package:baniyabuddy/utils/app_methods.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive/hive.dart';
@@ -14,23 +15,6 @@ class InvoiceRepo {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final UserRepo _userRepo = UserRepo();
 
-  // Future<int> getNextInvoiceNumber() async {
-  //   // Check if there is already an invoice number saved
-  //   if (_invoiceNumberBox.isEmpty) {
-  //     // If not, set the starting invoice number (e.g., 1)
-  //     await _invoiceNumberBox.put(AppConstants.globalInvoiceNumber, 1);
-  //     return 1;
-  //   } else {
-  //     // Fetch the Global invoice number
-  //     int? currentInvoiceNumber =
-  //         _invoiceNumberBox.get(AppConstants.globalInvoiceNumber);
-  //     if (currentInvoiceNumber == null) {
-  //       throw Exception("Global invoice number null");
-  //     }
-  //     return currentInvoiceNumber + 1;
-  //   }
-  // }
-
   // Method to  Generate docId for invoice
   String generateInvoiceDocId(int invNum) {
     final timestamp = DateTime.now().millisecondsSinceEpoch;
@@ -44,11 +28,15 @@ class InvoiceRepo {
       invoice.docId = generateInvoiceDocId(invoice.invoiceNumber!);
       // Save the new invoice
       await _invoiceBox.put(invoice.docId, invoice);
-      // Update the global invoice number
-      // await _invoiceNumberBox.put(
-      //   AppConstants.globalInvoiceNumber,
-      //   invoice.invoiceNumber!,
-      // );
+      bool isConnected = await AppMethods.checkInternetConnection();
+      if (isConnected) {
+        await _firestore
+            .collection("users")
+            .doc(_auth.currentUser!.uid)
+            .collection("invoices")
+            .doc(invoice.docId)
+            .set(invoice.toJson());
+      }
     } catch (err) {
       rethrow;
     }
@@ -66,7 +54,20 @@ class InvoiceRepo {
 
   // Delete an invoice by ID
   Future<void> deleteInvoice(String id) async {
-    await _invoiceBox.delete(id);
+    try {
+      bool isConnected = await AppMethods.checkInternetConnection();
+      if (isConnected) {
+        await _firestore
+            .collection("users")
+            .doc(_auth.currentUser!.uid)
+            .collection("invoices")
+            .doc(id)
+            .delete();
+      }
+      await _invoiceBox.delete(id);
+    } catch (err) {
+      rethrow;
+    }
   }
 
   Future<void> deleteAllInvoiceFromLocal() async {
@@ -75,8 +76,23 @@ class InvoiceRepo {
 
   // Update an invoice by id
   Future<void> updateInvoice(Invoice updatedInvoice) async {
-    updatedInvoice.isSynced = false;
-    await _invoiceBox.put(updatedInvoice.docId, updatedInvoice);
+    try {
+      bool isConnected = await AppMethods.checkInternetConnection();
+      if (isConnected) {
+        updatedInvoice.isSynced = true;
+        await _firestore
+            .collection("users")
+            .doc(_auth.currentUser!.uid)
+            .collection("invoices")
+            .doc(updatedInvoice.docId)
+            .update(updatedInvoice.toJson());
+      } else {
+        updatedInvoice.isSynced = false;
+      }
+      await _invoiceBox.put(updatedInvoice.docId, updatedInvoice);
+    } catch (err) {
+      rethrow;
+    }
   }
 
   // Update all invoices with a custom update function
@@ -92,24 +108,20 @@ class InvoiceRepo {
       List<Invoice> invoices = getAllInvoices();
       // print(invoices);
       // int? globalInvoiceNumber = _userRepo.getGlobalInvoiceNumber();
-
       for (Invoice invoice in invoices) {
         if (invoice.isSynced) continue;
         Map<String, dynamic> invoiceData = invoice.toJson();
         String docId = invoice.docId!;
         // Set the invoice data in Firestore
+        invoice.isSynced = true;
         await _firestore
             .collection('users')
             .doc(_auth.currentUser!.uid)
             .collection("invoices")
             .doc(docId)
             .set(invoiceData);
-        invoice.isSynced = true;
         _invoiceBox.put(invoice.docId, invoice);
       }
-      // await _firestore.collection('users').doc(_auth.currentUser!.uid).update({
-      //   AppConstants.globalInvoiceNumber: globalInvoiceNumber,
-      // });
       print('All invoices are updated on Firebase successfully!');
     } catch (e) {
       rethrow;
@@ -118,36 +130,20 @@ class InvoiceRepo {
 
   Future<void> fetchInvoicesFromFirebaseToLocal() async {
     try {
-      // print("Before Fetching: ${_invoiceBox.values.toList().length}");
-      // if (!_invoiceBox.isOpen) {
-      //   await Hive.openBox<Invoice>(AppConstants.invoiceBox);
-      // }
       QuerySnapshot snapshot = await _firestore
           .collection('users')
           .doc(_auth.currentUser!.uid)
           .collection('invoices')
           .get();
-      // print(snapshot.docs.length);
+
       for (var doc in snapshot.docs) {
         Map<String, dynamic> invoiceData = doc.data() as Map<String, dynamic>;
-        // print(invoiceData);
         Invoice invoice = Invoice.fromJson(invoiceData);
-        // print(invoice);
-        // // Store/Update the invoice in local storage with the custom docId
+
+        // Store/Update the invoice in local storage with the custom docId
         await _invoiceBox.put(invoice.docId, invoice);
       }
-      // print("After Fetching: ${_invoiceBox.values.toList().length}");
-      // final userDocSnap = await _firestore
-      //     .collection('users')
-      //     .doc(_auth.currentUser!.uid)
-      //     .get();
-      // final userData = userDocSnap.data();
-      // int? globalInvoiceNum = userData?[AppConstants.globalInvoiceNumber];
-
-      // await _invoiceNumberBox.put(
-      //     AppConstants.globalInvoiceNumber, globalInvoiceNum ?? 0);
     } catch (e) {
-      // print(e);
       rethrow;
     }
   }
