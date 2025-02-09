@@ -42,6 +42,9 @@ class _SearchCostumerState extends State<SearchCostumer> {
       if (state is TransactionsListFilteredState) {
         searchController.text = state.searchedString;
       }
+      if (state is TransactionsDeletedState) {
+        searchController.text = state.searchedString;
+      }
       return Container(
         padding: const EdgeInsets.symmetric(vertical: 12),
         // height: double.minPositive,
@@ -57,6 +60,13 @@ class _SearchCostumerState extends State<SearchCostumer> {
                   ));
             }
             if (state is TransactionsListFilteredState) {
+              context.read<SalesHistoryBloc>().add(SearchTransactionsListEvent(
+                    timePeriodFilter: state.timePeriodFilter,
+                    filter: state.filter,
+                    searchedString: searchController.text,
+                  ));
+            }
+            if (state is TransactionsDeletedState) {
               context.read<SalesHistoryBloc>().add(SearchTransactionsListEvent(
                     timePeriodFilter: state.timePeriodFilter,
                     filter: state.filter,

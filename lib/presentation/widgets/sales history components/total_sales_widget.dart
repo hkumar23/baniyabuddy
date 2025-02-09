@@ -24,6 +24,9 @@ class TotalSalesWidget extends StatelessWidget {
         if (state is TransactionsListFilteredState) {
           totalSales = state.totalSales;
         }
+        if (state is TransactionsDeletedState) {
+          totalSales = state.totalSales;
+        }
         return Container(
             padding: EdgeInsets.only(top: deviceSize.height * 0.05),
             width: deviceSize.width,

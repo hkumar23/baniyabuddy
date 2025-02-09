@@ -32,6 +32,9 @@ class _TimePeriodFilterState extends State<TimePeriodFilter> {
         if (state is TransactionsListFilteredState) {
           selectedOption = state.timePeriodFilter;
         }
+        if (state is TransactionsDeletedState) {
+          selectedOption = state.timePeriodFilter;
+        }
         return Container(
           // height: 100,
           // alignment: Alignment.center,

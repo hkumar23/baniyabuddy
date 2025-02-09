@@ -1,3 +1,4 @@
+import 'package:baniyabuddy/utils/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,12 +33,16 @@ class SalesHistory extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         body: BlocConsumer<SalesHistoryBloc, SalesHistoryState>(
           listener: (context, state) {
+            if (state is TransactionsDeletedState) {
+              CustomSnackbar.neutral(
+                context: context,
+                text: "Transaction Deleted Successfully",
+              );
+            }
             if (state is SalesHistoryErrorState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.errorMessage),
-                  backgroundColor: Theme.of(context).colorScheme.error,
-                ),
+              CustomSnackbar.error(
+                context: context,
+                text: state.errorMessage,
               );
             }
           },
@@ -47,6 +52,9 @@ class SalesHistory extends StatelessWidget {
               context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
             }
             if (state is SalesHistoryFetchedDataState) {
+              transactionsList = state.transactionsList;
+            }
+            if (state is TransactionsDeletedState) {
               transactionsList = state.transactionsList;
             }
             if (state is TransactionsListFilteredState) {

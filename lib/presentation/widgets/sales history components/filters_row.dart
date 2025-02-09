@@ -27,6 +27,9 @@ class _FiltersRowState extends State<FiltersRow> {
         if (state is TransactionsListFilteredState) {
           _selectedFilter = state.filter;
         }
+        if (state is TransactionsDeletedState) {
+          _selectedFilter = state.filter;
+        }
         void onTap(String filter) {
           // onTap(filter);
           if (state is SalesHistoryFetchedDataState) {
@@ -37,6 +40,14 @@ class _FiltersRowState extends State<FiltersRow> {
                 ));
           }
           if (state is TransactionsListFilteredState) {
+            // print(filter);
+            context.read<SalesHistoryBloc>().add(FilterTransactionsListEvent(
+                  timePeriodFilter: state.timePeriodFilter,
+                  filter: filter,
+                  searchedString: "",
+                ));
+          }
+          if (state is TransactionsDeletedState) {
             // print(filter);
             context.read<SalesHistoryBloc>().add(FilterTransactionsListEvent(
                   timePeriodFilter: state.timePeriodFilter,

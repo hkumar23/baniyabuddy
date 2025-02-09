@@ -215,7 +215,7 @@ class SalesHistoryBloc extends Bloc<SalesHistoryEvent, SalesHistoryState> {
       filteredList = timePeriodFilteredList;
       totalSales = AppMethods.calcTransactionTotal(filteredList);
       emit(
-        TransactionsListFilteredState(
+        TransactionsDeletedState(
           transactionsList: filteredList,
           totalSales: totalSales,
           timePeriodFilter: AppLanguage.sixMonths,

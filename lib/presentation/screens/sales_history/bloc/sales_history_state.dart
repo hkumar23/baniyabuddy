@@ -38,7 +38,20 @@ class TransactionsListFilteredState extends SalesHistoryState {
   });
 }
 
-class TransactionsDeletedState extends SalesHistoryState {}
+class TransactionsDeletedState extends SalesHistoryState {
+  final List<TransactionDetails> transactionsList;
+  final String totalSales;
+  final String timePeriodFilter;
+  final String filter;
+  final String searchedString;
+  TransactionsDeletedState({
+    required this.transactionsList,
+    required this.totalSales,
+    required this.timePeriodFilter,
+    required this.filter,
+    required this.searchedString,
+  });
+}
 
 class TransactionDeletionLoadingState extends SalesHistoryState {}
 
