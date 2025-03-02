@@ -53,7 +53,7 @@ class SalesHistoryBloc extends Bloc<SalesHistoryEvent, SalesHistoryState> {
     emit(SalesHistoryLoadingState());
 
     try {
-      globalTransactionsList = transactionRepo.getTransactionsList();
+      globalTransactionsList = transactionRepo.getTransactionsListToShow();
       // for (int i = 0; i < transactionsList.length; i++) {
       //   await transactionRepo.addTransaction(transactionsList[i]);
       // }

@@ -68,6 +68,17 @@ class TransactionRepo {
     }
   }
 
+  List<TransactionDetails> getTransactionsListToShow() {
+    // AppMethods.modifyingAllUserData();
+    List<TransactionDetails> tempList = _transactionBox.values.toList();
+    List<TransactionDetails> transactionsList = [];
+    for (var transaction in tempList) {
+      if (transaction.syncStatus == AppConstants.deleted) continue;
+      transactionsList.add(transaction);
+    }
+    return transactionsList;
+  }
+
   List<TransactionDetails> getTransactionsList() {
     // AppMethods.modifyingAllUserData();
     return _transactionBox.values.toList();
@@ -86,6 +97,7 @@ class TransactionRepo {
       TransactionDetails? transaction = getTransaction(transactionId);
       if (transaction == null) throw "No transaction found";
       transaction.syncStatus = AppConstants.deleted;
+      transaction.isSynced = false;
 
       bool isConnected = await AppMethods.checkInternetConnection();
       if (isConnected) {
@@ -99,6 +111,7 @@ class TransactionRepo {
       } else {
         // throw AppLanguage.savedLocally;
         await _transactionBox.put(transactionId, transaction);
+        // print(transaction.toJson());
       }
     } catch (err) {
       debugPrint(err.toString());

@@ -16,7 +16,7 @@ class SalesHistoryItem extends StatelessWidget {
   final TransactionDetails transactionDetails;
   @override
   Widget build(BuildContext context) {
-    Future<bool> showDebugDialog(BuildContext context) async {
+    Future<bool> showDeleteDialog(BuildContext context) async {
       return await showDialog(
               context: context,
               builder: (ctx) {
@@ -28,7 +28,8 @@ class SalesHistoryItem extends StatelessWidget {
                         : transactionDetails.customerName,
                   ),
                   content: const Text(
-                      "Are you sure you want to delete this transaction?"),
+                    "Are you sure you want to delete this transaction?",
+                  ),
                   actions: [
                     TextButton(
                       onPressed: () {
@@ -82,7 +83,7 @@ class SalesHistoryItem extends StatelessWidget {
           child: const Icon(Icons.delete, color: Colors.white)),
       // onResize: () {
       confirmDismiss: (direction) async {
-        return await showDebugDialog(context);
+        return await showDeleteDialog(context);
       },
       child: GestureDetector(
         onTap: () {
