@@ -1,16 +1,15 @@
 import 'package:baniyabuddy/constants/app_constants.dart';
 import 'package:baniyabuddy/data/models/invoice.model.dart';
 import 'package:baniyabuddy/presentation/widgets/billing%20components/invoice_details_bottomsheet.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class InvoiceItem extends StatelessWidget {
-  InvoiceItem({
+  const InvoiceItem({
     super.key,
     required this.invoice,
   });
-  Invoice invoice;
+  final Invoice invoice;
   void showInvoice(BuildContext context) {
     showModalBottomSheet(
       context: context,

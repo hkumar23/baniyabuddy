@@ -18,7 +18,10 @@ class BillItemDeletedState extends BillingState {
 
 class InvoiceGeneratedState extends BillingState {}
 
-class PdfGeneratedState extends BillingState {}
+class PdfGeneratedState extends BillingState {
+  String path;
+  PdfGeneratedState(this.path);
+}
 
 class InvoiceUpdatedState extends BillingState {}
 

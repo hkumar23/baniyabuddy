@@ -21,8 +21,9 @@ abstract class InvoiceBottomsheet {
           listener: (context, state) {
             if (state is PdfGeneratedState) {
               CustomSnackbar.success(
-                  context: context,
-                  text: "Pdf Generated and saved in Download !!");
+                context: context,
+                text: state.path,
+              );
               Navigator.of(context).pop();
             }
           },

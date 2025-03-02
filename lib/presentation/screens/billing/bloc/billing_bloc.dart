@@ -22,8 +22,8 @@ class BillingBloc extends Bloc<BillingEvent, BillingState> {
       GeneratePdfEvent event, Emitter<BillingState> emit) async {
     emit(BillingLoadingState());
     try {
-      await GeneratePdf.start(event.invoice);
-      emit(PdfGeneratedState());
+      String path = await GeneratePdf.start(event.invoice);
+      emit(PdfGeneratedState(path));
     } catch (err) {
       debugPrint("Billing Bloc Exception: $err");
       emit(BillingErrorState(errorMessage: "Something went wrong!!"));

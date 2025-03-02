@@ -1,54 +1,79 @@
 import 'dart:io';
 
-import 'package:baniyabuddy/constants/app_language.dart';
-import 'package:baniyabuddy/data/repositories/user_repo.dart';
-import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:permission_handler/permission_handler.dart';
 import 'package:printing/printing.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../../../constants/app_language.dart';
+import '../../../data/repositories/user_repo.dart';
+import '../../../utils/app_methods.dart';
 import '../../../constants/app_constants.dart';
 import '../../../data/models/business.model.dart';
 import '../../../data/models/invoice.model.dart';
 
 abstract class GeneratePdf {
-  static Future<void> start(Invoice invoice) async {
+  static Future<String> start(Invoice invoice) async {
     try {
       final doc = pw.Document();
       await _createPage(doc, invoice);
-      bool isGranted = await _requestStoragePermission();
+
+      final pdfBytes = await doc.save();
+
+      bool isGranted = await AppMethods.requestStoragePermission();
       if (!isGranted) {
         throw "Storage Permission not granted";
       }
-      final dir = await getExternalStorageDirectory();
-      final String path = "${dir!.parent.parent.parent.parent.path}/Download";
 
-      // Create the Downloads directory if it doesn't exist
-      final downloadDir = Directory(path);
-      if (!await downloadDir.exists()) {
-        await downloadDir.create(recursive: true);
+      bool isPdfSaved = await _previewPdf(doc);
+
+      if (!isPdfSaved) {
+        String path = await _savePdfToLocal(pdfBytes, invoice);
+        return "Pdf saved to: $path";
       }
-      bool isPrinted = await _previewPdf(doc);
-      // print(isPrinted);
-      if (!isPrinted) {
-        await _savePdfToLocal(path, doc, invoice);
-      }
+      return "Pdf Generated and saved!";
     } catch (err) {
       rethrow;
     }
   }
 
-  static Future<void> _savePdfToLocal(path, doc, invoice) async {
-    // Define the file name and save the PDF
+  static Future<String> _savePdfToLocal(pdfBytes, invoice) async {
+    try {
+      final dir = await getExternalStorageDirectory();
+      if (dir == null) {
+        throw "Unable to access external storage directory";
+      }
 
-    final file = File(
-        '$path/${invoice.clientName.trim()} ${AppConstants.invoiceIdPrefix}${invoice.invoiceNumber}.pdf');
-    await file.writeAsBytes(await doc.save());
-    print('PDF saved to ${file.path}');
+      String path;
+      if (await AppMethods.isAndroid10OrAbove()) {
+        path = "${dir.path}/Invoices";
+
+        final invoicesDir = Directory(path);
+        if (!await invoicesDir.exists()) {
+          await invoicesDir.create(recursive: true);
+        }
+      } else {
+        path = "${dir.parent.parent.parent.parent.path}/Download";
+
+        // Create the Downloads directory if it doesn't exist
+        final downloadDir = Directory(path);
+        if (!await downloadDir.exists()) {
+          await downloadDir.create(recursive: true);
+        }
+      }
+
+      final file = File(
+          '$path/${invoice.clientName.trim()} ${AppConstants.invoiceIdPrefix}${invoice.invoiceNumber}.pdf');
+      await file.writeAsBytes(pdfBytes);
+
+      debugPrint('PDF saved to ${file.path}');
+      return file.path;
+    } catch (err) {
+      rethrow;
+    }
   }
 
   static Future<bool> _previewPdf(doc) async {
@@ -331,22 +356,5 @@ abstract class GeneratePdf {
         ),
       ),
     );
-  }
-
-  static Future<bool> _requestStoragePermission() async {
-    // int.parse(Platform.operatingSystemVersion.split(" ")[1].split(".")[0]);
-    // print("Requesting storage permission");
-    final androidInfo = await DeviceInfoPlugin().androidInfo;
-    int androidVersion = int.parse(androidInfo.version.release);
-    if (await Permission.storage.isGranted) {
-      return true;
-    } else if (androidVersion >= 13) {
-      final status = await Permission.manageExternalStorage.request();
-
-      return status.isGranted;
-    } else {
-      final status = await Permission.storage.request();
-      return status.isGranted;
-    }
   }
 }

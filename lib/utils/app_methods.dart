@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:baniyabuddy/constants/app_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +11,7 @@ import 'package:math_expressions/math_expressions.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 // import '../constants/app_constants.dart';
 import '../constants/app_language.dart';
@@ -25,6 +26,22 @@ import '../presentation/screens/settings/bloc/settings_bloc.dart';
 import '../presentation/screens/settings/bloc/settings_event.dart';
 
 class AppMethods {
+  static Future<bool> requestStoragePermission() async {
+    if (Platform.isAndroid) {
+      var status = await Permission.storage.request();
+      return status.isGranted;
+    }
+    return true;
+  }
+
+  static Future<bool> isAndroid10OrAbove() async {
+    if (Platform.isAndroid) {
+      var androidInfo = await DeviceInfoPlugin().androidInfo;
+      return androidInfo.version.sdkInt >= 29;
+    }
+    return false;
+  }
+
   static void resetAppData(BuildContext context) {
     // print("Resetting App Data");
     context.read<BillingBloc>().add(FetchInvoiceFromFirebaseToLocalEvent());
