@@ -28,19 +28,26 @@ class SalesHistoryBloc extends Bloc<SalesHistoryEvent, SalesHistoryState> {
   void _onFetchTransactionsFromFirebaseEvent(event, emit) async {
     emit(SalesHistoryLoadingState());
     try {
+      final transactionRepo = TransactionRepo();
       if (!Hive.isBoxOpen(AppConstants.transactionBox)) {
         await Hive.openBox<TransactionDetails>(AppConstants.transactionBox);
       }
-      await TransactionRepo().fetchTransactionsFromFirebaseToLocal();
-
-      emit(LocalTransactionsFetchedState());
+      await transactionRepo.fetchTransactionsFromFirebaseToLocal();
+      // _onfetchSalesHistoryEvent(event, emit);
+      emit(SalesHistoryFetchedDataState(
+        transactionsList: transactionRepo.getTransactionsList(),
+        totalSales: AppMethods.calcTransactionTotal(
+          transactionRepo.getTransactionsList(),
+        ),
+      ));
+      // emit(LocalTransactionsFetchedState());
     } catch (err) {
       emit(SalesHistoryErrorState(errorMessage: err.toString()));
     }
   }
 
   void _onfetchSalesHistoryEvent(event, emit) async {
-    // print("Fetching Sales History");
+    // print("Setting transactions list);
     final TransactionRepo transactionRepo = TransactionRepo();
     DateTime now = DateTime.now();
     emit(SalesHistoryLoadingState());
@@ -57,8 +64,13 @@ class SalesHistoryBloc extends Bloc<SalesHistoryEvent, SalesHistoryState> {
           .toList();
       filteredList = timePeriodFilteredList;
       totalSales = AppMethods.calcTransactionTotal(timePeriodFilteredList);
-      emit(SalesHistoryFetchedDataState(
-          transactionsList: timePeriodFilteredList, totalSales: totalSales));
+
+      emit(
+        SalesHistoryFetchedDataState(
+          transactionsList: timePeriodFilteredList,
+          totalSales: totalSales,
+        ),
+      );
       return;
     } catch (err) {
       emit(SalesHistoryErrorState(errorMessage: err.toString()));

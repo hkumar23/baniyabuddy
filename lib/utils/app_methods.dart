@@ -30,7 +30,7 @@ class AppMethods {
     context.read<BillingBloc>().add(FetchInvoiceFromFirebaseToLocalEvent());
     context.read<SalesHistoryBloc>().add(FetchTransactionsFromFirebaseEvent());
     context.read<SettingsBloc>().add(FetchUserFromFirebaseEvent());
-    context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
+    // context.read<SalesHistoryBloc>().add(FetchSalesHistoryEvent());
   }
 
   static Future<XFile?> pickImage(ImageSource source) async {
