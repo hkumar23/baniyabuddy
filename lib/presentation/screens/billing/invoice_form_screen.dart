@@ -85,7 +85,9 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
-        AppMethods.shouldPopDialog(context);
+        // print(didPop);
+        // print(result);
+        if (!didPop) AppMethods.shouldPopDialog(context);
       },
       child: Scaffold(
         appBar: AppBar(
