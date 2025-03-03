@@ -30,23 +30,28 @@ class SupportDevButton extends StatelessWidget {
                   const SizedBox(height: 5),
                   const CopyableTextField(text: AppConstants.supportDevUpi),
                   const SizedBox(height: 10),
-                  QrImageView(
-                    backgroundColor: Colors.white,
-                    data:
-                        "upi://pay?pa=${AppConstants.supportDevUpi}&pn=${"Codeworks Infinity"}&cu=INR",
-                    version: QrVersions.auto,
-                    size: 230,
-                    gapless: false,
-                    errorStateBuilder: (cxt, err) {
-                      return const Center(
-                        child: Text(
-                          'Uh oh! Something went wrong...',
-                          textAlign: TextAlign.center,
-                        ),
-                      );
-                    },
+                  SizedBox(
+                    //gives error in android 13+ if sized box not used
+                    height: 230,
+                    width: 230,
+                    child: QrImageView(
+                      backgroundColor: Colors.white,
+                      data:
+                          "upi://pay?pa=${AppConstants.supportDevUpi}&pn=${"Codeworks Infinity"}&cu=INR",
+                      version: QrVersions.auto,
+                      size: 230,
+                      gapless: false,
+                      errorStateBuilder: (cxt, err) {
+                        return const Center(
+                          child: Text(
+                            'Uh oh! Something went wrong...',
+                            textAlign: TextAlign.center,
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                  // ),
+                  // // ),
                   const SizedBox(height: 20),
                   Text(
                     'Thank you for your support!',
