@@ -2,8 +2,7 @@
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29"/>
 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 <uses-permission android:name="android.permission.CAMERA"/>
-<!-- FIXME: Don't use MANAGE_EXTERNAL_STORAGE google may reject app -->
-<!-- <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/> -->
+<!-- IMPORTANT: Don't use MANAGE_EXTERNAL_STORAGE google may reject app -->
 
     <application
         android:label="Baniya Buddy"
