@@ -26,19 +26,30 @@ class SalesHistoryBloc extends Bloc<SalesHistoryEvent, SalesHistoryState> {
   }
 
   void _onFetchTransactionsFromFirebaseEvent(event, emit) async {
+    final TransactionRepo transactionRepo = TransactionRepo();
+    DateTime now = DateTime.now();
+
     emit(SalesHistoryLoadingState());
+
     try {
-      final transactionRepo = TransactionRepo();
       if (!Hive.isBoxOpen(AppConstants.transactionBox)) {
         await Hive.openBox<TransactionDetails>(AppConstants.transactionBox);
       }
       await transactionRepo.fetchTransactionsFromFirebaseToLocal();
-      // _onfetchSalesHistoryEvent(event, emit);
+
+      globalTransactionsList = transactionRepo.getTransactionsListToShow();
+      globalTransactionsList.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+
+      DateTime sixMonthsAgo = DateTime(now.year, now.month - 6, now.day);
+      timePeriodFilteredList = globalTransactionsList
+          .where((element) => element.timeStamp.isAfter(sixMonthsAgo))
+          .toList();
+      filteredList = timePeriodFilteredList;
+      totalSales = AppMethods.calcTransactionTotal(timePeriodFilteredList);
+
       emit(SalesHistoryFetchedDataState(
-        transactionsList: transactionRepo.getTransactionsList(),
-        totalSales: AppMethods.calcTransactionTotal(
-          transactionRepo.getTransactionsList(),
-        ),
+        transactionsList: filteredList,
+        totalSales: totalSales,
       ));
       // emit(LocalTransactionsFetchedState());
     } catch (err) {
