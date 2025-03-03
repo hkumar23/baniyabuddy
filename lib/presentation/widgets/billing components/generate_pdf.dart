@@ -7,6 +7,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../constants/app_language.dart';
 import '../../../data/repositories/user_repo.dart';
@@ -23,11 +24,10 @@ abstract class GeneratePdf {
 
       final pdfBytes = await doc.save();
 
-      bool isGranted = await AppMethods.requestStoragePermission();
-      if (!isGranted) {
-        throw "Storage Permission not granted";
-      }
-
+      await AppMethods.requestStoragePermission();
+      // if (!isGranted) {
+      //   throw "Storage Permission not granted";
+      // }
       bool isPdfSaved = await _previewPdf(doc);
 
       if (!isPdfSaved) {

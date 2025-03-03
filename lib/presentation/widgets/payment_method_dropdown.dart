@@ -17,7 +17,7 @@ class _PaymentMethodDropdownState extends State<PaymentMethodDropdown> {
   @override
   Widget build(BuildContext context) {
     return DropdownButton(
-      hint: const Text("Select Payment Method"),
+      hint: const Text("Payment Type"),
       isExpanded: true,
       underline: Container(),
       itemHeight: 50,

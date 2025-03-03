@@ -73,8 +73,8 @@ class BillingBloc extends Bloc<BillingEvent, BillingState> {
         double.parse(grandTotal.toStringAsFixed(2)); //Updating Invoice Object
     try {
       await invoiceRepo.addInvoice(invoice);
-      await GeneratePdf.start(invoice);
-      emit(InvoiceGeneratedState());
+      String path = await GeneratePdf.start(invoice);
+      emit(InvoiceGeneratedState(path));
     } catch (err) {
       debugPrint("Billing Bloc Exception: $err");
       emit(BillingErrorState(errorMessage: "Something went wrong!!"));

@@ -69,11 +69,11 @@ class SalesHistory extends StatelessWidget {
             return Column(
               children: [
                 Expanded(
-                  flex: 2,
+                  flex: 4,
                   child: TotalSalesWidget(deviceSize: deviceSize),
                 ),
                 Expanded(
-                  flex: 7,
+                  flex: 13,
                   child: Container(
                     width: deviceSize.width,
                     // color: Colors.amber,

@@ -98,7 +98,7 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
             if (state is InvoiceGeneratedState) {
               CustomSnackbar.success(
                 context: context,
-                text: "Invoice Generated and saved in Download !!",
+                text: state.path,
               );
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
@@ -337,9 +337,30 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
                                   ));
                           if (isGenerate) onSubmit(context);
                         },
-                        child: const Padding(
-                          padding: EdgeInsets.only(bottom: 20),
-                          child: CustomAnimatedButton(),
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 20),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 7,
+                            horizontal: 20,
+                          ),
+                          decoration: BoxDecoration(
+                              color: theme.colorScheme.tertiary,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(50)),
+                              boxShadow: const [
+                                BoxShadow(
+                                  blurRadius: 5,
+                                  color: Colors.black54,
+                                  spreadRadius: 2,
+                                )
+                              ]),
+                          child: Text(
+                            "Generate",
+                            style: theme.textTheme.titleMedium!.copyWith(
+                              color: Theme.of(context).colorScheme.onTertiary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       );
                     },
