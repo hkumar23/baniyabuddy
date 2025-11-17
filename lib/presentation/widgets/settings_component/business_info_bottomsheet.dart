@@ -62,117 +62,119 @@ class _BusinessInfoBottomSheetState extends State<BusinessInfoBottomSheet> {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    return Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
-      child: Container(
-        // decoration: BoxDecoration(
-        //   borderRadius: const BorderRadius.all(
-        //     Radius.circular(50),
-        //   ),
-        //   color: colorScheme.surface,
-        // ),
-        padding: const EdgeInsets.symmetric(
-          vertical: 24,
-          horizontal: 20,
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
         ),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  "Add / Update your business details",
-                  style: textTheme.headlineMedium,
-                ),
-                TextFormField(
-                  controller: _businessNameController,
-                  decoration: const InputDecoration(
-                    label: Text("Business Name"),
+        child: Container(
+          // decoration: BoxDecoration(
+          //   borderRadius: const BorderRadius.all(
+          //     Radius.circular(50),
+          //   ),
+          //   color: colorScheme.surface,
+          // ),
+          padding: const EdgeInsets.symmetric(
+            vertical: 24,
+            horizontal: 20,
+          ),
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Add / Update your business details",
+                    style: textTheme.headlineMedium,
                   ),
-                  keyboardType: TextInputType.name,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Business Name is required..!";
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _addressController,
-                  decoration: const InputDecoration(
-                    label: Text("Address"),
+                  TextFormField(
+                    controller: _businessNameController,
+                    decoration: const InputDecoration(
+                      label: Text("Business Name"),
+                    ),
+                    keyboardType: TextInputType.name,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Business Name is required..!";
+                      }
+                      return null;
+                    },
                   ),
-                  keyboardType: TextInputType.streetAddress,
-                ),
-                TextFormField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(
-                    label: Text("Email Address"),
+                  TextFormField(
+                    controller: _addressController,
+                    decoration: const InputDecoration(
+                      label: Text("Address"),
+                    ),
+                    keyboardType: TextInputType.streetAddress,
                   ),
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) return null;
+                  TextFormField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(
+                      label: Text("Email Address"),
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) return null;
 
-                    value = value.trim();
-                    if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _phoneController,
-                  decoration: const InputDecoration(
-                    prefix: Text("+91"),
-                    label: Text("Phone Number"),
+                      value = value.trim();
+                      if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                        return 'Please enter a valid email';
+                      }
+                      return null;
+                    },
                   ),
-                  keyboardType: TextInputType.phone,
-                  maxLength: 10,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) return null;
-                    if (value.length < 10 || double.tryParse(value) == null) {
-                      return 'Please enter a valid phone number';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _gstinController,
-                  decoration: const InputDecoration(
-                    label: Text("GST Number"),
+                  TextFormField(
+                    controller: _phoneController,
+                    decoration: const InputDecoration(
+                      prefix: Text("+91"),
+                      label: Text("Phone Number"),
+                    ),
+                    keyboardType: TextInputType.phone,
+                    maxLength: 10,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) return null;
+                      if (value.length < 10 || double.tryParse(value) == null) {
+                        return 'Please enter a valid phone number';
+                      }
+                      return null;
+                    },
                   ),
-                  keyboardType: TextInputType.text,
-                  maxLength: 15,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) return null;
-                    if (!validateGSTNumber(value)) {
-                      return "Invalid GST Number..!";
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FilledButton(
-                        onPressed: () {
-                          _onSubmit(context);
-                        },
-                        child: Text(
-                          "Save Details",
-                          style: textTheme.labelLarge!.copyWith(
-                              color: colorScheme.onPrimary,
-                              fontWeight: FontWeight.bold),
-                        )),
-                  ],
-                ),
-              ],
+                  TextFormField(
+                    controller: _gstinController,
+                    decoration: const InputDecoration(
+                      label: Text("GST Number"),
+                    ),
+                    keyboardType: TextInputType.text,
+                    maxLength: 15,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) return null;
+                      if (!validateGSTNumber(value)) {
+                        return "Invalid GST Number..!";
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FilledButton(
+                          onPressed: () {
+                            _onSubmit(context);
+                          },
+                          child: Text(
+                            "Save Details",
+                            style: textTheme.labelLarge!.copyWith(
+                                color: colorScheme.onPrimary,
+                                fontWeight: FontWeight.bold),
+                          )),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

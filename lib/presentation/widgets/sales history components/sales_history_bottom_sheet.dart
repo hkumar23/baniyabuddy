@@ -31,226 +31,218 @@ class SalesHistoryBottomSheet extends StatelessWidget {
         //   elevation: 10,
         //   onClosing: () {},
         //   builder: (ctx) =>
-        Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            // height: deviceSize.height * 0.6,
-            child: SingleChildScrollView(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const SizedBox(height: 15),
-                    Text(
-                      transactionDetails.customerName == ""
-                          ? "Unknown"
-                          : transactionDetails.customerName,
-                      style:
-                          Theme.of(context).textTheme.headlineMedium!.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(top: 7),
-                      width: deviceSize.width,
-                      child: Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.end,
-                        alignment: WrapAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Total Amount: ",
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium!
-                                .copyWith(
-                                  fontWeight: FontWeight.w500,
-                                ),
-                          ),
-                          Text(
-                            transactionDetails.totalAmount == null ||
-                                    transactionDetails.totalAmount == ""
-                                ? "₹ 0"
-                                : "₹ ${transactionDetails.totalAmount.toString()}",
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  // fontStyle: FontStyle.italic,
-                                ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        SafeArea(
+      child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          // height: deviceSize.height * 0.6,
+          child: SingleChildScrollView(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(height: 15),
+                  Text(
+                    transactionDetails.customerName == ""
+                        ? "Unknown"
+                        : transactionDetails.customerName,
+                    style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(top: 7),
+                    width: deviceSize.width,
+                    child: Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.end,
+                      alignment: WrapAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Payment Method:",
+                          "Total Amount: ",
                           style:
                               Theme.of(context).textTheme.titleMedium!.copyWith(
                                     fontWeight: FontWeight.w500,
                                   ),
                         ),
                         Text(
-                          transactionDetails.paymentMethod,
-                          style: transactionDetails.paymentMethod ==
-                                  AppLanguage.notSelected
-                              ? Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .copyWith(
-                                    color: paymentMethodColor,
-                                  )
-                              : transactionDetails.paymentMethod ==
-                                          AppLanguage.cash ||
-                                      transactionDetails.paymentMethod ==
-                                          AppLanguage.upi
-                                  ? Theme.of(context)
-                                      .textTheme
-                                      .titleLarge!
-                                      .copyWith(
-                                        color: paymentMethodColor,
-                                        fontWeight: FontWeight.bold,
-                                      )
-                                  : Theme.of(context)
-                                      .textTheme
-                                      .titleMedium!
-                                      .copyWith(
-                                        color: paymentMethodColor,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 5),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Phone Number:",
+                          transactionDetails.totalAmount == null ||
+                                  transactionDetails.totalAmount == ""
+                              ? "₹ 0"
+                              : "₹ ${transactionDetails.totalAmount.toString()}",
                           style:
-                              Theme.of(context).textTheme.titleMedium!.copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                        ),
-                        Text(
-                          transactionDetails.mobNumber.isEmpty
-                              ? "Not Given"
-                              : "+91 ${transactionDetails.mobNumber}",
-                          style:
-                              Theme.of(context).textTheme.titleMedium!.copyWith(
+                              Theme.of(context).textTheme.titleLarge!.copyWith(
                                     fontWeight: FontWeight.bold,
+                                    // fontStyle: FontStyle.italic,
                                   ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 5),
-                    Text(
-                      "Calculation:",
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                            fontWeight: FontWeight.w500,
-                          ),
-                    ),
-                    Text(
-                      transactionDetails.totalAmount == null ||
-                              transactionDetails.totalAmount == ""
-                          ? "0"
-                          : transactionDetails.inputExpression!,
-                      // overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(),
-                    ),
-                    const SizedBox(height: 5),
-                    if (transactionDetails.notes.isNotEmpty)
+                  ),
+                  const SizedBox(height: 5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
                       Text(
-                        "Notes:",
+                        "Payment Method:",
                         style:
                             Theme.of(context).textTheme.titleMedium!.copyWith(
                                   fontWeight: FontWeight.w500,
                                 ),
                       ),
-                    if (transactionDetails.notes.isNotEmpty)
                       Text(
-                        transactionDetails.notes,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    const SizedBox(height: 5),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Date & Time: ",
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        Text(
-                          DateFormat('h:mm a, d MMMM yyyy')
-                              .format(transactionDetails.timeStamp),
-                          style: Theme.of(context).textTheme.titleSmall,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    if (transactionDetails.paymentMethod ==
-                            AppLanguage.unpaid ||
-                        transactionDetails.paymentMethod ==
-                            AppLanguage.notSelected)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            FilledButton(
-                              onPressed: () {
-                                String? upiId = UserRepo().getUpiId()?.trim();
-                                if (upiId == null || upiId == "") {
-                                  CustomTopSnackbar.error(
-                                      context: context,
-                                      message:
-                                          "You have not added UPI ID in settings");
-                                } else {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => GenerateQrCode(
-                                      // upiId: "9873541772@ptsbi",
-                                      upiId: upiId,
-                                      businessName: businessInfo?.name ?? '',
-                                      amount: transactionDetails.totalAmount
-                                          .toString(),
+                        transactionDetails.paymentMethod,
+                        style: transactionDetails.paymentMethod ==
+                                AppLanguage.notSelected
+                            ? Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  color: paymentMethodColor,
+                                )
+                            : transactionDetails.paymentMethod ==
+                                        AppLanguage.cash ||
+                                    transactionDetails.paymentMethod ==
+                                        AppLanguage.upi
+                                ? Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
+                                      color: paymentMethodColor,
+                                      fontWeight: FontWeight.bold,
+                                    )
+                                : Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(
+                                      color: paymentMethodColor,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                  );
-                                }
-                              },
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.qr_code,
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
-                                  ),
-                                  const SizedBox(width: 5),
-                                  Text(
-                                    "Show Qr Code",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge!
-                                        .copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimary,
-                                        ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
                       ),
-                    // const SizedBox(height: 10),
-                  ]),
-            ));
+                    ],
+                  ),
+                  const SizedBox(height: 5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Phone Number:",
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                ),
+                      ),
+                      Text(
+                        transactionDetails.mobNumber.isEmpty
+                            ? "Not Given"
+                            : "+91 ${transactionDetails.mobNumber}",
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    "Calculation:",
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ),
+                  Text(
+                    transactionDetails.totalAmount == null ||
+                            transactionDetails.totalAmount == ""
+                        ? "0"
+                        : transactionDetails.inputExpression!,
+                    // overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(),
+                  ),
+                  const SizedBox(height: 5),
+                  if (transactionDetails.notes.isNotEmpty)
+                    Text(
+                      "Notes:",
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            fontWeight: FontWeight.w500,
+                          ),
+                    ),
+                  if (transactionDetails.notes.isNotEmpty)
+                    Text(
+                      transactionDetails.notes,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  const SizedBox(height: 5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Date & Time: ",
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      Text(
+                        DateFormat('h:mm a, d MMMM yyyy')
+                            .format(transactionDetails.timeStamp),
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  if (transactionDetails.paymentMethod == AppLanguage.unpaid ||
+                      transactionDetails.paymentMethod ==
+                          AppLanguage.notSelected)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          FilledButton(
+                            onPressed: () {
+                              String? upiId = UserRepo().getUpiId()?.trim();
+                              if (upiId == null || upiId == "") {
+                                CustomTopSnackbar.error(
+                                    context: context,
+                                    message:
+                                        "You have not added UPI ID in settings");
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => GenerateQrCode(
+                                    // upiId: "9873541772@ptsbi",
+                                    upiId: upiId,
+                                    businessName: businessInfo?.name ?? '',
+                                    amount: transactionDetails.totalAmount
+                                        .toString(),
+                                  ),
+                                );
+                              }
+                            },
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.qr_code,
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                ),
+                                const SizedBox(width: 5),
+                                Text(
+                                  "Show Qr Code",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge!
+                                      .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimary,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  // const SizedBox(height: 10),
+                ]),
+          )),
+    );
     // );
   }
 }

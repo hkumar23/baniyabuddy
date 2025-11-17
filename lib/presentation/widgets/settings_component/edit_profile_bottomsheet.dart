@@ -48,88 +48,93 @@ class _EditProfileBottomSheetState extends State<EditProfileBottomSheet> {
         }
       },
       builder: (context, state) {
-        return Padding(
-            padding: EdgeInsets.only(
-              bottom: bottomViewInsets + 20,
-              left: 30,
-              right: 30,
-            ),
-            child: state is SettingsLoadingState
-                ? const Center(child: CircularProgressIndicator())
-                : Column(
-                    mainAxisSize: MainAxisSize.min,
-                    // mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.only(top: 20),
-                        alignment: Alignment.centerRight,
-                        child: FilledButton(
-                          onPressed: _onSubmit,
-                          child: Text(
-                            "Update",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          context.read<SettingsBloc>().add(UploadImageEvent());
-                        },
-                        child: ProfileImageWidget(profileImage: _profileImage),
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Full Name",
-                          style:
-                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+        return SafeArea(
+          child: Padding(
+              padding: EdgeInsets.only(
+                bottom: bottomViewInsets + 20,
+                left: 30,
+                right: 30,
+              ),
+              child: state is SettingsLoadingState
+                  ? const Center(child: CircularProgressIndicator())
+                  : Column(
+                      mainAxisSize: MainAxisSize.min,
+                      // mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.only(top: 20),
+                          alignment: Alignment.centerRight,
+                          child: FilledButton(
+                            onPressed: _onSubmit,
+                            child: Text(
+                              "Update",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
                                     fontWeight: FontWeight.bold,
                                   ),
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.only(top: 2),
-                        color: Colors.transparent,
-                        child: TextField(
-                          controller: _fullNameController,
-                          decoration: InputDecoration(
-                            hintText: "Enter your full name",
-                            hintStyle: TextStyle(color: Colors.grey[500]),
-                            filled: true,
-                            fillColor: Theme.of(context)
-                                .colorScheme
-                                .inverseSurface
-                                .withOpacity(0.1),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 10),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide.none,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide.none,
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(
-                                color: Colors.grey.shade400,
-                                width: 1.5,
-                              ),
                             ),
                           ),
-                          style: const TextStyle(fontSize: 16),
                         ),
-                      ),
-                    ],
-                  ));
+                        GestureDetector(
+                          onTap: () {
+                            context
+                                .read<SettingsBloc>()
+                                .add(UploadImageEvent());
+                          },
+                          child:
+                              ProfileImageWidget(profileImage: _profileImage),
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Full Name",
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(top: 2),
+                          color: Colors.transparent,
+                          child: TextField(
+                            controller: _fullNameController,
+                            decoration: InputDecoration(
+                              hintText: "Enter your full name",
+                              hintStyle: TextStyle(color: Colors.grey[500]),
+                              filled: true,
+                              fillColor: Theme.of(context)
+                                  .colorScheme
+                                  .inverseSurface
+                                  .withOpacity(0.1),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 10),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide(
+                                  color: Colors.grey.shade400,
+                                  width: 1.5,
+                                ),
+                              ),
+                            ),
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      ],
+                    )),
+        );
       },
     );
   }

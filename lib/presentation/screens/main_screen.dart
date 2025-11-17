@@ -49,18 +49,23 @@ class _MainScreenState extends State<MainScreen> {
               body: Center(child: CircularProgressIndicator()),
             );
           }
-          return Scaffold(
-            bottomNavigationBar: authState is AuthLoadingState
-                ? null
-                : CustomBottomNavBar(
-                    selectedIndex: _selectedIndex,
-                    onTapped: _onItemTapped,
-                  ),
-            appBar: CustomAppBar(selectedIndex: _selectedIndex),
-            resizeToAvoidBottomInset: _selectedIndex != 2,
-            body: IndexedStack(
-              index: _selectedIndex,
-              children: _screens,
+          return Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).padding.bottom,
+            ),
+            child: Scaffold(
+              bottomNavigationBar: authState is AuthLoadingState
+                  ? null
+                  : CustomBottomNavBar(
+                      selectedIndex: _selectedIndex,
+                      onTapped: _onItemTapped,
+                    ),
+              appBar: CustomAppBar(selectedIndex: _selectedIndex),
+              resizeToAvoidBottomInset: _selectedIndex != 2,
+              body: IndexedStack(
+                index: _selectedIndex,
+                children: _screens,
+              ),
             ),
           );
         });

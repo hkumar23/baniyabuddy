@@ -47,63 +47,65 @@ class _GenerateQrBottomSheetState extends State<GenerateQrBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
-      child: Container(
-        height: 150,
-        width: double.maxFinite,
-        alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 20,
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
         ),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Generate QR Code",
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: _amountController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        label: Text("Enter Amount"),
+        child: Container(
+          height: 150,
+          width: double.maxFinite,
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 20,
+          ),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Generate QR Code",
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: _amountController,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          label: Text("Enter Amount"),
+                        ),
+                        validator: (value) {
+                          if (value == null) {
+                            return "Some amount is required";
+                          }
+                          if (double.tryParse(value) == null) {
+                            return "Enter valid amount";
+                          }
+                          return null;
+                        },
+                        onFieldSubmitted: (value) {
+                          _onSubmit(context);
+                        },
                       ),
-                      validator: (value) {
-                        if (value == null) {
-                          return "Some amount is required";
-                        }
-                        if (double.tryParse(value) == null) {
-                          return "Enter valid amount";
-                        }
-                        return null;
-                      },
-                      onFieldSubmitted: (value) {
+                    ),
+                    FilledButton(
+                      onPressed: () {
                         _onSubmit(context);
                       },
+                      child: const Text(
+                        "Show",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                  FilledButton(
-                    onPressed: () {
-                      _onSubmit(context);
-                    },
-                    child: const Text(
-                      "Show",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
